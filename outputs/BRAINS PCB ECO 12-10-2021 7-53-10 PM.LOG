@@ -1,0 +1,16 @@
+Change Component DesignItemId : Designator=R2 Old DesignItemId=RSI-0R000-F New DesignItemId=RSG-0R000-F
+Change Component Footprint: Designator=R2 Old Footprint=RESC2012X13N_0805 New Footprint=RESC1005X04N_0402
+Change Component Comment : Designator=R2 Old Comment=0R,5% New Comment=0R,1%
+Change Component Description : Designator=R2 Old Description=RES 0.0 OHM 1/8W 0805 SMD New Description=RES 0R OHM 1/16W 5% 0402 SMD
+Change component parameters: Designator = "R2" ("R2"); Footprint = "RESC2012X13N_0805"; UniqueID = "\BPUTVQEZ" ("\BPUTVQEZ")
+Change component parameters (AddParameter): Name = "BWA PN"; Value = "RSG-0R000-F"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Display_Name"; Value = "0R,1%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer"; Value = "Yageo"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer Part Number"; Value = "RC0402JR-070RL"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power"; Value = "0.0625W"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistance"; Value = "0R"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Schematic Symbol"; Value = "RESISTOR_1"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Supplier Part Number 1"; Value = "311-0.0JRCT-ND"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance"; Value = "5%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type"; Value = "Chip"; VariantName = "[No Variations]"

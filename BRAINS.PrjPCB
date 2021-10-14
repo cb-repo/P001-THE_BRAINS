@@ -75,7 +75,7 @@ GenerateClassCluster=0
 DocumentUniqueId=MAYJFNUE
 
 [Document3]
-DocumentPath=BRAINS_v2.4.OutJob
+DocumentPath=BRAINS.OutJob
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -92,7 +92,7 @@ GenerateClassCluster=0
 DocumentUniqueId=
 
 [Document4]
-DocumentPath=BRAINS_v2.4.PcbDoc
+DocumentPath=BRAINS.PcbDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -109,7 +109,7 @@ GenerateClassCluster=0
 DocumentUniqueId=PNGYRCUW
 
 [Document5]
-DocumentPath=BRAINS_v2.4.SchDoc
+DocumentPath=BRAINS.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -130,7 +130,7 @@ UniqueID=08E4D74F-DF70-4BCD-9C42-A96A9F9BEC51
 Description=Default
 AllowFabrication=0
 ParameterCount=0
-VariationCount=9
+VariationCount=13
 Variation1=Designator=U5|UniqueId=\SUMUILRH|Kind=1|AlternatePart= 
 Variation2=Designator=U4|UniqueId=\CAQVGPRO|Kind=0|AlternatePart= 
 Variation3=Designator=R?|UniqueId=\GKJIAKZL|Kind=1|AlternatePart= 
@@ -140,114 +140,18 @@ Variation6=Designator=U7|UniqueId=\TAGVDLQE|Kind=0|AlternatePart=
 Variation7=Designator=U2|UniqueId=\QOCWMHKN|Kind=0|AlternatePart= 
 Variation8=Designator=U1|UniqueId=\TPHDWOGS|Kind=0|AlternatePart= 
 Variation9=Designator=U3|UniqueId=\RXWWCFFJ|Kind=0|AlternatePart= 
+Variation10=Designator=U4|UniqueId=\XBNIDVAT|Kind=0|AlternatePart= 
+Variation11=Designator=U1|UniqueId=\JVBCOIIQ|Kind=0|AlternatePart= 
+Variation12=Designator=U2|UniqueId=\EPDHYZGE|Kind=0|AlternatePart= 
+Variation13=Designator=U1|UniqueId=\TTHAFXCY|Kind=0|AlternatePart= 
 ParamVariationCount=0
 
 [GeneratedDocument1]
-DocumentPath=outputs\BOM\BRAINS - Bill of Materials-BRAINS_v2.4(Default).xlsx
+DocumentPath=outputs\BOM\BRAINS - Bill of Materials-BRAINS(Default).xlsx
 DItemRevisionGUID=
 
 [GeneratedDocument2]
-DocumentPath=outputs\ExportSTEP\BRAINS_v2.4(Default).step
-DItemRevisionGUID=
-
-[GeneratedDocument3]
-DocumentPath=outputs\NC Drill\BRAINS_v2.4.DRR
-DItemRevisionGUID=
-
-[GeneratedDocument4]
-DocumentPath=outputs\Gerber\BRAINS_v2.4.EXTREP
-DItemRevisionGUID=
-
-[GeneratedDocument5]
-DocumentPath=outputs\Gerber\BRAINS_v2.4.G1
-DItemRevisionGUID=
-
-[GeneratedDocument6]
-DocumentPath=outputs\Gerber\BRAINS_v2.4.G2
-DItemRevisionGUID=
-
-[GeneratedDocument7]
-DocumentPath=outputs\Gerber\BRAINS_v2.4.GBL
-DItemRevisionGUID=
-
-[GeneratedDocument8]
-DocumentPath=outputs\Gerber\BRAINS_v2.4.GBO
-DItemRevisionGUID=
-
-[GeneratedDocument9]
-DocumentPath=outputs\Gerber\BRAINS_v2.4.GBP
-DItemRevisionGUID=
-
-[GeneratedDocument10]
-DocumentPath=outputs\Gerber\BRAINS_v2.4.GBS
-DItemRevisionGUID=
-
-[GeneratedDocument11]
-DocumentPath=outputs\Gerber\BRAINS_v2.4.GKO
-DItemRevisionGUID=
-
-[GeneratedDocument12]
-DocumentPath=outputs\Gerber\BRAINS_v2.4.GM2
-DItemRevisionGUID=
-
-[GeneratedDocument13]
-DocumentPath=outputs\Gerber\BRAINS_v2.4.GM3
-DItemRevisionGUID=
-
-[GeneratedDocument14]
-DocumentPath=outputs\Gerber\BRAINS_v2.4.GM4
-DItemRevisionGUID=
-
-[GeneratedDocument15]
-DocumentPath=outputs\Gerber\BRAINS_v2.4.GM12
-DItemRevisionGUID=
-
-[GeneratedDocument16]
-DocumentPath=outputs\Gerber\BRAINS_v2.4.GM31
-DItemRevisionGUID=
-
-[GeneratedDocument17]
-DocumentPath=outputs\Gerber\BRAINS_v2.4.GPB
-DItemRevisionGUID=
-
-[GeneratedDocument18]
-DocumentPath=outputs\Gerber\BRAINS_v2.4.GPT
-DItemRevisionGUID=
-
-[GeneratedDocument19]
-DocumentPath=outputs\Gerber\BRAINS_v2.4.GTL
-DItemRevisionGUID=
-
-[GeneratedDocument20]
-DocumentPath=outputs\Gerber\BRAINS_v2.4.GTO
-DItemRevisionGUID=
-
-[GeneratedDocument21]
-DocumentPath=outputs\Gerber\BRAINS_v2.4.GTP
-DItemRevisionGUID=
-
-[GeneratedDocument22]
-DocumentPath=outputs\Gerber\BRAINS_v2.4.GTS
-DItemRevisionGUID=
-
-[GeneratedDocument23]
-DocumentPath=outputs\NC Drill\BRAINS_v2.4.LDP
-DItemRevisionGUID=
-
-[GeneratedDocument24]
-DocumentPath=outputs\Gerber\BRAINS_v2.4.REP
-DItemRevisionGUID=
-
-[GeneratedDocument25]
-DocumentPath=outputs\Gerber\BRAINS_v2.4.RUL
-DItemRevisionGUID=
-
-[GeneratedDocument26]
-DocumentPath=outputs\NC Drill\BRAINS_v2.4.TXT
-DItemRevisionGUID=
-
-[GeneratedDocument27]
-DocumentPath=outputs\Design Rule Check - BRAINS_v2.html
+DocumentPath=outputs\Design Rule Check - BRAINS.html
 DItemRevisionGUID=
 
 [Parameter1]
@@ -1285,76 +1189,16 @@ NetClassManualEnabled=1
 NetClassSeparateForBusSections=0
 
 [LibraryUpdateOptions]
-SelectedOnly=0
+SelectedOnly=1
 UpdateVariants=1
 UpdateToLatestRevision=1
 PartTypes=0
 ComponentLibIdentifierKind0=Library Name And Type
-ComponentLibraryIdentifier0=library.Dblib/c_capacitor
-ComponentDesignItemID0=CCG-104DE-G
-ComponentSymbolReference0=CAP-NP_1
+ComponentLibraryIdentifier0=library.Dblib/u_integrated_circuit
+ComponentDesignItemID0=ICT-10910-A
+ComponentSymbolReference0=LDL212PU50R
 ComponentUpdate0=1
 ComponentIsDeviceSheet0=0
-ComponentLibIdentifierKind1=Library Name And Type
-ComponentLibraryIdentifier1=library.Dblib/c_capacitor
-ComponentDesignItemID1=CCG-476DC-H
-ComponentSymbolReference1=CAP-NP_1
-ComponentUpdate1=1
-ComponentIsDeviceSheet1=0
-ComponentLibIdentifierKind2=Library Name And Type
-ComponentLibraryIdentifier2=library.Dblib/n_non_part
-ComponentDesignItemID2=NONPART-056
-ComponentSymbolReference2=TAG-CONNECT_TC2030-IDC
-ComponentUpdate2=1
-ComponentIsDeviceSheet2=0
-ComponentLibIdentifierKind3=Library Name And Type
-ComponentLibraryIdentifier3=library.Dblib/r_resistor
-ComponentDesignItemID3=RSG-10K00-D
-ComponentSymbolReference3=RESISTOR_1
-ComponentUpdate3=1
-ComponentIsDeviceSheet3=0
-ComponentLibIdentifierKind4=Library Name And Type
-ComponentLibraryIdentifier4=library.Dblib/r_resistor
-ComponentDesignItemID4=RSG-1K000-D
-ComponentSymbolReference4=RESISTOR_1
-ComponentUpdate4=1
-ComponentIsDeviceSheet4=0
-ComponentLibIdentifierKind5=Library Name And Type
-ComponentLibraryIdentifier5=library.Dblib/u_integrated_circuit
-ComponentDesignItemID5=ICT-10734-A
-ComponentSymbolReference5=STM32L051x6/8U
-ComponentUpdate5=1
-ComponentIsDeviceSheet5=0
-ComponentLibIdentifierKind6=Library Name And Type
-ComponentLibraryIdentifier6=library.Dblib/u_integrated_circuit
-ComponentDesignItemID6=ICT-10892-A
-ComponentSymbolReference6=DRV8837C
-ComponentUpdate6=1
-ComponentIsDeviceSheet6=0
-ComponentLibIdentifierKind7=Library Name And Type
-ComponentLibraryIdentifier7=library.Dblib/u_integrated_circuit
-ComponentDesignItemID7=ICT-10916-A
-ComponentSymbolReference7=LDL212PU50R
-ComponentUpdate7=1
-ComponentIsDeviceSheet7=0
-ComponentLibIdentifierKind8=Library Name And Type
-ComponentLibraryIdentifier8=library.Dblib/u_integrated_circuit
-ComponentDesignItemID8=ICT-10917-A
-ComponentSymbolReference8=LDL212PU50R
-ComponentUpdate8=1
-ComponentIsDeviceSheet8=0
-ComponentLibIdentifierKind9=Library Name And Type
-ComponentLibraryIdentifier9=Schlib1.SchLib
-ComponentDesignItemID9=FS2A
-ComponentSymbolReference9=FS2A
-ComponentUpdate9=1
-ComponentIsDeviceSheet9=0
-ComponentLibIdentifierKind10=Library Name And Type
-ComponentLibraryIdentifier10=Schlib1.SchLib
-ComponentDesignItemID10=MountingPad(2x1.5)
-ComponentSymbolReference10=MountingPad(2x1.5)
-ComponentUpdate10=1
-ComponentIsDeviceSheet10=0
 FullReplace=1
 UpdateDesignatorLock=1
 UpdatePartIDLock=1
@@ -1370,84 +1214,33 @@ RemoveModels=1
 UpdateCurrentModels=1
 ParameterName0=BWA PN
 ParameterUpdate0=1
-ParameterName1=Capacitance
+ParameterName1=Comment
 ParameterUpdate1=1
-ParameterName2=Comment
+ParameterName2=Component Kind
 ParameterUpdate2=1
-ParameterName3=Component Kind
+ParameterName3=Description
 ParameterUpdate3=1
-ParameterName4=Description
+ParameterName4=Display_Name
 ParameterUpdate4=1
-ParameterName5=Dielectric
+ParameterName5=Library Reference
 ParameterUpdate5=1
-ParameterName6=Display_Name
+ParameterName6=Manufacturer
 ParameterUpdate6=1
-ParameterName7=Library Reference
+ParameterName7=Manufacturer Part Number
 ParameterUpdate7=1
-ParameterName8=Manufacturer
+ParameterName8=Schematic Symbol
 ParameterUpdate8=1
-ParameterName9=Manufacturer Part Number
+ParameterName9=Supplier 1
 ParameterUpdate9=1
-ParameterName10=Power
+ParameterName10=Supplier Part Number 1
 ParameterUpdate10=1
-ParameterName11=Resistance
+ParameterName11=Temp Range
 ParameterUpdate11=1
-ParameterName12=Schematic Symbol
-ParameterUpdate12=1
-ParameterName13=Supplier 1
-ParameterUpdate13=1
-ParameterName14=Supplier 2
-ParameterUpdate14=1
-ParameterName15=Supplier Part Number 1
-ParameterUpdate15=1
-ParameterName16=Supplier Part Number 2
-ParameterUpdate16=1
-ParameterName17=Temp Range
-ParameterUpdate17=1
-ParameterName18=Tolerance
-ParameterUpdate18=1
-ParameterName19=Type
-ParameterUpdate19=1
-ParameterName20=Voltage
-ParameterUpdate20=1
 ModelTypeGroup0=PCBLIB
 ModelTypeUpdate0=1
 ModelType0=PCBLIB
-ModelName0=CAPC1005X05L_0402
+ModelName0=DFN65P300X300X80-8N_PWSON6
 ModelUpdate0=1
-ModelType1=PCBLIB
-ModelName1=CAPC1005X05M_0402
-ModelUpdate1=1
-ModelType2=PCBLIB
-ModelName2=CAPC1005X05N_0402
-ModelUpdate2=1
-ModelType3=PCBLIB
-ModelName3=DFN50P200X200X80-8N
-ModelUpdate3=1
-ModelType4=PCBLIB
-ModelName4=DFN50P200X200X80-8N_PWSON6
-ModelUpdate4=1
-ModelType5=PCBLIB
-ModelName5=FS2A
-ModelUpdate5=1
-ModelType6=PCBLIB
-ModelName6=MountingPad(2x1.5)
-ModelUpdate6=1
-ModelType7=PCBLIB
-ModelName7=QFN50P500X500X100-32N_32QFN_2
-ModelUpdate7=1
-ModelType8=PCBLIB
-ModelName8=RESC1005X04L_0402
-ModelUpdate8=1
-ModelType9=PCBLIB
-ModelName9=RESC1005X04M_0402
-ModelUpdate9=1
-ModelType10=PCBLIB
-ModelName10=RESC1005X04N_0402
-ModelUpdate10=1
-ModelType11=PCBLIB
-ModelName11=TAG-CONNECT_TC2030-IDC-NL
-ModelUpdate11=1
 
 [DatabaseUpdateOptions]
 SelectedOnly=0

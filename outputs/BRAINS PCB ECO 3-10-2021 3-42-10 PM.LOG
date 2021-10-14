@@ -1,0 +1,4 @@
+Removed Pin From Net: NetName=L_nSLEEP Pin=U4-45
+Removed Pin From Net: NetName=NetR15_2 Pin=U4-46
+Added Pin To Net: NetName=NetR15_2 Pin=U4-45
+Added Pin To Net: NetName=L_nSLEEP Pin=U4-46

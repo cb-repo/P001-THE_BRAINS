@@ -1,0 +1,5 @@
+Change Component Footprint: Designator=TP1 Old Footprint=TP_050 New Footprint=TP_100
+Change Component Footprint: Designator=TP2 Old Footprint=TP_050 New Footprint=TP_100
+Change Component Footprint: Designator=TP3 Old Footprint=TP_050 New Footprint=TP_100
+Change Component Footprint: Designator=TP4 Old Footprint=TP_050 New Footprint=TP_100
+Added Room: Name=BRAINS

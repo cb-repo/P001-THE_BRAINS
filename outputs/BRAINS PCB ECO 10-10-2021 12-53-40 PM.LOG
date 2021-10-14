@@ -1,0 +1,32 @@
+Added Component: Designator=U?(DFN50P200X200X80-8N_PWSON6)
+Add component (AddParameter): Name = "BWA PN"; Value = "ICT-10917-A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Display_Name"; Value = "LDL212"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer Part Number"; Value = "LDL212PUR"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Schematic Symbol"; Value = "LDL212PU50R"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 1"; Value = "497-16566-1-ND"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Temp Range"; Value = "-40°C ~ 125°C (TJ)"; VariantName = "[No Variations]"
+Added Component: Designator=U?(DFN50P200X200X80-8N_PWSON6)
+Add component (AddParameter): Name = "BWA PN"; Value = "ICT-10917-A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Display_Name"; Value = "LDL212"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer Part Number"; Value = "LDL212PUR"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Schematic Symbol"; Value = "LDL212PU50R"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 1"; Value = "497-16566-1-ND"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Temp Range"; Value = "-40°C ~ 125°C (TJ)"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=U?-1
+Added Pin To Net: NetName=GND Pin=U?-1
+Added Pin To Net: NetName=NetR1_1 Pin=U?-2
+Added Pin To Net: NetName=NetR4_1 Pin=U?-2
+Added Pin To Net: NetName=+3V3 Pin=U?-3
+Added Pin To Net: NetName=+5V Pin=U?-3
+Added Pin To Net: NetName=VCC Pin=U?-4
+Added Pin To Net: NetName=VCC Pin=U?-4
+Added Pin To Net: NetName=PS_EN Pin=U?-6
+Added Pin To Net: NetName=VCC Pin=U?-6
+Added Pin To Net: NetName=GND Pin=U?-7
+Added Pin To Net: NetName=GND Pin=U?-7
+Added Member To Class: ClassName=BRAINS Member=Component U? LDL212
+Added Member To Class: ClassName=BRAINS Member=Component U? LDL212

@@ -1,0 +1,25 @@
+Removed Pin From Net: NetName=NetC4_2 Pin=C4-2
+Removed Pin From Net: NetName=GND Pin=C6-1
+Removed Pin From Net: NetName=NetC4_2 Pin=C6-2
+Removed Pin From Net: NetName=NetC4_2 Pin=U4-9
+Removed Pin From Net: NetName=NetC4_2 Pin=U4-24
+Removed Member From Class: ClassName=BRAINS Member=C6
+Change Component Designator: OldDesignator=C? NewDesignator=C5
+Added Component: Designator=L?(INDC1005X04N_0402)
+Add component (AddParameter): Name = "BWA PN"; Value = "IND-10140-A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Current Rating"; Value = "250mA"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DC Resistance"; Value = "1.1Ohm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Display_Name"; Value = "1K"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "Murata Electronics North America"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer Part Number"; Value = "BLM15HG102SN1D"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Schematic Symbol"; Value = "INDUCTOR_1"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 1"; Value = "490-3999-1-ND"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=+3V3 Pin=L?-2
+Change Net Name : Old Net Name=NetC4_2 New Net Name=NetC9_2
+Added Pin To Net: NetName=NetC4_2 Pin=C4-2
+Added Pin To Net: NetName=NetC4_2 Pin=L?-1
+Added Pin To Net: NetName=NetC4_2 Pin=U4-9
+Added Pin To Net: NetName=NetC4_2 Pin=U4-24
+Added Net: Name=NetC4_2
+Added Member To Class: ClassName=BRAINS Member=Component L? 1K

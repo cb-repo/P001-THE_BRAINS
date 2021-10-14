@@ -1,0 +1,2 @@
+Removed Pin From Net: NetName=BAT_DET Pin=U4-17
+Added Pin To Net: NetName=BAT_DET Pin=U4-19

@@ -1,0 +1,119 @@
+Change Component DesignItemId : Designator=C11 Old DesignItemId=CCG-106DH-H New DesignItemId=CCH-331CF-G
+Change Component DesignItemId : Designator=R4 Old DesignItemId=RSG-270K0-D New DesignItemId=RSH-115K0-D
+Change Component Footprint: Designator=C11 Old Footprint=CAPC1005X05N_0402 New Footprint=CAPC1608X09N_0603
+Change Component Footprint: Designator=R4 Old Footprint=RESC1005X04N_0402 New Footprint=RESC1608X06N_0603
+Change Component Comment : Designator=C11 Old Comment=1uF,50V New Comment=330pF,25V
+Change Component Comment : Designator=R4 Old Comment=270K,1% New Comment=115K,1%
+Change Component Description : Designator=C11 Old Description=CAP CER 1UF 50V X5R 0402 New Description=CAP CER 330PF 50V 10% X7R 0603
+Change Component Description : Designator=R4 Old Description=RES SMD 270K OHM 1% 1/16W 0402 New Description=RES 115K OHM 1/10W 1% 0603 SMD
+Change component parameters: Designator = "R4" ("R4"); Footprint = "RESC1005X04N_0402"; UniqueID = "\NMJFRHLT" ("\NMJFRHLT")
+Change component parameters (AddParameter): Name = "BWA PN"; Value = "RSH-115K0-D"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Display_Name"; Value = "115K,1%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer"; Value = "Yageo"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer Part Number"; Value = "RC0603FR-07115KL"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power"; Value = "0.1W"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistance"; Value = "115K"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Schematic Symbol"; Value = "RESISTOR_1"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Supplier Part Number 1"; Value = "311-115KHRCT-ND"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance"; Value = "1%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type"; Value = "Chip"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C11" ("C11"); Footprint = "CAPC1005X05N_0402"; UniqueID = "\XATPPCII" ("\XATPPCII")
+Change component parameters (AddParameter): Name = "BWA PN"; Value = "CCH-331CF-G"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Capacitance"; Value = "330pF"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Dielectric"; Value = "X7R"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Display_Name"; Value = "330pF,25V"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer"; Value = "Kemet"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer Part Number"; Value = "C0603C331K5RACTU"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Schematic Symbol"; Value = "CAP-NP_1"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Supplier Part Number 1"; Value = "399-1073-1-ND"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance"; Value = "10%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type"; Value = "Ceramic"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage"; Value = "25V"; VariantName = "[No Variations]"
+Added Component: Designator=L?(CHILISIN_BMRHDY101030)
+Add component (AddParameter): Name = "BWA PN"; Value = "IND-10191-A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Current Rating"; Value = "13A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DC Resistance"; Value = "9mR"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Display_Name"; Value = "2.2uH,13A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Inductance"; Value = "2.2uH"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "Chilisin Electronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer Part Number"; Value = "BMRHDY1010302R2MA1"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Schematic Symbol"; Value = "INDUCTOR_1"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Sheilding"; Value = "Sheilded"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 1"; Value = "2184-BMRHDY1010302R2MA1CT-ND"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Type"; Value = "Wirewound"; VariantName = "[No Variations]"
+Added Component: Designator=L?(IND_NR3015)
+Add component (AddParameter): Name = "BWA PN"; Value = "IND-10060-A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Current Rating"; Value = "1.5A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DC Resistance"; Value = "72mOhm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Display_Name"; Value = "2u2H,20%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Inductance"; Value = "2u2H"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "Taiyo Yuden"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer Part Number"; Value = "NR3015T2R2M"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Schematic Symbol"; Value = "INDUCTOR_1"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Sheilding"; Value = "Sheilded"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 1"; Value = "587-1648-1-ND"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Type"; Value = "Fixed"; VariantName = "[No Variations]"
+Added Component: Designator=L?(WURTH_744029)
+Add component (AddParameter): Name = "BWA PN"; Value = "IND-10158-A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Current Rating"; Value = "1.5A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DC Resistance"; Value = "105mOhm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Display_Name"; Value = "2.2uH,30%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Inductance"; Value = "2.2uH"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "Wurth Electronics Inc"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer Part Number"; Value = "744029002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Schematic Symbol"; Value = "INDUCTOR_1"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Sheilding"; Value = "Sheilded"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier 1"; Value = "Digi-key"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 1"; Value = "732-1087-1-ND"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Type"; Value = "Wirewound"; VariantName = "[No Variations]"
+Added Component: Designator=L?(WURTH-784-383)
+Add component (AddParameter): Name = "BWA PN"; Value = "IND-10156-A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Current Rating"; Value = "1.8A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DC Resistance"; Value = "108mOhm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Display_Name"; Value = "2.2uH,30%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Inductance"; Value = "2.2uH"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "Wurth Electronics Inc"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer Part Number"; Value = "78438335022"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Schematic Symbol"; Value = "INDUCTOR_1"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Sheilding"; Value = "Sheilded"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier 1"; Value = "Digi-key"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 1"; Value = "732-6939-1-ND"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Type"; Value = "iron"; VariantName = "[No Variations]"
+Added Component: Designator=L?(TAIYO_YUDEN_NR_4018)
+Add component (AddParameter): Name = "BWA PN"; Value = "IND-10151-A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Current Rating"; Value = "2.2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DC Resistance"; Value = "50.4mOhm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Display_Name"; Value = "2u2H,20%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Inductance"; Value = "2u2H"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "Taiyo Yuden"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer Part Number"; Value = "NRS4018T2R2MDGJ"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Schematic Symbol"; Value = "INDUCTOR_1"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Sheilding"; Value = "Sheilded"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 1"; Value = "587-2890-1-ND"; VariantName = "[No Variations]"
+Added Component: Designator=L?(TAIYO_YUDEN_NRS5030)
+Add component (AddParameter): Name = "BWA PN"; Value = "IND-10152-A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Current Rating"; Value = "3.5A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DC Resistance"; Value = "23mOhm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Display_Name"; Value = "2u2H,30%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Inductance"; Value = "2u2H"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "Taiyo Yuden"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer Part Number"; Value = "NRS5030T2R2NMGJ"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Schematic Symbol"; Value = "INDUCTOR_1"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Sheilding"; Value = "Sheilded"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 1"; Value = "587-3457-1-ND"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=C11-1
+Added Pin To Net: NetName=NetR4_2 Pin=R4-2
+Added Pin To Net: NetName=NetR4_2 Pin=U5-4
+Added Net: Name=NetR4_2
+Added Member To Class: ClassName=BRAINS Member=Component L? 2.2uH,13A
+Added Member To Class: ClassName=BRAINS Member=Component L? 2u2H,20%
+Added Member To Class: ClassName=BRAINS Member=Component L? 2.2uH,30%
+Added Member To Class: ClassName=BRAINS Member=Component L? 2.2uH,30%
+Added Member To Class: ClassName=BRAINS Member=Component L? 2u2H,20%
+Added Member To Class: ClassName=BRAINS Member=Component L? 2u2H,30%

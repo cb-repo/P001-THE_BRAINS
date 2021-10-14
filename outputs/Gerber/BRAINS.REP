@@ -1,0 +1,361 @@
+*************************************************************
+FileName = BRAINS.GBR
+AutoAperture = True
+*************************************************************
+Generating : Mech Outline
+      File : BRAINS.GM31
+
+    Adding Layer      : Mech Outline
+
+    Adding Layer      : Mech Outline
+
+
+Used DCodes :
+*************************************************************
+
+*************************************************************
+Generating : Sheet Format, Top
+      File : BRAINS.GM12
+
+    Adding Layer      : Sheet Format, Top
+
+    Adding Layer      : Mech Outline
+
+
+Used DCodes :
+    D10
+    D65
+*************************************************************
+
+*************************************************************
+Generating : Routing, Comp
+      File : BRAINS.GM4
+
+    Adding Layer      : Routing, Comp
+
+    Adding Layer      : Mech Outline
+
+
+Used DCodes :
+*************************************************************
+
+*************************************************************
+Generating : Routing, Panel
+      File : BRAINS.GM3
+
+    Adding Layer      : Routing, Panel
+
+    Adding Layer      : Mech Outline
+
+
+Used DCodes :
+*************************************************************
+
+*************************************************************
+Generating : Routing, Single
+      File : BRAINS.GM2
+
+    Adding Layer      : Routing, Single
+
+    Adding Layer      : Mech Outline
+
+
+Used DCodes :
+*************************************************************
+
+*************************************************************
+Generating : Keep-Out Layer
+      File : BRAINS.GKO
+
+    Adding Layer      : Keep-Out Layer
+
+    Adding Layer      : Mech Outline
+
+
+Used DCodes :
+    D66
+*************************************************************
+
+*************************************************************
+Generating : Bottom Overlay
+      File : BRAINS.GBO
+
+    Adding Layer      : Bottom Overlay
+
+    Adding Layer      : Mech Outline
+
+
+Used DCodes :
+    D10
+    D11
+*************************************************************
+
+*************************************************************
+Generating : Bottom Paste
+      File : BRAINS.GBP
+
+    Adding Layer      : Bottom Paste
+
+    Adding Layer      : Mech Outline
+
+    Adding Layer      : Bottom Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D13
+    D15
+    D49
+    D51
+    D52
+    D53
+    D54
+    D64
+*************************************************************
+
+*************************************************************
+Generating : Bottom Solder
+      File : BRAINS.GBS
+
+    Adding Layer      : Bottom Solder
+
+    Adding Layer      : Mech Outline
+
+    Adding Layer      : Bottom Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D30
+    D32
+    D41
+    D56
+    D57
+    D58
+    D59
+    D60
+    D61
+    D62
+    D63
+*************************************************************
+
+*************************************************************
+Generating : Top Solder
+      File : BRAINS.GTS
+
+    Adding Layer      : Top Solder
+
+    Adding Layer      : Mech Outline
+
+    Adding Layer      : Top Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D24
+    D25
+    D26
+    D27
+    D28
+    D29
+    D30
+    D31
+    D32
+    D33
+    D34
+    D35
+    D36
+    D37
+    D38
+    D39
+    D40
+    D41
+*************************************************************
+
+*************************************************************
+Generating : Top Paste
+      File : BRAINS.GTP
+
+    Adding Layer      : Top Paste
+
+    Adding Layer      : Mech Outline
+
+    Adding Layer      : Top Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D12
+    D13
+    D14
+    D15
+    D16
+    D17
+    D18
+    D19
+    D20
+    D21
+    D22
+    D23
+*************************************************************
+
+*************************************************************
+Generating : Top Overlay
+      File : BRAINS.GTO
+
+    Adding Layer      : Top Overlay
+
+    Adding Layer      : Mech Outline
+
+
+Used DCodes :
+    D10
+    D11
+*************************************************************
+
+*************************************************************
+Generating : Top Pad Master
+      File : BRAINS.GPT
+
+    Adding Layer      : Top Layer
+
+    Adding Layer      : Multi-Layer
+
+    Adding Layer      : Mech Outline
+
+
+Used DCodes :
+    D12
+    D13
+    D14
+    D15
+    D16
+    D17
+    D18
+    D21
+    D22
+    D23
+    D42
+    D43
+    D45
+*************************************************************
+
+*************************************************************
+Generating : Bottom Pad Master
+      File : BRAINS.GPB
+
+    Adding Layer      : Bottom Layer
+
+    Adding Layer      : Multi-Layer
+
+    Adding Layer      : Mech Outline
+
+
+Used DCodes :
+    D13
+    D15
+    D45
+    D48
+    D49
+    D50
+    D51
+    D52
+    D53
+    D54
+*************************************************************
+
+*************************************************************
+Generating : Bottom Layer
+      File : BRAINS.GBL
+
+    Adding Layer      : Bottom Layer
+
+    Adding Layer      : Mech Outline
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D10
+    D13
+    D15
+    D45
+    D46
+    D48
+    D49
+    D50
+    D51
+    D52
+    D53
+    D54
+    D55
+*************************************************************
+
+*************************************************************
+Generating : Layer 2
+      File : BRAINS.G2
+
+    Adding Layer      : Layer 2
+
+    Adding Layer      : Mech Outline
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D10
+    D46
+    D47
+*************************************************************
+
+*************************************************************
+Generating : Layer 1
+      File : BRAINS.G1
+
+    Adding Layer      : Layer 1
+
+    Adding Layer      : Mech Outline
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D10
+    D46
+    D47
+*************************************************************
+
+*************************************************************
+Generating : Top Layer
+      File : BRAINS.GTL
+
+    Adding Layer      : Top Layer
+
+    Adding Layer      : Mech Outline
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D10
+    D12
+    D13
+    D14
+    D15
+    D16
+    D17
+    D18
+    D21
+    D22
+    D23
+    D42
+    D43
+    D44
+    D45
+    D46
+*************************************************************
+

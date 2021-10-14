@@ -1,0 +1,17 @@
+Change Component DesignItemId : Designator=C22 Old DesignItemId=CCK-226DF-G New DesignItemId=CCH-225DE-G
+Change Component Footprint: Designator=C22 Old Footprint=CAPC3216X140N_1206 New Footprint=CAPC1608X09N_0603
+Change Component Comment : Designator=C22 Old Comment=22uF,25V New Comment=2u2F,16V
+Change Component Description : Designator=C22 Old Description=CAP CER 22UF 25V 10% X5R 1206 New Description=CAP CER 2.2UF 16V X5R 0603
+Change component parameters: Designator = "C22" ("C22"); Footprint = "CAPC3216X140N_1206"; UniqueID = "\VQLQGUOX" ("\VQLQGUOX")
+Change component parameters (AddParameter): Name = "BWA PN"; Value = "CCH-225DE-G"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Capacitance"; Value = "2u2F"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Dielectric"; Value = "X5R"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Display_Name"; Value = "2u2F,16V"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer"; Value = "Taiyo Yuden"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer Part Number"; Value = "EMK107BJ225KA-T"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Schematic Symbol"; Value = "CAP-NP_1"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Supplier Part Number 1"; Value = "587-1430-1-ND"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance"; Value = "10%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type"; Value = "Ceramic"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage"; Value = "16V"; VariantName = "[No Variations]"
