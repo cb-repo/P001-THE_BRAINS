@@ -1,0 +1,13 @@
+GPIO.inl:10:20:GPIO_Set	16	static
+GPIO.inl:15:20:GPIO_Reset	16	static
+GPIO.c:51:6:GPIO_Write	24	static
+GPIO.c:63:6:GPIO_EnableOutput	56	static
+GPIO.c:75:6:GPIO_EnableInput	56	static
+GPIO.c:87:6:GPIO_EnableIRQ	56	static
+GPIO.c:105:6:GPIO_Disable	48	static
+GPIO.c:121:20:EXTIx_IRQHandler	16	static
+GPIO.c:130:13:EXTIx_EnableIRQn	16	static
+GPIO.c:146:13:EXTIx_DefaultHandler	8	static,ignoring_inline_asm
+GPIO.c:160:6:EXTI0_1_IRQHandler	8	static
+GPIO.c:172:6:EXTI2_3_IRQHandler	8	static
+GPIO.c:187:6:EXTI4_15_IRQHandler	8	static

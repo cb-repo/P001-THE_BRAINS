@@ -1,0 +1,7 @@
+GPIO.inl:20:20:GPIO_Read	16	static
+TIM.inl:10:24:TIM_GetCounter	16	static
+Radio.c:42:6:RADIO_Init	16	static
+Radio.c:60:6:RADIO_S1_IRQ	16	static
+Radio.c:73:6:RADIO_S2_IRQ	16	static
+Radio.c:86:6:RADIO_S3_IRQ	16	static
+Radio.c:99:6:RADIO_S4_IRQ	8	static
