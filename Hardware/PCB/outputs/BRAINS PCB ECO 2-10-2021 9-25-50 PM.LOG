@@ -1,6 +1,0 @@
-Added Pin To Net: NetName=CONFIG_1 Pin=U4-41
-Added Net: Name=CONFIG_1
-Added Pin To Net: NetName=CONFIG_2 Pin=U4-42
-Added Net: Name=CONFIG_2
-Added Pin To Net: NetName=CONFIG_3 Pin=U4-43
-Added Net: Name=CONFIG_3

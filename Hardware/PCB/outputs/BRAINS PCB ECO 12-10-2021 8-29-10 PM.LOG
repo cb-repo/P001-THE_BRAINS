@@ -1,8 +1,0 @@
-Removed Pin From Net: NetName=GND Pin=C4-1
-Removed Pin From Net: NetName=+3V3 Pin=L2-2
-Removed Member From Class: ClassName=BRAINS Member=C4
-Removed Member From Class: ClassName=BRAINS Member=L2
-Added Pin To Net: NetName=NetC9_2 Pin=C6-2
-Added Pin To Net: NetName=NetC9_2 Pin=U4-9
-Added Pin To Net: NetName=NetC9_2 Pin=U4-24
-Change Net Name : Old Net Name=NetC9_2 New Net Name=NetC6_2

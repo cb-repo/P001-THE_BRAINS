@@ -1,4 +1,0 @@
-Removed Pin From Net: NetName=BAT_DET Pin=U4-13
-Removed Pin From Net: NetName=CALIBRATE Pin=U4-40
-Added Pin To Net: NetName=CALIBRATE Pin=U4-13
-Added Pin To Net: NetName=BAT_DET Pin=U4-14
