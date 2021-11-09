@@ -21,10 +21,8 @@
 
 void SERVO_Init(void);
 void SERVO_Deinit(void);
-void SERVO_Update(int16_t offset);
-void WEPON_Init(void);
-void WEPON_Deinit(void);
-void WEPON_Update(int16_t offset);
+void SERVO_S1_Update(int16_t offset);
+void SERVO_S2_Update(int16_t offset);
 
 /*
  * EXTERN DECLARATIONS

@@ -22,10 +22,10 @@
  * PRIVATE PROTOTYPES
  */
 
-static void SERVO_TimerReloadISR(void);
-static void SERVO_TimerPulseISR(void);
-static void WEPON_TimerReloadISR(void);
-static void WEPON_TimerPulseISR(void);
+static void SERVO1_TimerReloadISR(void);
+static void SERVO1_TimerPulseISR(void);
+static void SERVO2_TimerReloadISR(void);
+static void SERVO2_TimerPulseISR(void);
 
 /*
  * PRIVATE VARIABLES
@@ -37,22 +37,33 @@ static void WEPON_TimerPulseISR(void);
 
 void SERVO_Init(void)
 {
-	GPIO_EnableOutput(SERVO_GPIO, SERVO_PIN, GPIO_PIN_RESET);
-	TIM_Init(TIM_SERVO, TIM_SERVO_FREQ, TIM_SERVO_RELOAD);
-	TIM_OnReload(TIM_SERVO, SERVO_TimerReloadISR);
-	TIM_OnPulse(TIM_SERVO, 0, SERVO_TimerPulseISR);
-	SERVO_Update(0);
-	TIM_Start(TIM_SERVO);
+	GPIO_EnableOutput(SERVO1_GPIO, SERVO1_PIN, GPIO_PIN_RESET);
+	TIM_Init(TIM_SERVO1, TIM_SERVO1_FREQ, TIM_SERVO1_RELOAD);
+	TIM_OnReload(TIM_SERVO1, SERVO1_TimerReloadISR);
+	TIM_OnPulse(TIM_SERVO1, 0, SERVO1_TimerPulseISR);
+	SERVO_S1_Update(0);
+	TIM_Start(TIM_SERVO1);
+
+	GPIO_EnableOutput(SERVO2_GPIO, SERVO2_GPIO, GPIO_PIN_RESET);
+	TIM_Init(TIM_SERVO2, TIM_SERVO2_FREQ, TIM_SERVO2_RELOAD);
+	TIM_OnReload(TIM_SERVO2, SERVO2_TimerReloadISR);
+	TIM_OnPulse(TIM_SERVO2, 0, SERVO2_TimerPulseISR);
+	SERVO_S2_Update(0);
+	TIM_Start(TIM_SERVO2);
 }
 
 void SERVO_Deinit(void)
 {
-	TIM_Stop(TIM_SERVO);
-	TIM_Deinit(TIM_SERVO);
-	GPIO_Disable(SERVO_GPIO, SERVO_PIN);
+	TIM_Stop(TIM_SERVO1);
+	TIM_Deinit(TIM_SERVO1);
+	GPIO_Disable(SERVO1_GPIO, SERVO1_PIN);
+
+	TIM_Stop(TIM_SERVO2);
+	TIM_Deinit(TIM_SERVO2);
+	GPIO_Disable(SERVO2_GPIO, SERVO2_PIN);
 }
 
-void SERVO_Update(int16_t pulse)
+void SERVO_S1_Update(int16_t pulse)
 {
 	if (pulse > PULSE_MAX)
 	{
@@ -62,27 +73,10 @@ void SERVO_Update(int16_t pulse)
 	{
 		pulse = PULSE_MIN;
 	}
-	TIM_SetPulse(TIM_SERVO, 0, pulse);
+	TIM_SetPulse(TIM_SERVO1, 0, pulse);
 }
 
-void WEPON_Init(void)
-{
-	GPIO_EnableOutput(WEPON_GPIO, WEPON_PIN, GPIO_PIN_RESET);
-	TIM_Init(TIM_WEPON, TIM_WEPON_FREQ, TIM_WEPON_RELOAD);
-	TIM_OnReload(TIM_WEPON, WEPON_TimerReloadISR);
-	TIM_OnPulse(TIM_WEPON, 0, WEPON_TimerPulseISR);
-	WEPON_Update(0);
-	TIM_Start(TIM_WEPON);
-}
-
-void WEPON_Deinit(void)
-{
-	TIM_Stop(TIM_WEPON);
-	TIM_Deinit(TIM_WEPON);
-	GPIO_Disable(WEPON_GPIO, WEPON_PIN);
-}
-
-void WEPON_Update(int16_t pulse)
+void SERVO_S2_Update(int16_t pulse)
 {
 	if (pulse > PULSE_MAX)
 	{
@@ -92,7 +86,7 @@ void WEPON_Update(int16_t pulse)
 	{
 		pulse = PULSE_MIN;
 	}
-	TIM_SetPulse(TIM_WEPON, 0, pulse);
+	TIM_SetPulse(TIM_SERVO2, 0, pulse);
 }
 
 /*
@@ -103,24 +97,24 @@ void WEPON_Update(int16_t pulse)
  * INTERRUPT ROUTINES
  */
 
-static void SERVO_TimerReloadISR(void)
+static void SERVO1_TimerReloadISR(void)
 {
-	GPIO_Set(SERVO_GPIO, SERVO_PIN);
+	GPIO_Set(SERVO1_GPIO, SERVO1_PIN);
 }
 
-static void SERVO_TimerPulseISR(void)
+static void SERVO1_TimerPulseISR(void)
 {
-	GPIO_Reset(SERVO_GPIO, SERVO_PIN);
+	GPIO_Reset(SERVO1_GPIO, SERVO1_PIN);
 }
 
-static void WEPON_TimerReloadISR(void)
+static void SERVO2_TimerReloadISR(void)
 {
-	GPIO_Set(WEPON_GPIO, WEPON_PIN);
+	GPIO_Set(SERVO2_GPIO, SERVO2_PIN);
 }
 
-static void WEPON_TimerPulseISR(void)
+static void SERVO2_TimerPulseISR(void)
 {
-	GPIO_Reset(WEPON_GPIO, WEPON_PIN);
+	GPIO_Reset(SERVO2_GPIO, SERVO2_PIN);
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
