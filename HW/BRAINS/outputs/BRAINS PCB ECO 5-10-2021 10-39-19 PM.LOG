@@ -1,0 +1,3 @@
+Added Pin To Net: NetName=CONFIG_8 Pin=R17-2
+Added Pin To Net: NetName=CONFIG_8 Pin=U4-21
+Added Net: Name=CONFIG_8

@@ -1,0 +1,35 @@
+Removed Pin From Net: NetName=NetC10_1 Pin=L2-1
+Removed Pin From Net: NetName=+5V Pin=L2-2
+Removed Member From Class: ClassName=BRAINS Member=L3
+Removed Member From Class: ClassName=BRAINS Member=L4
+Removed Member From Class: ClassName=BRAINS Member=L5
+Change Component Footprint: Designator=L1 Old Footprint=BOURNS_SRU1038 New Footprint=WURTH_74437336
+Change Component Footprint: Designator=L2 Old Footprint=CHILISIN_BMRHDY101030 New Footprint=IND_SRP7030
+Change Component Comment : Designator=L2 Old Comment=2.2uH,13A New Comment=3u3H,20%
+Change Component Comment : Designator=L1 Old Comment=22uH,30% New Comment=3.3uH,20%
+Change component parameters: Designator = "L1" ("L1"); Footprint = "BOURNS_SRU1038"; UniqueID = "\IRVVPOGR" ("\IRVVPOGR")
+Change component parameters (AddParameter): Name = "BWA PN"; Value = "IND-10157-A"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Current Rating"; Value = "4.1A"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "DC Resistance"; Value = "38mOhm"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Display_Name"; Value = "3.3uH,20%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Inductance"; Value = "3.3uH"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer"; Value = "Wurth Electronics Inc"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer Part Number"; Value = "74437336033"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Schematic Symbol"; Value = "INDUCTOR_1"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Sheilding"; Value = "Sheilded"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Supplier 1"; Value = "Digi-key"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Supplier Part Number 1"; Value = "732-6166-1-ND"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type"; Value = "Wirewound"; VariantName = "[No Variations]"
+Change component parameters: Designator = "L2" ("L2"); Footprint = "CHILISIN_BMRHDY101030"; UniqueID = "\OSWDEHZS" ("\OSWDEHZS")
+Change component parameters (AddParameter): Name = "BWA PN"; Value = "IND-10109-A"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Current Rating"; Value = "6A"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "DC Resistance"; Value = "30 mOhm Max"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Display_Name"; Value = "3u3H,20%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Inductance"; Value = "3u3H"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer"; Value = "Bourns"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer Part Number"; Value = "SRP7030-3R3M"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Schematic Symbol"; Value = "INDUCTOR_2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Sheilding"; Value = "Shielded"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Supplier Part Number 1"; Value = "SRP7030-3R3MCT-ND"; VariantName = "[No Variations]"
+Added Member To Class: ClassName=BRAINS Member=Component C11 1uF,50V

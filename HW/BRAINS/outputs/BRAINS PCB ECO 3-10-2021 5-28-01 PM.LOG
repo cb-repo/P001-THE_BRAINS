@@ -1,0 +1,12 @@
+Added Pin To Net: NetName=GND Pin=R19-1
+Added Pin To Net: NetName=GND Pin=R21-1
+Added Pin To Net: NetName=GND Pin=R22-1
+Added Pin To Net: NetName=CONFIG_1 Pin=R19-2
+Added Pin To Net: NetName=CONFIG_1 Pin=U4-41
+Added Net: Name=CONFIG_1
+Added Pin To Net: NetName=CONFIG_2 Pin=R21-2
+Added Pin To Net: NetName=CONFIG_2 Pin=U4-42
+Added Net: Name=CONFIG_2
+Added Pin To Net: NetName=CONFIG_3 Pin=R22-2
+Added Pin To Net: NetName=CONFIG_3 Pin=U4-43
+Added Net: Name=CONFIG_3

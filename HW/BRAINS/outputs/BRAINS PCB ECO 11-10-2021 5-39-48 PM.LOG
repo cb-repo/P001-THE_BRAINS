@@ -1,0 +1,41 @@
+Removed Pin From Net: NetName=GND Pin=C8-1
+Removed Pin From Net: NetName=+3V3 Pin=C8-2
+Removed Pin From Net: NetName=GND Pin=C12-1
+Removed Pin From Net: NetName=+3V3 Pin=C12-2
+Removed Pin From Net: NetName=BAT_DET Pin=R7-2
+Removed Pin From Net: NetName=BAT_DET Pin=R8-1
+Removed Member From Class: ClassName=BRAINS Member=C8
+Removed Member From Class: ClassName=BRAINS Member=C12
+Change Component Comment : Designator=C22 Old Comment=22uF,25V New Comment=10uF,50V
+Change component parameters: Designator = "C22" ("C22"); Footprint = "CAPC3216X140N_1206"; UniqueID = "\VQLQGUOX" ("\VQLQGUOX")
+Change component parameters (AddParameter): Name = "BWA PN"; Value = "CCK-106DH-G-A"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Capacitance"; Value = "10uF"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Dielectric"; Value = "X5R"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Display_Name"; Value = "10uF,50V"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer"; Value = "TDK Corporation"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer Part Number"; Value = "CGA5L3X5R1H106K160AB"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Schematic Symbol"; Value = "CAP-NP_1"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Supplier Part Number 1"; Value = "445-7886-1-ND"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance"; Value = "10%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type"; Value = "Ceramic"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage"; Value = "50V"; VariantName = "[No Variations]"
+Added Component: Designator=C?(CAPC1005X05N_0402)
+Add component (AddParameter): Name = "BWA PN"; Value = "CCG-106DH-H"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Capacitance"; Value = "1uF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Dielectric"; Value = "X5R"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Display_Name"; Value = "1uF,50V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "Taiyo Yuden"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer Part Number"; Value = "UMK105CBJ105MV-F"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Schematic Symbol"; Value = "CAP-NP_1"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 1"; Value = "587-6278-1-ND"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Tolerance"; Value = "20%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Type"; Value = "Ceramic"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage"; Value = "50V"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=C?-1
+Added Pin To Net: NetName=+3V3 Pin=C?-2
+Added Pin To Net: NetName=NetR7_2 Pin=R7-2
+Added Pin To Net: NetName=NetR7_2 Pin=R8-1
+Added Net: Name=NetR7_2
+Added Member To Class: ClassName=BRAINS Member=Component C? 1uF,50V

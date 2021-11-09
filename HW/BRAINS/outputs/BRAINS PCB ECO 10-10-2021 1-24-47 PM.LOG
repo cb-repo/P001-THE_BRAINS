@@ -1,0 +1,3 @@
+Removed Pin From Net: NetName=+5V Pin=F3-2
+Removed Member From Class: ClassName=BRAINS Member=F3
+Added Pin To Net: NetName=NetF2_1 Pin=J11-1

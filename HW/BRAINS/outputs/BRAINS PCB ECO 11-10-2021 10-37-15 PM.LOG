@@ -1,0 +1,6 @@
+Removed Pin From Net: NetName=LED_RED Pin=U4-15
+Removed Pin From Net: NetName=CALIBRATE Pin=U4-16
+Removed Pin From Net: NetName=LED_GREEN Pin=U4-43
+Added Pin To Net: NetName=LED_GREEN Pin=U4-2
+Added Pin To Net: NetName=LED_RED Pin=U4-11
+Added Pin To Net: NetName=CALIBRATE Pin=U4-15

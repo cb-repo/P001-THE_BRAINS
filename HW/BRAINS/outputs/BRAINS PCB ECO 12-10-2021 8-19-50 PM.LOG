@@ -1,0 +1,4 @@
+Removed Pin From Net: NetName=SERVO_1 Pin=U4-12
+Removed Pin From Net: NetName=SERVO_2 Pin=U4-41
+Added Pin To Net: NetName=SERVO_2 Pin=U4-2
+Added Pin To Net: NetName=SERVO_1 Pin=U4-11
