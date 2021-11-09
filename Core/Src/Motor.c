@@ -4,6 +4,7 @@
 #include "GPIO.h"
 #include "TIM.h"
 
+
 /*
  * PRIVATE DEFINITIONS
  */
@@ -31,6 +32,17 @@
  * PRIVATE PROTOTYPES
  */
 
+void MOTOR_Sleep (void);
+void MOTOR_M1_Sleep (void);
+void MOTOR_M2_Sleep (void);
+void MOTOR_Brake (void);
+void MOTOR_M1_Brake (void);
+void MOTOR_M2_Brake (void);
+void MOTOR_Coast (void);
+void MOTOR_M1_Coast (void);
+void MOTOR_M2_Coast (void);
+void MOTOR_M1_Update (int32_t);
+void MOTOR_M2_Update (int32_t);
 
 /*
  * PRIVATE VARIABLES
@@ -60,7 +72,12 @@ void MOTOR_Init (void)
 void MOTOR_Deinit (void)
 {
 	TIM_Stop(TIM_MOTOR);
-	GPIO_Disable(MOTOR_ALL_GPIO, MOTOR_ALL_PIN);
+	GPIO_Disable(MOTOR_LnSLEEP_GPIO, MOTOR_LnSLEEP_PIN);
+	GPIO_Disable(MOTOR_RnSLEEP_GPIO, MOTOR_RnSLEEP_PIN);
+	GPIO_Disable(MOTOR_LPWM1_GPIO, MOTOR_LPWM1_PIN);
+	GPIO_Disable(MOTOR_LPWM2_GPIO, MOTOR_LPWM2_PIN);
+	GPIO_Disable(MOTOR_RPWM1_GPIO, MOTOR_RPWM1_PIN);
+	GPIO_Disable(MOTOR_RPWM2_GPIO, MOTOR_RPWM2_PIN);
 	TIM_Deinit(TIM_MOTOR);
 }
 
@@ -144,8 +161,6 @@ void MOTOR_M2_Coast(void)
 void MOTOR_M1_Update (int32_t throttle)
 {
 	bool reverse = false;
-	uint32_t pwm1;
-	uint32_t pwm2;
 
 	// Check if reversing
 	if (throttle < 0) {
@@ -176,8 +191,6 @@ void MOTOR_M1_Update (int32_t throttle)
 void MOTOR_M2_Update (int32_t throttle)
 {
 	bool reverse = false;
-	uint32_t pwm1;
-	uint32_t pwm2;
 
 	// Check if reversing
 	if (throttle < 0) {

@@ -55,8 +55,8 @@ all: main-build
 main-build: THE_BRAINS.elf secondary-outputs
 
 # Tool invocations
-THE_BRAINS.elf: $(OBJS) $(USER_OBJS) C:\dev\GitHub\FW-THE_BRAINS\STM32L051K8UX_FLASH.ld
-	arm-none-eabi-gcc -o "THE_BRAINS.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"C:\dev\GitHub\FW-THE_BRAINS\STM32L051K8UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="THE_BRAINS.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+THE_BRAINS.elf: $(OBJS) $(USER_OBJS) C:\dev\GitHub\THE_BRAINS-FW\STM32L051K8UX_FLASH.ld
+	arm-none-eabi-gcc -o "THE_BRAINS.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"C:\dev\GitHub\THE_BRAINS-FW\STM32L051K8UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="THE_BRAINS.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
