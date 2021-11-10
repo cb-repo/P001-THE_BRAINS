@@ -43,8 +43,8 @@ int main (void)
 
 	while (1)
 	{
-//		MOTOR_Update(radio2motor(radio_S3), radio2motor(radio_S2));
-		MOTOR_Update(MOTOR_MAX, MOTOR_MAX);
+		MOTOR_Update(radio2motor(radio_S3), radio2motor(radio_S2));
+//		MOTOR_Update(-MOTOR_MAX, -MOTOR_MAX);
 		SERVO_S1_Update(radio_S1);
 		SERVO_S2_Update(radio_S4);
 

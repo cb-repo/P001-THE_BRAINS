@@ -147,10 +147,6 @@ Variation13=Designator=U1|UniqueId=\TTHAFXCY|Kind=0|AlternatePart=
 ParamVariationCount=0
 
 [GeneratedDocument1]
-DocumentPath=outputs\BOM\BRAINS - Bill of Materials-BRAINS(Default).xlsx
-DItemRevisionGUID=
-
-[GeneratedDocument2]
 DocumentPath=outputs\Design Rule Check - BRAINS.html
 DItemRevisionGUID=
 
