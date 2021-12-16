@@ -1,0 +1,6 @@
+Core.inl:12:24:CORE_GetTick	8	static
+Config.c:40:6:CONFIG_Init	8	static
+Config.c:45:6:CONFIG_Set	8	static
+Config.c:52:6:CONFIG_Reset	8	static
+Config.c:71:6:CONFIG_DetRadio	8	static
+Config.c:77:6:CONFIG_DetMode	32	static

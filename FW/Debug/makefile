@@ -1,6 +1,5 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (9-2020-q2-update)
 ################################################################################
 
 -include ../makefile.init
@@ -9,7 +8,10 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include Lib/subdir.mk
+-include STM32X/Lib/usb/msc/subdir.mk
+-include STM32X/Lib/usb/cdc/subdir.mk
+-include STM32X/Lib/usb/subdir.mk
+-include STM32X/Lib/subdir.mk
 -include Drivers/STM32L0xx_HAL_Driver/Src/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
@@ -29,12 +31,6 @@ endif
 endif
 
 -include ../makefile.defs
-
-OPTIONAL_TOOL_DEPS := \
-$(wildcard ../makefile.defs) \
-$(wildcard ../makefile.init) \
-$(wildcard ../makefile.targets) \
-
 
 BUILD_ARTIFACT_NAME := THE_BRAINS
 BUILD_ARTIFACT_EXTENSION := elf
@@ -62,22 +58,22 @@ all: main-build
 main-build: THE_BRAINS.elf secondary-outputs
 
 # Tool invocations
-THE_BRAINS.elf: $(OBJS) $(USER_OBJS) C:\dev\GitHub\THE_BRAINS\FW\STM32L051K8UX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+THE_BRAINS.elf: $(OBJS) $(USER_OBJS) C:\dev\GitHub\THE_BRAINS\FW\STM32L051K8UX_FLASH.ld
 	arm-none-eabi-gcc -o "THE_BRAINS.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"C:\dev\GitHub\THE_BRAINS\FW\STM32L051K8UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="THE_BRAINS.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+default.size.stdout: $(EXECUTABLES)
 	arm-none-eabi-size  $(EXECUTABLES)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-THE_BRAINS.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+THE_BRAINS.list: $(EXECUTABLES)
 	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "THE_BRAINS.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-THE_BRAINS.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+THE_BRAINS.bin: $(EXECUTABLES)
 	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "THE_BRAINS.bin"
 	@echo 'Finished building: $@'
 	@echo ' '

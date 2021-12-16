@@ -15,7 +15,6 @@
 #define MOTOR_OFF			0
 #define MOTOR_MIN			1
 #define MOTOR_MAX			256
-#define MOTOR_BRAKE			1
 
 /*
  * PUBLIC TYPES

@@ -1,6 +1,5 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (9-2020-q2-update)
 ################################################################################
 
 ELF_SRCS := 
@@ -23,5 +22,8 @@ SUBDIRS := \
 Core/Src \
 Core/Startup \
 Drivers/STM32L0xx_HAL_Driver/Src \
-Lib \
+STM32X/Lib \
+STM32X/Lib/usb \
+STM32X/Lib/usb/cdc \
+STM32X/Lib/usb/msc \
 

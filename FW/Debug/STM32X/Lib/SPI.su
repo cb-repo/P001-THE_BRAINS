@@ -1,0 +1,10 @@
+CLK.inl:15:24:CLK_GetPCLKFreq	8	static
+SPI.c:53:6:SPI_Init	32	static
+SPI.c:70:6:SPI_Deinit	16	static
+SPI.c:76:6:SPI_Write	32	static
+SPI.c:87:6:SPI_Read	32	static
+SPI.c:100:6:SPI_Transfer	32	static
+SPI.c:113:9:SPI_TransferByte	16	static
+SPI.c:125:17:SPI_SelectPrescalar	32	static
+SPI.c:143:13:SPIx_Init	16	static
+SPI.c:168:13:SPIx_Deinit	16	static

@@ -18,8 +18,9 @@
  */
 
 void LED_Init (void);
-void LED_StatusON (void);
-void LED_StatusOFF (void);
+void LED_Update (void);
+void LED_Pulse(void);
+void LED_TriPulse(void);
 
 /*
  * EXTERN DECLARATIONS

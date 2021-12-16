@@ -1,4 +1,5 @@
-Core/Src/Servo.o: ../Core/Src/Servo.c ../Core/Inc/Servo.h ../Lib/STM32X.h \
+Core/Src/Servo.o: ../Core/Src/Servo.c ../Core/Inc/Servo.h \
+ ../STM32X/Lib/STM32X.h ../Core/Inc/Board.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h \
  ../Core/Inc/stm32l0xx_hal_conf.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_rcc.h \
@@ -20,6 +21,10 @@ Core/Src/Servo.o: ../Core/Src/Servo.c ../Core/Inc/Servo.h ../Lib/STM32X.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_cortex.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_adc.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_adc_ex.h \
+ ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_comp.h \
+ ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_comp_ex.h \
+ ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_crc.h \
+ ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_crc_ex.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_flash.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_flash_ex.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_flash_ramfunc.h \
@@ -28,18 +33,21 @@ Core/Src/Servo.o: ../Core/Src/Servo.c ../Core/Inc/Servo.h ../Lib/STM32X.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_iwdg.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_pwr.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_pwr_ex.h \
+ ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_rtc.h \
+ ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_rtc_ex.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_spi.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_tim.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_tim_ex.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h \
- ../Core/Inc/Board.h ../Lib/TIM.h ../Lib/STM32X.h ../Lib/GPIO.h \
- ../Lib/GPIO.inl ../Lib/TIM.inl ../Core/Inc/Board.h ../Lib/GPIO.h \
- ../Lib/Core.h
+ ../STM32X/Lib/GPIO.h ../STM32X/Lib/STM32X.h ../STM32X/Lib/GPIO.inl \
+ ../STM32X/Lib/TIM.h ../STM32X/Lib/GPIO.h ../STM32X/Lib/TIM.inl
 
 ../Core/Inc/Servo.h:
 
-../Lib/STM32X.h:
+../STM32X/Lib/STM32X.h:
+
+../Core/Inc/Board.h:
 
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h:
 
@@ -83,6 +91,14 @@ Core/Src/Servo.o: ../Core/Src/Servo.c ../Core/Inc/Servo.h ../Lib/STM32X.h \
 
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_adc_ex.h:
 
+../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_comp.h:
+
+../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_comp_ex.h:
+
+../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_crc.h:
+
+../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_crc_ex.h:
+
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_flash.h:
 
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_flash_ex.h:
@@ -99,6 +115,10 @@ Core/Src/Servo.o: ../Core/Src/Servo.c ../Core/Inc/Servo.h ../Lib/STM32X.h \
 
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_pwr_ex.h:
 
+../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_rtc.h:
+
+../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_rtc_ex.h:
+
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_spi.h:
 
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_tim.h:
@@ -109,20 +129,14 @@ Core/Src/Servo.o: ../Core/Src/Servo.c ../Core/Inc/Servo.h ../Lib/STM32X.h \
 
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h:
 
-../Core/Inc/Board.h:
+../STM32X/Lib/GPIO.h:
 
-../Lib/TIM.h:
+../STM32X/Lib/STM32X.h:
 
-../Lib/STM32X.h:
+../STM32X/Lib/GPIO.inl:
 
-../Lib/GPIO.h:
+../STM32X/Lib/TIM.h:
 
-../Lib/GPIO.inl:
+../STM32X/Lib/GPIO.h:
 
-../Lib/TIM.inl:
-
-../Core/Inc/Board.h:
-
-../Lib/GPIO.h:
-
-../Lib/Core.h:
+../STM32X/Lib/TIM.inl:
