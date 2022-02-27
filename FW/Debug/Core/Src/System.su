@@ -1,6 +1,0 @@
-Core.inl:12:24:CORE_GetTick	8	static
-GPIO.inl:38:28:GPIO_Read	16	static
-System.c:48:6:SYSTEM_Init	16	static
-System.c:75:6:SYSTEM_Update	24	static
-System.c:136:6:SYSTEM_Calibrate_IRQ	16	static
-System.c:164:9:CONVERT_RadioToMotor	16	static

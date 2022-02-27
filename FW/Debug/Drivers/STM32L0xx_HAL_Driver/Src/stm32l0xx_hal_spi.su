@@ -15,7 +15,7 @@ stm32l0xx_hal_spi.c:2046:19:HAL_SPI_Abort	40	static
 stm32l0xx_hal_spi.c:2191:19:HAL_SPI_Abort_IT	40	static
 stm32l0xx_hal_spi.c:2352:19:HAL_SPI_DMAPause	16	static
 stm32l0xx_hal_spi.c:2372:19:HAL_SPI_DMAResume	16	static
-stm32l0xx_hal_spi.c:2392:19:HAL_SPI_DMAStop	24	static
+stm32l0xx_hal_spi.c:2392:19:HAL_SPI_DMAStop	32	static
 stm32l0xx_hal_spi.c:2432:6:HAL_SPI_IRQHandler	40	static
 stm32l0xx_hal_spi.c:2539:13:HAL_SPI_TxCpltCallback	16	static
 stm32l0xx_hal_spi.c:2555:13:HAL_SPI_RxCpltCallback	16	static

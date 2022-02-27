@@ -1,7 +1,0 @@
-GPIO.inl:21:20:GPIO_EnableOutput	24	static
-LED.c:32:6:LED_Init	8	static
-LED.c:38:6:LED_Update	8	static
-LED.c:43:6:LED_StatusON	8	static
-LED.c:48:6:LED_FaultON	8	static
-LED.c:53:6:LED_StatusOFF	8	static
-LED.c:58:6:LED_FaultOFF	8	static

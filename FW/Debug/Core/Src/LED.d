@@ -41,7 +41,7 @@ Core/Src/LED.o: ../Core/Src/LED.c ../Core/Inc/LED.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h \
  ../STM32X/Lib/GPIO.h ../STM32X/Lib/STM32X.h ../STM32X/Lib/GPIO.inl \
- ../STM32X/Lib/TIM.h ../STM32X/Lib/GPIO.h ../STM32X/Lib/TIM.inl
+ ../STM32X/Lib/Core.h ../STM32X/Lib/Core.inl
 
 ../Core/Inc/LED.h:
 
@@ -135,8 +135,6 @@ Core/Src/LED.o: ../Core/Src/LED.c ../Core/Inc/LED.h \
 
 ../STM32X/Lib/GPIO.inl:
 
-../STM32X/Lib/TIM.h:
+../STM32X/Lib/Core.h:
 
-../STM32X/Lib/GPIO.h:
-
-../STM32X/Lib/TIM.inl:
+../STM32X/Lib/Core.inl:

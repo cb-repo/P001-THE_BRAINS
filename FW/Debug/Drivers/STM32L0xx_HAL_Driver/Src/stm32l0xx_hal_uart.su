@@ -20,7 +20,7 @@ stm32l0xx_hal_uart.c:1847:19:HAL_UART_AbortReceive	80	static,ignoring_inline_asm
 stm32l0xx_hal_uart.c:1914:19:HAL_UART_Abort_IT	104	static,ignoring_inline_asm
 stm32l0xx_hal_uart.c:2060:19:HAL_UART_AbortTransmit_IT	48	static,ignoring_inline_asm
 stm32l0xx_hal_uart.c:2144:19:HAL_UART_AbortReceive_IT	80	static,ignoring_inline_asm
-stm32l0xx_hal_uart.c:2236:6:HAL_UART_IRQHandler	176	static,ignoring_inline_asm
+stm32l0xx_hal_uart.c:2236:6:HAL_UART_IRQHandler	184	static,ignoring_inline_asm
 stm32l0xx_hal_uart.c:2527:13:HAL_UART_TxCpltCallback	16	static
 stm32l0xx_hal_uart.c:2542:13:HAL_UART_TxHalfCpltCallback	16	static
 stm32l0xx_hal_uart.c:2557:13:HAL_UART_RxCpltCallback	16	static
