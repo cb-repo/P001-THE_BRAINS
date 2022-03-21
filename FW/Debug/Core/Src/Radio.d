@@ -42,7 +42,7 @@ Core/Src/Radio.o: ../Core/Src/Radio.c ../Core/Inc/Radio.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h \
  ../STM32X/Lib/GPIO.h ../STM32X/Lib/STM32X.h ../STM32X/Lib/GPIO.inl \
  ../STM32X/Lib/Tim.h ../STM32X/Lib/GPIO.h ../STM32X/Lib/TIM.inl \
- ../Core/Inc/System.h ../Core/Inc/Config.h
+ ../STM32X/Lib/Core.h ../STM32X/Lib/Core.inl
 
 ../Core/Inc/Radio.h:
 
@@ -142,6 +142,6 @@ Core/Src/Radio.o: ../Core/Src/Radio.c ../Core/Inc/Radio.h \
 
 ../STM32X/Lib/TIM.inl:
 
-../Core/Inc/System.h:
+../STM32X/Lib/Core.h:
 
-../Core/Inc/Config.h:
+../STM32X/Lib/Core.inl:

@@ -1,0 +1,5 @@
+GPIO.inl:11:20:GPIO_EnableInput	24	static
+GPIO.inl:16:20:GPIO_Deinit	16	static
+GPIO.inl:38:28:GPIO_Read	16	static
+Config.c:40:6:CONFIG_Init	8	static
+Config.c:54:6:CONFIG_Set	8	static

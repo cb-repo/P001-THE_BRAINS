@@ -9,27 +9,49 @@
 #include "Servo.h"
 #include "Motor.h"
 #include "ADC.h"
+#include "LED.h"
 
 /*
  * PRIVATE DEFINITIONS
  */
 
+
+#define FAULT_LED_FLASH 		500
+#define FAULT_LED_FLASH_FAST	100
+#define FAULT_LED_FLASH_SLOW	FAULT_LED_FLASH
+#define WARNING_LED_FLASH		500
+
+// Battery Voltage Limits
+#define BATT_1S_LOW				3300
+#define BATT_1S_HIGH			4200
+#define BATT_2S_LOW				6600
+#define BATT_2S_HIGH			8400
+// Battery Warning Above Lower Limit
+#define BATT_WARNING			200
+
+#define BATT_HYST				100
+
+#define INPUT_TIMEOUT 			50
+
+
 /*
  * PRIVATE TYPES
  */
+
 
 /*
  * PRIVATE PROTOTYPES
  */
 
+
 /*
  * PRIVATE VARIABLES
  */
 
-Status_t status = BOOT;
-WarningStates_t StateWarning = {.batt = 0, .temp = 0};
-FaultStates_t StateFault = {.batt = 0, .input = 0, .temp = 0};
+Status_t status;
 
+uint32_t battery_warn;
+uint32_t battery_fault;
 
 /*
  * PUBLIC FUNCTIONS
@@ -38,19 +60,27 @@ FaultStates_t StateFault = {.batt = 0, .input = 0, .temp = 0};
 
 void SYSTEM_Init(void)
 {
-	static int32_t tick = CORE_GetTick();
-	status = BOOT;
 	CONFIG_Init();
 	ADC_Init();
-	SERVO_Init();
-	MOTOR_Init();
-	RADIO_Init();
-	while (BOOT_TIMEOUT >= CORE_GetTick() - tick)
+	LED_Init();
+
+	CORE_Delay(10); // Let stabilize before taking reading
+	uint32_t volt = AIN_AinToDivider(ADC_Read(BATTERY_CHANNEL),BATTERY_DET_RLOW, BATTERY_DET_RHIGH);
+	if (volt >= BATT_1S_LOW && volt <= BATT_1S_HIGH)
 	{
-		if (CONFIG_Set()) { break; }
-		CORE_Idle();
+		battery_fault = BATT_1S_LOW;
+		battery_warn = BATT_1S_LOW + BATT_WARNING;
 	}
-	status = RUN;
+	else if (volt >= BATT_2S_LOW && volt <= BATT_2S_HIGH)
+	{
+		battery_fault = BATT_2S_LOW;
+		battery_warn = BATT_2S_LOW + BATT_WARNING;
+	}
+	else
+	{
+		battery_fault = BATT_1S_LOW;
+		battery_warn = BATT_1S_LOW + BATT_WARNING;
+	}
 }
 
 
@@ -58,50 +88,110 @@ void SYSTEM_Update(void)
 {
 	int32_t SystemVolt = AIN_AinToDivider(ADC_Read(BATTERY_CHANNEL),BATTERY_DET_RLOW, BATTERY_DET_RHIGH);
 	int32_t SystemTemp = ADC_ReadDieTemp();
-	int32_t SystemInput = 0; // Need to update... time between radio comms
 
-	if (StateFault.batt == 0) {
-		if (SystemVolt < SYSTEM_BATT_FAULT) { StateFault.batt = 1; }
+	if (status.faultBatt == false) {
+		if (SystemVolt <= battery_fault) { status.faultBatt = true; }
 	}
-	else { //StateFault.batt == 1
-		if (SystemVolt > SYSTEM_BATT_FAULT + SYSTEM_BATT_HYST) { StateFault.batt = 0; }
-	}
-
-	if (StateWarning.batt == 0) {
-		if (SystemVolt < SYSTEM_BATT_WARN) { StateWarning.batt = 1; }
-	}
-	else { //StateWarning.batt == 1
-		if (SystemVolt > SYSTEM_BATT_WARN + SYSTEM_BATT_HYST) { StateWarning.batt = 0; }
+	else { //status.faultBatt == true
+		if (SystemVolt >= (battery_fault + BATT_HYST)) { status.faultBatt = false; }
 	}
 
-	if (StateFault.temp == 0) {
-		if (SystemTemp > SYSTEM_TEMP_FAULT) { StateFault.temp = 1; }
+	if (status.warnBatt == false) {
+		if (SystemVolt <= battery_warn) { status.warnBatt = true; }
 	}
-	else { //StateFault.temp == 1
-		if (SystemTemp < SYSTEM_TEMP_FAULT - SYSTEM_TEMP_HYST) { StateFault.temp = 0; }
-	}
-
-	if (StateWarning.temp == 0) {
-		if (SystemTemp > SYSTEM_TEMP_WARN) { StateWarning.temp = 1; }
-	}
-	else { //StateWarning.temp == 1
-		if (SystemTemp < SYSTEM_TEMP_WARN - SYSTEM_TEMP_HYST) { StateWarning.temp = 0; }
+	else { //status.warnBatt == true
+		if (SystemVolt >= (battery_warn + BATT_HYST)) { status.warnBatt = false; }
 	}
 
-	if (StateFault.input == 0) {
-		if (SystemInput > SYSTEM_INPUT_TIMEOUT) { StateFault.input = 1; }
+	if (status.faultTemp == false) {
+		if (SystemTemp <= battery_fault) { status.faultTemp = true; }
 	}
-	else { //StateFault.input == 1
-		if (SystemInput < SYSTEM_INPUT_TIMEOUT) { StateFault.input = 0; }
+	else { //status.faultTemp == true
+		if (SystemTemp >= (battery_fault + BATT_HYST)) { status.faultTemp = false; }
 	}
 
-	if (StateFault.batt || StateFault.temp || StateFault.input) {
-		status = FAULT;
-	} else if (StateWarning.batt || StateWarning.temp) {
-		status = WARNING;
-	} else {
-		status = RUN;
-		CONFIG_CheckForReset(); //
+	if (status.warnTemp== false) {
+		if (SystemTemp <= battery_warn) { status.warnTemp = true; }
+	}
+	else { //status.warnTemp == true
+		if (SystemTemp >= (battery_warn + BATT_HYST)) { status.warnTemp = false; }
+	}
+
+	if (INPUT_TIMEOUT <= CORE_GetTick() - inputHeartbeat)
+	{
+		status.faultInput = true;
+	}
+	else
+	{
+		status.faultInput = false;
+	}
+
+
+	static uint32_t tick;
+	uint32_t now = CORE_GetTick();
+
+	if (status.faultTemp)
+	{
+		LED_RedOFF();
+		if (FAULT_LED_FLASH_FAST <= (now - tick))
+		{
+			if (LED_GreenState())
+			{
+				LED_GreenOFF();
+			}
+			else
+			{
+				LED_GreenON();
+			}
+			tick = now;
+		}
+	}
+	else if (status.faultInput)
+	{
+		LED_RedOFF();
+		if (FAULT_LED_FLASH_SLOW <= (now - tick))
+		{
+			if (LED_GreenState())
+			{
+				LED_GreenOFF();
+			}
+			else
+			{
+				LED_GreenON();
+			}
+			tick = now;
+		}
+	}
+	else if (status.faultBatt)
+	{
+		LED_RedOFF();
+		LED_GreenON();
+	}
+	else if (status.warnTemp)
+	{
+		LED_RedON();
+		if (FAULT_LED_FLASH_FAST <= (now - tick))
+		{
+			if (LED_GreenState())
+			{
+				LED_GreenOFF();
+			}
+			else
+			{
+				LED_GreenON();
+			}
+			tick = now;
+		}
+	}
+	else if (status.warnBatt)
+	{
+		LED_RedON();
+		LED_GreenON();
+	}
+	else
+	{
+		LED_RedON();
+		LED_GreenOFF();
 	}
 }
 
@@ -114,12 +204,6 @@ void SYSTEM_Update(void)
 /*
  * INTERRUPT ROUTINES
  */
-
-
-int32_t CONVERT_RadioToMotor (uint32_t radio)
-{
-	return ((int32_t)radio - SERVO_CENTER) / SERVO_HALFSCALE * MOTOR_MAX;
-}
 
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */

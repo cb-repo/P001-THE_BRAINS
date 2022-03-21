@@ -26,8 +26,7 @@
 
 void SERVO_Init(void);
 void SERVO_Deinit(void);
-void SERVO_S1_Update(int16_t offset);
-void SERVO_S2_Update(int16_t offset);
+void SERVO_Update(uint16_t, uint16_t);
 
 /*
  * EXTERN DECLARATIONS

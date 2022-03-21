@@ -18,11 +18,6 @@
  * PRIVATE PROTOTYPES
  */
 
-void LED_GreenON (void);
-void LED_RedON (void);
-void LED_GreenOFF (void);
-void LED_RedOFF (void);
-
 /*
  * PRIVATE VARIABLES
  */
@@ -37,38 +32,6 @@ void LED_Init (void)
 	GPIO_EnableOutput(LED_STATUS_GPIO, LED_STATUS_PIN, false);
 	GPIO_EnableOutput(LED_FAULT_GPIO, LED_FAULT_PIN, false);
 }
-
-void LED_Update (void)
-{
-
-}
-
-void LED_Pulse (void)
-{
-	static uint32_t tick = CORE_GetTick();
-	LED_RedON();
-	LED_GreenON();
-	while (PULSE100 > (CORE_GetTick() - tick)) { CORE_Idle(); }
-	LED_RedOFF();
-	LED_GreenOFF();
-}
-
-void LED_TriPulse (void)
-{
-	LED_Pulse();
-	static tick = CORE_GetTick();
-	while (PULSE100 > (CORE_GetTick() - tick)) { CORE_Idle(); }
-	LED_Pulse();
-	tick = CORE_GetTick();
-	while (PULSE100 > (CORE_GetTick() - tick)) { CORE_Idle(); }
-	LED_Pulse();
-}
-
-
-/*
- * PRIVATE FUNCTIONS
- */
-
 
 void LED_GreenON (void)
 {
@@ -90,6 +53,41 @@ void LED_RedOFF (void)
 	GPIO_Write(LED_FAULT_GPIO, LED_FAULT_PIN, false);
 }
 
+bool LED_GreenState (void)
+{
+	return GPIO_Read(LED_STATUS_GPIO, LED_STATUS_PIN);
+}
+
+bool LED_RedState (void)
+{
+	return GPIO_Read(LED_FAULT_GPIO, LED_FAULT_PIN);
+}
+
+void LED_Pulse (void)
+{
+	uint32_t tick = CORE_GetTick();
+	LED_RedON();
+	LED_GreenON();
+	while (PULSE100 > (CORE_GetTick() - tick)) { CORE_Idle(); }
+	LED_RedOFF();
+	LED_GreenOFF();
+}
+
+void LED_TriPulse (void)
+{
+	LED_Pulse();
+	uint32_t tick = CORE_GetTick();
+	while (PULSE100 > (CORE_GetTick() - tick)) { CORE_Idle(); }
+	LED_Pulse();
+	tick = CORE_GetTick();
+	while (PULSE100 > (CORE_GetTick() - tick)) { CORE_Idle(); }
+	LED_Pulse();
+}
+
+
+/*
+ * PRIVATE FUNCTIONS
+ */
 
 /*
  * INTERRUPT ROUTINES

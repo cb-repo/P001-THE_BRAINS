@@ -1,9 +1,9 @@
 CLK.inl:20:24:CLK_GetLSOFreq	8	static
-RTC.c:49:6:RTC_Init	16	static
-RTC.c:80:6:RTC_Deinit	8	static
-RTC.c:115:6:RTC_Write	32	static
-RTC.c:142:6:RTC_Read	24	static
-RTC.c:263:17:RTC_ToBCD	24	static
-RTC.c:274:17:RTC_FromBCD	16	static
-RTC.c:279:13:RTC_EnterInit	8	static
-RTC.c:288:13:RTC_WaitForSync	8	static
+RTC.c:48:6:RTC_Init	16	static
+RTC.c:79:6:RTC_Deinit	8	static
+RTC.c:114:6:RTC_Write	32	static
+RTC.c:141:6:RTC_Read	24	static
+RTC.c:262:17:RTC_ToBCD	24	static
+RTC.c:273:17:RTC_FromBCD	16	static
+RTC.c:278:13:RTC_EnterInit	8	static
+RTC.c:287:13:RTC_WaitForSync	8	static

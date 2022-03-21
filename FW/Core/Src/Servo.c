@@ -16,6 +16,9 @@
  * PRIVATE PROTOTYPES
  */
 
+void SERVO_S1_Update(uint16_t offset);
+void SERVO_S2_Update(uint16_t offset);
+
 static void SERVO1_TimerReloadISR(void);
 static void SERVO1_TimerPulseISR(void);
 static void SERVO2_TimerReloadISR(void);
@@ -57,7 +60,17 @@ void SERVO_Deinit(void)
 	GPIO_Deinit(SERVO2_GPIO, SERVO2_PIN);
 }
 
-void SERVO_S1_Update(int16_t pulse)
+void SERVO_Update(uint16_t S1, uint16_t S2)
+{
+	SERVO_S1_Update(S1);
+	SERVO_S2_Update(S2);
+}
+
+/*
+ * PRIVATE FUNCTIONS
+ */
+
+void SERVO_S1_Update(uint16_t pulse)
 {
 	if (pulse > SERVO_MAX)
 	{
@@ -70,7 +83,7 @@ void SERVO_S1_Update(int16_t pulse)
 	TIM_SetPulse(TIM_SERVO1, 0, pulse);
 }
 
-void SERVO_S2_Update(int16_t pulse)
+void SERVO_S2_Update(uint16_t pulse)
 {
 	if (pulse > SERVO_MAX)
 	{
@@ -82,10 +95,6 @@ void SERVO_S2_Update(int16_t pulse)
 	}
 	TIM_SetPulse(TIM_SERVO2, 0, pulse);
 }
-
-/*
- * PRIVATE FUNCTIONS
- */
 
 /*
  * INTERRUPT ROUTINES

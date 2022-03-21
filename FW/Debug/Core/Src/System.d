@@ -43,7 +43,7 @@ Core/Src/System.o: ../Core/Src/System.c ../Core/Inc/System.h \
  ../STM32X/Lib/Core.h ../STM32X/Lib/STM32X.h ../STM32X/Lib/Core.inl \
  ../Core/Inc/Config.h ../STM32X/Lib/GPIO.h ../STM32X/Lib/GPIO.inl \
  ../Core/Inc/Radio.h ../Core/Inc/Servo.h ../Core/Inc/Motor.h \
- ../STM32X/Lib/ADC.h
+ ../STM32X/Lib/ADC.h ../Core/Inc/LED.h
 
 ../Core/Inc/System.h:
 
@@ -150,3 +150,5 @@ Core/Src/System.o: ../Core/Src/System.c ../Core/Inc/System.h \
 ../Core/Inc/Motor.h:
 
 ../STM32X/Lib/ADC.h:
+
+../Core/Inc/LED.h:

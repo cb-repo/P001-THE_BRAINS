@@ -28,27 +28,24 @@
  * PUBLIC FUNCTIONS
  */
 
-// TO DO:
-// - Write Config Set Script (SYSTEM_RunConfig())
-// - Write Config Reset Script (SYSTEM_ResetConfig())
-// - Read Config from EEPROM (SYSTEM_Config())
-// - Fix motor jerk on boot
-// - Implement Overtemp Warning / Fauls
-// - Implement Undervolt Warning/ Fault
-
 int main (void)
 {
 	CORE_Init();
 	SYSTEM_Init();
+	RADIO_Init();
+	MOTOR_Init();
+	SERVO_Init();
+
+	if (configSetFlag)
+	{
+		CONFIG_Set();
+	}
 
 	while (1)
 	{
 		SYSTEM_Update();
-		MOTOR_M1_Update(input[IP3]);
-		MOTOR_M2_Update(input[IP2]);
-		SERVO_S1_Update(input[IP1]);
-		SERVO_S2_Update(input[IP4]);
-		LED_Update();
+		MOTOR_Update(inputS1, inputS2);
+		SERVO_Update(inputS3, inputS4);
 		CORE_Idle();
 	}
 }

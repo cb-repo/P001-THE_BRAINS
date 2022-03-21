@@ -16,11 +16,6 @@
 #define RADIO_FULLSCALE	(RADIO_MAX-RADIO_MIN)
 #define RADIO_HALFSCALE	(RADIO_MAX-RADIO_CENTER)
 
-#define SPWM_CH_MAX		4
-#define PPM_CH_MAX		8
-#define IBUS_CH_MAX		14
-#define SBUS_CH_MAX		16
-
 /*
  * PUBLIC TYPES
  */
@@ -32,20 +27,15 @@
 void RADIO_Init (void);
 void RADIO_Update(void);
 
-void SPWM_Init (void);
-void SPWM_Deinit (void);
-void PPM_Init (void);
-void PPM_Deinit (void);
-void IBUS_Init (void);
-void IBUS_Deinit (void);
-void SBUS_Init (void);
-void SBUS_Deinit (void);
-
 /*
  * EXTERN DECLARATIONS
  */
 
-extern uint16_t input;
+extern volatile uint16_t inputS1;
+extern volatile uint16_t inputS2;
+extern volatile uint16_t inputS3;
+extern volatile uint16_t inputS4;
+extern volatile uint32_t inputHeartbeat;
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 #endif /* RADIO_H */
