@@ -9,28 +9,48 @@
  * PUBLIC DEFINITIONS
  */
 
+#define FAULT_LED_FLASH 		500
+
+#define BATT_1S_LOW				3400
+#define BATT_2S_LOW				6600
+#define BATT_HYST				100
+
+#define TEMP_HIGH				100
+#define TEMP_HYST				50
+
+#define INPUT_TIMEOUT 			50
+
+#define CH_FWD						1
+#define CH_RVS						(-1)
+
 /*
  * PUBLIC TYPES
  */
 
-//	RUN = 				0x04, // Normal operation												Red: ON,	Green: OFF
-//	WARNING_BATT = 		0x05, // Battery low													Red: ON,	Green: ON
-//	WARNING_TEMP =  	0x06, // Temperature high (overrides battery warning)					Red: ON,	Green: Flashing Fast
-//	FAULT_INPUT =		0x07, // No input (radio) detected										Red: OFF,	Green: Flashing USlow
-//	FAULT_BATT = 		0x08, // Battery critically low (Overrides all warnings)				Red: OFF, 	Green: Flashing Slow
-//	FAULT_TEMP = 		0x09, // Temperature critically high (Overrides battery fault)			Red: OFF, 	Green: Flashing Fast
-
-// Flash USlow: (2s)
-// Flash Slow:  (0.5s)
-// Flash Fast:	(0.1s)
-
-typedef struct {
+typedef struct _SYSTEM_Status {
 	bool faultInput;
 	bool faultBatt;
-	bool warnBatt;
 	bool faultTemp;
-	bool warnTemp;
-} Status_t;
+} SYSTEM_Status;
+
+typedef struct _SYSTEM_Config {
+	uint32_t hashA;
+	uint8_t mode;
+	uint8_t primaryCh;
+	int8_t primaryRev;
+	uint8_t secondaryCh;
+	int8_t secondaryRev;
+	uint8_t servoChA;
+	int8_t servoRevA;
+	uint8_t servoChB;
+	int8_t servoRevB;
+	uint32_t hashB;
+} SYSTEM_Config;
+
+typedef enum {
+	TANK = 1,
+	ARCADE = 2,
+} SYSTEM_DrivingModeIndex;
 
 /*
  * PUBLIC FUNCTIONS
@@ -38,12 +58,17 @@ typedef struct {
 
 void SYSTEM_Init (void);
 void SYSTEM_Update (void);
+int32_t SYSTEM_RadioToMotor (uint16_t);
+uint16_t SYSTEM_ReverseRadio(uint16_t);
+uint16_t SYSTEM_RadioTruncate (uint16_t);
 
 /*
  * EXTERN DECLARATIONS
  */
 
-extern Status_t status;
+extern SYSTEM_Status status;
+extern SYSTEM_Status status_p;
+extern SYSTEM_Config config;
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 #endif /* SYSTEM_H */

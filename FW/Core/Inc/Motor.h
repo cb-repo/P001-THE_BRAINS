@@ -25,11 +25,7 @@
  */
 
 void MOTOR_Init (void);
-void MOTOR_Deinit (void);
-void MOTOR_Stop (void);
 void MOTOR_Update (int32_t, int32_t);
-void MOTOR_M1_Update (int32_t);
-void MOTOR_M2_Update (int32_t);
 
 /*
  * EXTERN DECLARATIONS

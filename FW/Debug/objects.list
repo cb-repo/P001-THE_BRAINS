@@ -1,4 +1,3 @@
-"Core/Src/Config.o"
 "Core/Src/LED.o"
 "Core/Src/Motor.o"
 "Core/Src/Radio.o"

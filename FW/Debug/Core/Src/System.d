@@ -41,9 +41,9 @@ Core/Src/System.o: ../Core/Src/System.c ../Core/Inc/System.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h \
  ../STM32X/Lib/Core.h ../STM32X/Lib/STM32X.h ../STM32X/Lib/Core.inl \
- ../Core/Inc/Config.h ../STM32X/Lib/GPIO.h ../STM32X/Lib/GPIO.inl \
- ../Core/Inc/Radio.h ../Core/Inc/Servo.h ../Core/Inc/Motor.h \
- ../STM32X/Lib/ADC.h ../Core/Inc/LED.h
+ ../STM32X/Lib/GPIO.h ../STM32X/Lib/GPIO.inl ../Core/Inc/Radio.h \
+ ../Core/Inc/Servo.h ../Core/Inc/Motor.h ../STM32X/Lib/ADC.h \
+ ../Core/Inc/LED.h ../STM32X/Lib/EEPROM.h
 
 ../Core/Inc/System.h:
 
@@ -137,8 +137,6 @@ Core/Src/System.o: ../Core/Src/System.c ../Core/Inc/System.h \
 
 ../STM32X/Lib/Core.inl:
 
-../Core/Inc/Config.h:
-
 ../STM32X/Lib/GPIO.h:
 
 ../STM32X/Lib/GPIO.inl:
@@ -152,3 +150,5 @@ Core/Src/System.o: ../Core/Src/System.c ../Core/Inc/System.h \
 ../STM32X/Lib/ADC.h:
 
 ../Core/Inc/LED.h:
+
+../STM32X/Lib/EEPROM.h:

@@ -29,6 +29,7 @@ bool LED_RedState (void);
 
 void LED_Pulse(void);
 void LED_TriPulse(void);
+void LED_nPulse (uint8_t n);
 
 /*
  * EXTERN DECLARATIONS

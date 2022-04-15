@@ -42,7 +42,7 @@ Core/Src/main.o: ../Core/Src/main.c ../STM32X/Lib/Core.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h \
  ../STM32X/Lib/Core.inl ../Core/Inc/System.h ../STM32X/Lib/STM32X.h \
  ../Core/Inc/Motor.h ../Core/Inc/Radio.h ../Core/Inc/Servo.h \
- ../Core/Inc/LED.h ../Core/Inc/Config.h
+ ../Core/Inc/LED.h ../STM32X/Lib/UART.h ../STM32X/Lib/ADC.h
 
 ../STM32X/Lib/Core.h:
 
@@ -144,4 +144,6 @@ Core/Src/main.o: ../Core/Src/main.c ../STM32X/Lib/Core.h \
 
 ../Core/Inc/LED.h:
 
-../Core/Inc/Config.h:
+../STM32X/Lib/UART.h:
+
+../STM32X/Lib/ADC.h:

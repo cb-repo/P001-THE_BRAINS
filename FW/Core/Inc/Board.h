@@ -9,6 +9,7 @@
 // ADC CONFIG
 #define ADC_VREF	      	3300
 
+//#define DATA_EEPROM_BASE
 
 // TIM CONFIG
 #define TIM_USE_IRQS
@@ -38,7 +39,7 @@
 
 // UART CONFIG
 // 		USART1_Tx - Pin30 (PA9)
-//		USART1_Rx - Pin31	(PA10)
+//		USART1_Rx - Pin31 (PA10)
 #define UART1_GPIO			GPIOA
 #define UART1_PINS			(GPIO_PIN_9 | GPIO_PIN_10)
 #define UART1_AF		    GPIO_AF4_USART1
@@ -47,11 +48,10 @@
 
 // IRQ CONFIG
 #define GPIO_USE_IRQS
-#define USE_EXTI_3
-#define USE_EXTI_8
-#define USE_EXTI_9
-#define USE_EXTI_10
-#define USE_EXTI_15
+#define GPIO_IRQ8_ENABLE
+#define GPIO_IRQ9_ENABLE
+#define GPIO_IRQ10_ENABLE
+#define GPIO_IRQ15_ENABLE
 // 		Calibrate I/P - Pin13 (PA3)
 #define CALIBRATE_GPIO		GPIOA
 #define	CALIBRATE_PIN		GPIO_PIN_3
@@ -106,14 +106,14 @@
 #define BATTERY_GPIO		GPIOA
 #define	BATTERY_PIN			GPIO_PIN_4
 #define BATTERY_CHANNEL		ADC_CHANNEL_4
-#define BATTERY_DET_RLOW	10*1000
-#define BATTERY_DET_RHIGH	10*1000
+#define BATTERY_DET_RLOW	18
+#define BATTERY_DET_RHIGH	100
 // 		Status/Green LED - Pin3 (PC14)
-#define LED_STATUS_GPIO		GPIOC
-#define LED_STATUS_PIN		GPIO_PIN_14
+#define LED_STATUS_GPIO		GPIOA
+#define LED_STATUS_PIN		GPIO_PIN_0
 // 		Fault/Red LED - Pin10 (PA0)
-#define LED_FAULT_GPIO		GPIOA
-#define LED_FAULT_PIN		GPIO_PIN_0
+#define LED_FAULT_GPIO		GPIOC
+#define LED_FAULT_PIN		GPIO_PIN_14
 
 
 #endif /* BOARD_H */

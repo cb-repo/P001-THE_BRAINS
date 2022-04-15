@@ -1,4 +1,3 @@
-GPIO.inl:16:20:GPIO_Deinit	16	static
 GPIO.inl:21:20:GPIO_EnableOutput	24	static
 GPIO.inl:28:20:GPIO_Set	16	static
 GPIO.inl:33:20:GPIO_Reset	16	static
@@ -6,8 +5,8 @@ Servo.c:35:6:SERVO_Init	8	static
 Servo.c:52:6:SERVO_Deinit	8	static
 Servo.c:63:6:SERVO_Update	16	static
 Servo.c:73:6:SERVO_S1_Update	16	static
-Servo.c:86:6:SERVO_S2_Update	16	static
-Servo.c:103:13:SERVO1_TimerReloadISR	8	static
-Servo.c:108:13:SERVO1_TimerPulseISR	8	static
-Servo.c:113:13:SERVO2_TimerReloadISR	8	static
-Servo.c:118:13:SERVO2_TimerPulseISR	8	static
+Servo.c:78:6:SERVO_S2_Update	16	static
+Servo.c:87:13:SERVO1_TimerReloadISR	8	static
+Servo.c:92:13:SERVO1_TimerPulseISR	8	static
+Servo.c:97:13:SERVO2_TimerReloadISR	8	static
+Servo.c:102:13:SERVO2_TimerPulseISR	8	static

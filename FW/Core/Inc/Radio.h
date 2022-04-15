@@ -16,6 +16,15 @@
 #define RADIO_FULLSCALE	(RADIO_MAX-RADIO_MIN)
 #define RADIO_HALFSCALE	(RADIO_MAX-RADIO_CENTER)
 
+#define NUM_TOTALINPUTS	4
+
+typedef enum {
+	IP1,
+	IP2,
+	IP3,
+	IP4,
+} RADIO_InputDataIndex;
+
 /*
  * PUBLIC TYPES
  */
@@ -30,11 +39,7 @@ void RADIO_Update(void);
 /*
  * EXTERN DECLARATIONS
  */
-
-extern volatile uint16_t inputS1;
-extern volatile uint16_t inputS2;
-extern volatile uint16_t inputS3;
-extern volatile uint16_t inputS4;
+extern volatile uint16_t input[NUM_TOTALINPUTS];
 extern volatile uint32_t inputHeartbeat;
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */

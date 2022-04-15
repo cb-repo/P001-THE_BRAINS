@@ -8,7 +8,8 @@
  * PRIVATE DEFINITIONS
  */
 
-#define PULSE100 		100
+#define PULSEON 		200
+#define PULSEOFF		300
 
 /*
  * PRIVATE TYPES
@@ -68,20 +69,29 @@ void LED_Pulse (void)
 	uint32_t tick = CORE_GetTick();
 	LED_RedON();
 	LED_GreenON();
-	while (PULSE100 > (CORE_GetTick() - tick)) { CORE_Idle(); }
+	while (PULSEON > (CORE_GetTick() - tick)) { CORE_Idle(); }
 	LED_RedOFF();
 	LED_GreenOFF();
 }
 
 void LED_TriPulse (void)
 {
-	LED_Pulse();
+	LED_nPulse(3);
+}
+
+void LED_nPulse (uint8_t n)
+{
 	uint32_t tick = CORE_GetTick();
-	while (PULSE100 > (CORE_GetTick() - tick)) { CORE_Idle(); }
-	LED_Pulse();
-	tick = CORE_GetTick();
-	while (PULSE100 > (CORE_GetTick() - tick)) { CORE_Idle(); }
-	LED_Pulse();
+	LED_GreenOFF();
+	LED_RedOFF();
+	while (PULSEOFF > (CORE_GetTick() - tick)) { CORE_Idle(); }
+
+	for (uint8_t i = 0; i < n; i++)
+	{
+		LED_Pulse();
+		tick = CORE_GetTick();
+		while (PULSEOFF > (CORE_GetTick() - tick)) { CORE_Idle(); }
+	}
 }
 
 

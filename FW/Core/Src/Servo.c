@@ -53,11 +53,11 @@ void SERVO_Deinit(void)
 {
 	TIM_Stop(TIM_SERVO1);
 	TIM_Deinit(TIM_SERVO1);
-	GPIO_Deinit(SERVO1_GPIO, SERVO1_PIN);
+	GPIO_Write(SERVO1_GPIO, SERVO1_PIN, GPIO_PIN_RESET);
 
 	TIM_Stop(TIM_SERVO2);
 	TIM_Deinit(TIM_SERVO2);
-	GPIO_Deinit(SERVO2_GPIO, SERVO2_PIN);
+	GPIO_Write(SERVO2_GPIO, SERVO2_PIN, GPIO_PIN_RESET);
 }
 
 void SERVO_Update(uint16_t S1, uint16_t S2)
@@ -72,27 +72,11 @@ void SERVO_Update(uint16_t S1, uint16_t S2)
 
 void SERVO_S1_Update(uint16_t pulse)
 {
-	if (pulse > SERVO_MAX)
-	{
-		pulse = SERVO_MAX;
-	}
-	else if (pulse < SERVO_MIN)
-	{
-		pulse = SERVO_MIN;
-	}
 	TIM_SetPulse(TIM_SERVO1, 0, pulse);
 }
 
 void SERVO_S2_Update(uint16_t pulse)
 {
-	if (pulse > SERVO_MAX)
-	{
-		pulse = SERVO_MAX;
-	}
-	else if (pulse < SERVO_MIN)
-	{
-		pulse = SERVO_MIN;
-	}
 	TIM_SetPulse(TIM_SERVO2, 0, pulse);
 }
 

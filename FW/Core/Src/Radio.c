@@ -28,10 +28,7 @@ void RADIO_SPWM4_IRQ (void);
  * PRIVATE VARIABLES
  */
 
-volatile uint16_t inputS1 = RADIO_CENTER;
-volatile uint16_t inputS2 = RADIO_CENTER;
-volatile uint16_t inputS3 = RADIO_CENTER;
-volatile uint16_t inputS4 = RADIO_CENTER;
+volatile uint16_t input[NUM_TOTALINPUTS] = {RADIO_CENTER, RADIO_CENTER, RADIO_CENTER, RADIO_CENTER};
 volatile uint32_t inputHeartbeat = 0;
 
 /*
@@ -42,6 +39,10 @@ void RADIO_Init (void)
 {
 	TIM_Init(TIM_RADIO, TIM_RADIO_FREQ, TIM_RADIO_RELOAD);
 	TIM_Start(TIM_RADIO);
+	GPIO_EnableInput(RADIO_S1_GPIO, RADIO_S1_PIN, GPIO_Pull_Down);
+	GPIO_EnableInput(RADIO_S2_GPIO, RADIO_S2_PIN, GPIO_Pull_Down);
+	GPIO_EnableInput(RADIO_S3_GPIO, RADIO_S3_PIN, GPIO_Pull_Down);
+	GPIO_EnableInput(RADIO_S4_GPIO, RADIO_S4_PIN, GPIO_Pull_Down);
 	GPIO_OnChange(RADIO_S1_GPIO, RADIO_S1_PIN, GPIO_IT_Both, RADIO_SPWM1_IRQ);
 	GPIO_OnChange(RADIO_S2_GPIO, RADIO_S2_PIN, GPIO_IT_Both, RADIO_SPWM2_IRQ);
 	GPIO_OnChange(RADIO_S3_GPIO, RADIO_S3_PIN, GPIO_IT_Both, RADIO_SPWM3_IRQ);
@@ -51,7 +52,6 @@ void RADIO_Init (void)
 /*
  * PRIVATE FUNCTIONS
  */
-
 
 /*
  * INTERRUPT ROUTINES
@@ -70,11 +70,10 @@ void RADIO_SPWM1_IRQ (void)
 	else
 	{
 		pulse = now - tick;
-
 		// Check pulse is valid
 		if (pulse <= (RADIO_MAX + RADIO_THRESH) && pulse >= (RADIO_MIN - RADIO_THRESH))
 		{
-			inputS1 = pulse;
+			input[IP1] = pulse;
 			inputHeartbeat = CORE_GetTick();
 		}
 	}
@@ -97,7 +96,7 @@ void RADIO_SPWM2_IRQ (void)
 		// Check pulse is valid
 		if (pulse <= (RADIO_MAX + RADIO_THRESH) && pulse >= (RADIO_MIN - RADIO_THRESH))
 		{
-			inputS2 = pulse;
+			input[IP2] = pulse;
 			inputHeartbeat = CORE_GetTick();
 		}
 	}
@@ -120,7 +119,7 @@ void RADIO_SPWM3_IRQ (void)
 		// Check pulse is valid
 		if (pulse <= (RADIO_MAX + RADIO_THRESH) && pulse >= (RADIO_MIN - RADIO_THRESH))
 		{
-			inputS3 = pulse;
+			input[IP3] = pulse;
 			inputHeartbeat = CORE_GetTick();
 		}
 	}
@@ -143,7 +142,7 @@ void RADIO_SPWM4_IRQ (void)
 		// Check pulse is valid
 		if (pulse <= (RADIO_MAX + RADIO_THRESH) && pulse >= (RADIO_MIN - RADIO_THRESH))
 		{
-			inputS4 = pulse;
+			input[IP4] = pulse;
 			inputHeartbeat = CORE_GetTick();
 		}
 	}

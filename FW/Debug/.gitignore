@@ -1,0 +1,7 @@
+/Core/
+/Drivers/
+/STM32X/
+/makefile
+/objects.list
+/objects.mk
+/sources.mk
