@@ -11,17 +11,20 @@
 #include "LED.h"
 #include "EEPROM.h"
 
+#include <string.h>
+
 /*
  * PRIVATE DEFINITIONS
  */
 
 #define EEPROM_OFFSET				0
 #define CONFIG_WRITE_HASHA			0x7ee12326
-#define CONFIF_WRITE_HASHB			0x8771a50d
+#define CONFIG_WRITE_HASHB			0x8771a50d
 
 #define CALIBRATE_TIMEOUT			5000
 #define CALIBRATE_RADIO_POLL_PERIOD	500
-#define CALIBRATE_INPUT_THRESHOLD	100
+#define CALIBRATE_INPUT_THRESHOLD_H	200
+#define CALIBRATE_INPUT_THRESHOLD_L	50
 #define CALIBRATE_INPUT_HYST		20
 
 /*
@@ -44,7 +47,7 @@ void SYSTEM_WaitForResetInputs(uint16_t*);
 SYSTEM_Status status;
 SYSTEM_Status status_p;
 SYSTEM_Config config;
-SYSTEM_Config configDefault = {CONFIG_WRITE_HASHA, TANK, IP3, 1, IP2, 1, IP1, 1, IP4, 1, CONFIF_WRITE_HASHB};
+SYSTEM_Config configDefault = {CONFIG_WRITE_HASHA, TANK, IP3, 1, IP2, 1, IP1, 1, IP4, 1};
 
 uint32_t battery_fault;
 
@@ -76,7 +79,7 @@ void SYSTEM_Init(void)
 	EEPROM_Read(EEPROM_OFFSET, &config, sizeof(config));
 
 	// CHECK FOR VALID CONFIG
-	if ((config.hashA != configDefault.hashA) || (config.hashB != configDefault.hashB))
+	if (config.hashA != configDefault.hashA)
 	{
 		config.hashA = configDefault.hashA;
 		config.mode = configDefault.mode;
@@ -88,9 +91,8 @@ void SYSTEM_Init(void)
 		config.servoRevA = configDefault.servoRevA;
 		config.servoChB = configDefault.servoChB;
 		config.servoRevB = configDefault.servoRevB;
-		config.hashB = configDefault.hashB;
 		EEPROM_Write(EEPROM_OFFSET, &config, sizeof(config));
-		LED_nPulse(5);
+		LED_nPulse(3);
 	}
 }
 
@@ -212,6 +214,7 @@ void SYSTEM_Calibrate(void)
 
 	// CREATE LOCAL VARIABLE TO ASSIT IN CALIBRATION
 	SYSTEM_Config configInt;
+	configInt.hashA = CONFIG_WRITE_HASHA;
 	bool calibrated;
 	uint16_t inputZero[NUM_TOTALINPUTS];
 
@@ -227,6 +230,12 @@ void SYSTEM_Calibrate(void)
 	LED_GreenON();
 	LED_RedON();
 
+	// JERK THE MOTORS
+	CORE_Delay(500);
+	MOTOR_Update(MOTOR_MAX, MOTOR_MAX);
+	CORE_Delay(200);
+	MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
+
 	// CHECK FOR OPERATOR INPUT
 	calibrated = false;
 	while (!calibrated)
@@ -237,35 +246,37 @@ void SYSTEM_Calibrate(void)
 
 		for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
 		{
-			if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD))
+			if (numSticks == 0)
 			{
-				numSticks += 1;
-				if (numSticks == 1)
+				if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_H))
 				{
+					numSticks += 1;
 					configInt.primaryCh = i;
 					configInt.primaryRev = CH_FWD;
 				}
-				else if (numSticks == 2)
+				else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_H))
 				{
-					configInt.secondaryCh = i;
-					configInt.secondaryRev = CH_FWD;
-				}
-			}
-			else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD))
-			{
-				numSticks += 1;
-				if (numSticks == 1)
-				{
+					numSticks += 1;
 					configInt.primaryCh = i;
 					configInt.primaryRev = CH_RVS;
 				}
-				else if (numSticks == 2)
+			}
+			else if (numSticks >= 1) {
+				if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_L))
 				{
+					numSticks += 1;
+					configInt.secondaryCh = i;
+					configInt.secondaryRev = CH_FWD;
+				}
+				else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_L))
+				{
+					numSticks += 1;
 					configInt.secondaryCh = i;
 					configInt.secondaryRev = CH_RVS;
 				}
 			}
-		}
+		} // for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
+
 		if (numSticks == 1)
 		{
 			configInt.mode = ARCADE;
@@ -276,7 +287,7 @@ void SYSTEM_Calibrate(void)
 			configInt.mode = TANK;
 			calibrated = true;
 		}
-	}
+	} // while (!calibrated)
 
 	// WAIT FOR INPUTS TO FALL BACK TO ZERO REFERENCE
 	SYSTEM_WaitForResetInputs(inputZero);
@@ -290,6 +301,12 @@ void SYSTEM_Calibrate(void)
 	// TURN ON LEDS TO TELL OPERATOR CALIBRATION IS STARTING
 	LED_GreenON();
 	LED_RedON();
+
+	// JERK THE MOTORS
+	CORE_Delay(500);
+	MOTOR_Update(-MOTOR_MAX, MOTOR_MAX);
+	CORE_Delay(200);
+	MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
 
 	// CHECK FOR OPERATOR INPUT
 	calibrated = false;
@@ -304,16 +321,7 @@ void SYSTEM_Calibrate(void)
 		{
 			for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
 			{
-				if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD))
-				{
-					numSticks += 1;
-					if ((numSticks == 1) && (configInt.primaryCh != i))
-					{
-						configInt.secondaryCh = i;
-						configInt.secondaryRev = CH_FWD;
-					}
-				}
-				else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD))
+				if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_H))
 				{
 					numSticks += 1;
 					if ((numSticks == 1) && (configInt.primaryCh != i))
@@ -321,54 +329,57 @@ void SYSTEM_Calibrate(void)
 						configInt.secondaryCh = i;
 						configInt.secondaryRev = CH_RVS;
 					}
-				}
-			}
+				} // if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_H))
+				else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_H))
+				{
+					numSticks += 1;
+					if ((numSticks == 1) && (configInt.primaryCh != i))
+					{
+						configInt.secondaryCh = i;
+						configInt.secondaryRev = CH_FWD;
+					}
+				} // else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_H))
+			} // for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
 			if (numSticks == 1)
 			{
 				calibrated = true;
-			}
-		}
+			} // if (numSticks == 1)
+		} // if (configInt.mode == ARCADE)
+
 		else if (configInt.mode == TANK)
 		{
 			for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
 			{
-				if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD))
+				if ((i == configInt.primaryCh) || (i == configInt.secondaryCh))
 				{
-					numSticks += 1;
-					if (numSticks == 1)
+					if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_H))
 					{
-						configInt2.primaryCh = i;
-						configInt2.primaryRev = CH_FWD;
-					}
-					else if (numSticks == 2)
+						numSticks += 1;
+						if (numSticks == 1) {
+							configInt2.primaryCh = i;
+							configInt2.primaryRev = CH_FWD;
+						} else if (numSticks == 2) {
+							configInt2.secondaryCh = i;
+							configInt2.secondaryRev = CH_FWD;
+						}
+					} // if ((i == configInt.primaryCh) || (i == configInt.secondaryCh))
+					else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_H))
 					{
-						configInt2.secondaryCh = i;
-						configInt2.secondaryRev = CH_FWD;
-					}
-				}
-				else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD))
-				{
-					numSticks += 1;
-					if (numSticks == 1)
-					{
-						configInt2.primaryCh = i;
-						configInt2.primaryRev = CH_RVS;
-					}
-					else if (numSticks == 2)
-					{
-						configInt2.secondaryCh = i;
-						configInt2.secondaryRev = CH_RVS;
-					}
-				}
-			}
-			if (numSticks == 2 &&
-				((configInt.primaryCh == configInt2.primaryCh) || (configInt.primaryCh == configInt2.secondaryCh)) &&
-				((configInt.secondaryCh == configInt2.secondaryCh) || (configInt.secondaryCh == configInt2.primaryCh)) &&
-				((configInt.primaryRev == configInt2.primaryRev) || (configInt.secondaryRev == configInt2.secondaryRev)) &&
-				((configInt.primaryRev != configInt2.primaryRev) || (configInt.secondaryRev != configInt2.secondaryRev)))
+						numSticks += 1;
+						if (numSticks == 1) {
+							configInt2.primaryCh = i;
+							configInt2.primaryRev = CH_RVS;
+						} else if (numSticks == 2) {
+							configInt2.secondaryCh = i;
+							configInt2.secondaryRev = CH_RVS;
+						}
+					} // else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_H))
+				} // if ((i == configInt.primaryCh) || (i == configInt.secondaryCh))
+			} // for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
+			if ((numSticks == 2) && (configInt2.primaryRev != configInt2.secondaryRev) )
 			{
 				calibrated = true;
-				if (configInt.secondaryRev != configInt2.secondaryRev)
+				if (configInt.primaryRev == configInt2.primaryRev)
 				{
 					configInt2.primaryCh = configInt.secondaryCh;
 					configInt2.primaryRev = configInt.secondaryRev;
@@ -378,8 +389,8 @@ void SYSTEM_Calibrate(void)
 					configInt.primaryRev = configInt2.primaryRev;
 				}
 			}
-		}
-	}
+		} // else if (configInt.mode == TANK)
+	} // while (!calibrated)
 
 	// WAIT FOR INPUTS TO FALL BACK TO ZERO REFERENCE
 	SYSTEM_WaitForResetInputs(inputZero);
@@ -404,7 +415,7 @@ void SYSTEM_Calibrate(void)
 
 		for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
 		{
-			if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD))
+			if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_H))
 			{
 				numSticks += 1;
 				if (numSticks == 1)
@@ -413,7 +424,7 @@ void SYSTEM_Calibrate(void)
 					configInt.servoRevA = CH_FWD;
 				}
 			}
-			else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD))
+			else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_H))
 			{
 				numSticks += 1;
 				if (numSticks == 1)
@@ -423,7 +434,7 @@ void SYSTEM_Calibrate(void)
 				}
 			}
 		}
-		if (numSticks == 1 && (configInt.servoChA != configInt.primaryCh) && (configInt.servoChA != configInt.secondaryCh))
+		if (numSticks == 1)
 		{
 			calibrated = true;
 		}
@@ -452,7 +463,7 @@ void SYSTEM_Calibrate(void)
 
 		for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
 		{
-			if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD))
+			if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_H))
 			{
 				numSticks += 1;
 				if (numSticks == 1)
@@ -461,7 +472,7 @@ void SYSTEM_Calibrate(void)
 					configInt.servoRevB = CH_FWD;
 				}
 			}
-			else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD))
+			else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_H))
 			{
 				numSticks += 1;
 				if (numSticks == 1)
@@ -471,7 +482,7 @@ void SYSTEM_Calibrate(void)
 				}
 			}
 		}
-		if (numSticks == 1 && (configInt.servoChB != configInt.primaryCh) && (configInt.servoChB != configInt.secondaryCh))
+		if (numSticks == 1)
 		{
 			calibrated = true;
 		}
@@ -487,8 +498,8 @@ void SYSTEM_Calibrate(void)
 	CORE_Delay(1000);
 
 	// WRITE NEW CONFIG TO EEPROM
-	config = configInt;
-	EEPROM_Write(EEPROM_OFFSET, &config, sizeof(config));
+	memcpy(&config, &configInt, sizeof(configInt));
+	EEPROM_Write(EEPROM_OFFSET, &configInt, sizeof(configInt));
 
 	// PULSE LED TO LET USER KNOW SUCCESSFUL
 	LED_nPulse (5);
@@ -509,7 +520,7 @@ void SYSTEM_WaitForResetInputs(uint16_t* inputZero)
 		uint8_t numSticks = 0;
 		for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
 		{
-			if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD - CALIBRATE_INPUT_HYST) || input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD + CALIBRATE_INPUT_HYST))
+			if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_L - CALIBRATE_INPUT_HYST) || input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_L + CALIBRATE_INPUT_HYST))
 			{
 				numSticks += 1;
 			}

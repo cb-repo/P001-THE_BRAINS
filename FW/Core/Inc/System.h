@@ -21,7 +21,7 @@
 #define INPUT_TIMEOUT 			50
 
 #define CH_FWD						1
-#define CH_RVS						(-1)
+#define CH_RVS						2
 
 /*
  * PUBLIC TYPES
@@ -44,7 +44,6 @@ typedef struct _SYSTEM_Config {
 	int8_t servoRevA;
 	uint8_t servoChB;
 	int8_t servoRevB;
-	uint32_t hashB;
 } SYSTEM_Config;
 
 typedef enum {
