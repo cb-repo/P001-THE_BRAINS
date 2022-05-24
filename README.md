@@ -30,16 +30,6 @@ Designed and built in [Christchurch, New Zealand ](https://www.google.co.nz/maps
 - **Signal Mixing:** Onboard signal mixing for TANK/ARCADE and drive inverting.
 - **Signal Output:** Servo PWM 
 
-## Installation
- 1. Wire the battery, motors, and signal out as per the diagram:
-diagram
-    Note: The battery input has reverse polarity protection up to 20V.
- 2. Wire up the radio input depending on your chosen signal bus
-     - Servo PWM: 
-     diagram
-     - PPM, iBUS, SBUS:
-     diagram
-  
 ## Operation
  - Every time THE_BRAINS is powered ON it will wait for 2 seconds before arming (and subsequently driving) any motors or signal outputs. 
    This boot-time lock-out window gives the other electroncis time to turn ON and the operator time to move out of the way before things start moving.
