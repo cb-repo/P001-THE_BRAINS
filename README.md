@@ -24,10 +24,10 @@ Designed and built in [Christchurch, New Zealand ](https://www.google.co.nz/maps
 - **Input Voltage - Rated:** 2S lipo (6-10.4V)
 - **Input Voltage - Max:** 12.0V
 - **Motor Output:** 2.1A cont (3A peak) per channel 
-- **Motor Braking:** Yes, enabled by default. Can be diabled in configuration.
+- **Motor Braking:** Yes, enabled by default
 - **BEC:** 3.3V, 200mA. Designed to power the radio reciever and other downstream ESC's but no motors or servos.
-- **Signal Input:** Servo PWM, PPM, iBUS, and SBUS
-- **Signal Mixing:** Onboard signal mixing for TANK/ARCADE, servo stretching, and drive inverting.
+- **Signal Input:** Servo PWM
+- **Signal Mixing:** Onboard signal mixing for TANK/ARCADE and drive inverting.
 - **Signal Output:** Servo PWM 
 
 ## Installation
