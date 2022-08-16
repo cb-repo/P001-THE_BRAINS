@@ -1,10 +1,10 @@
-# THE_BRAINS v3.0
+# THE BRAINS v3.0
 
-<img src="/Switch.jpg" width="500">
+<img src="assets/THE_BRAINS_FRONT.png" width="400"> <img src="assets/THE_BRAINS_REAR.png" width="400">
 
-THE_BRAINS is a dual DC-motor ESC: originally designed for antweight combat robots, but is suitable for any appliction requiring a lightweight motor driver.
+THE BRAINS is a dual DC-motor ESC: originally designed for antweight combat robots, but is suitable for any appliction requiring a lightweight motor driver.
 
-Designed and built in [Christchurch, New Zealand ](https://www.google.co.nz/maps/place/Christchurch+New+Zealand) by Connor Benton, visit [CB-Technology](https://www.cb-tech.co.nz/) for details.
+Designed and built in [Christchurch, New Zealand ](https://www.google.co.nz/maps/place/Christchurch+New+Zealand) by Connor Benton, visit [cb-technology](https://www.cb-technology.co.nz/) for details.
 
 ## FEATURES
 
