@@ -1,5 +1,0 @@
-Removed Pin From Net: NetName=+5V Pin=R16-2
-Removed Pin From Net: NetName=+3V3 Pin=R17-2
-Removed Member From Class: ClassName=BRAINS Member=R16
-Removed Member From Class: ClassName=BRAINS Member=R17
-Added Pin To Net: NetName=+5V Pin=U3-5

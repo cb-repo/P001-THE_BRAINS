@@ -1,4 +1,0 @@
-Removed Pin From Net: NetName=OP_S4 Pin=R9-1
-Removed Pin From Net: NetName=OP_S1 Pin=R14-1
-Added Pin To Net: NetName=OP_S1 Pin=R9-1
-Added Pin To Net: NetName=OP_S4 Pin=R14-1

@@ -1,6 +1,0 @@
-Added Component: Designator=TP?(TP_100)
-Add component (AddParameter): Name = "BWA PN"; Value = "NONPART-002"; VariantName = "[No Variations]"
-Add component (AddParameter): Name = "Display_Name"; Value = "TP_SMT"; VariantName = "[No Variations]"
-Add component (AddParameter): Name = "Schematic Symbol"; Value = "TP_1"; VariantName = "[No Variations]"
-Added Pin To Net: NetName=SWDIO Pin=TP?-1
-Added Member To Class: ClassName=BRAINS Member=Component TP? TP_SMT

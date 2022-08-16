@@ -1,6 +1,0 @@
-Removed Pin From Net: NetName=GND Pin=C14-1
-Removed Pin From Net: NetName=VCC Pin=C14-2
-Removed Pin From Net: NetName=GND Pin=C16-1
-Removed Pin From Net: NetName=VCC Pin=C16-2
-Removed Member From Class: ClassName=BRAINS Member=C14
-Removed Member From Class: ClassName=BRAINS Member=C16
