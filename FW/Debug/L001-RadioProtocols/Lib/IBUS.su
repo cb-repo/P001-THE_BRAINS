@@ -1,0 +1,9 @@
+../STM32X/Lib/Core.inl.h:12:24:CORE_GetTick	8	static
+../L001-RadioProtocols/Lib/IBUS.c:54:6:IBUS_Detect	32	static
+../L001-RadioProtocols/Lib/IBUS.c:70:6:IBUS_Init	32	static
+../L001-RadioProtocols/Lib/IBUS.c:78:6:IBUS_Deinit	8	static
+../L001-RadioProtocols/Lib/IBUS.c:83:6:IBUS_Update	40	static
+../L001-RadioProtocols/Lib/IBUS.c:126:12:IBUS_GetDataPtr	8	static
+../L001-RadioProtocols/Lib/IBUS.c:135:10:IBUS_Truncate	24	static
+../L001-RadioProtocols/Lib/IBUS.c:156:6:IBUS_Checksum	24	static
+../L001-RadioProtocols/Lib/IBUS.c:172:6:IBUS_HandleUART	8	static

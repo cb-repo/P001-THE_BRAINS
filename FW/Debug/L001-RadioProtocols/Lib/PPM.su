@@ -1,0 +1,12 @@
+../STM32X/Lib/Core.inl.h:12:24:CORE_GetTick	8	static
+../STM32X/Lib/GPIO.inl.h:11:20:GPIO_EnableInput	24	static
+../STM32X/Lib/GPIO.inl.h:16:20:GPIO_Deinit	16	static
+../STM32X/Lib/TIM.inl.h:10:24:TIM_Read	16	static
+../L001-RadioProtocols/Lib/PPM.c:40:6:PPM_Detect	32	static
+../L001-RadioProtocols/Lib/PPM.c:55:6:PPM_Init	16	static
+../L001-RadioProtocols/Lib/PPM.c:67:6:PPM_Deinit	8	static
+../L001-RadioProtocols/Lib/PPM.c:75:6:PPM_Update	40	static
+../L001-RadioProtocols/Lib/PPM.c:113:11:PPM_GetDataPtr	8	static
+../L001-RadioProtocols/Lib/PPM.c:122:10:PPM_Truncate	24	static
+../L001-RadioProtocols/Lib/PPM.c:143:6:PPM_memset	16	static
+../L001-RadioProtocols/Lib/PPM.c:159:6:PPM_IRQ	16	static

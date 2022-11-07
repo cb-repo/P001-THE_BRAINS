@@ -18,7 +18,7 @@
 #define TEMP_HIGH				100
 #define TEMP_HYST				50
 
-#define INPUT_TIMEOUT 			50
+#define INPUT_TIMEOUT 			100
 
 #define CH_FWD						1
 #define CH_RVS						2
@@ -26,6 +26,13 @@
 /*
  * PUBLIC TYPES
  */
+
+typedef enum {
+	IP1,
+	IP2,
+	IP3,
+	IP4,
+} Index;
 
 typedef struct _SYSTEM_Status {
 	bool faultInput;

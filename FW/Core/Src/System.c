@@ -10,8 +10,9 @@
 #include "ADC.h"
 #include "LED.h"
 #include "EEPROM.h"
-
-#include <string.h>
+#include "UART.h"
+#include "string.h"
+#include "stdio.h"
 
 /*
  * PRIVATE DEFINITIONS
@@ -44,6 +45,15 @@ void SYSTEM_WaitForResetInputs(uint16_t*);
  * PRIVATE VARIABLES
  */
 
+uint16_t R1 = 0;
+uint16_t R2 = 0;
+uint16_t R3 = 0;
+uint16_t R4 = 0;
+int32_t M1 = 0;
+int32_t M2 = 0;
+uint16_t S1 = 0;
+uint16_t S2 = 0;
+
 SYSTEM_Status status;
 SYSTEM_Status status_p;
 SYSTEM_Config config;
@@ -75,25 +85,25 @@ void SYSTEM_Init(void)
 	// INIT STATUS LED
 	LED_Init();
 
-	// READ CONFIGURATION FROM EEPROM
-	EEPROM_Read(EEPROM_OFFSET, &config, sizeof(config));
-
-	// CHECK FOR VALID CONFIG
-	if (config.hashA != configDefault.hashA)
-	{
-		config.hashA = configDefault.hashA;
-		config.mode = configDefault.mode;
-		config.primaryCh = configDefault.primaryCh;
-		config.primaryRev = configDefault.primaryRev;
-		config.secondaryCh = configDefault.secondaryCh;
-		config.secondaryRev = configDefault.secondaryRev;
-		config.servoChA = configDefault.servoChA;
-		config.servoRevA = configDefault.servoRevA;
-		config.servoChB = configDefault.servoChB;
-		config.servoRevB = configDefault.servoRevB;
-		EEPROM_Write(EEPROM_OFFSET, &config, sizeof(config));
-		LED_nPulse(3);
-	}
+//	// READ CONFIGURATION FROM EEPROM
+//	EEPROM_Read(EEPROM_OFFSET, &config, sizeof(config));
+//
+//	// CHECK FOR VALID CONFIG
+//	if (config.hashA != configDefault.hashA)
+//	{
+//		config.hashA = configDefault.hashA;
+//		config.mode = configDefault.mode;
+//		config.primaryCh = configDefault.primaryCh;
+//		config.primaryRev = configDefault.primaryRev;
+//		config.secondaryCh = configDefault.secondaryCh;
+//		config.secondaryRev = configDefault.secondaryRev;
+//		config.servoChA = configDefault.servoChA;
+//		config.servoRevA = configDefault.servoRevA;
+//		config.servoChB = configDefault.servoChB;
+//		config.servoRevB = configDefault.servoRevB;
+//		EEPROM_Write(EEPROM_OFFSET, &config, sizeof(config));
+//		LED_nPulse(3);
+//	}
 }
 
 void SYSTEM_Update(void)
@@ -171,6 +181,59 @@ void SYSTEM_Update(void)
 		LED_RedON();
 		LED_GreenOFF();
 	}
+
+	if (status.faultTemp || status.faultInput)
+			{
+				MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
+				if (!(status_p.faultTemp || status_p.faultInput))
+				{
+					SERVO_Deinit();
+				}
+			}
+			else
+			{
+				// REINITIALISE THE SERVO/WEPON OUTPUT
+				if (status_p.faultTemp || status_p.faultInput)
+				{
+					SERVO_Init();
+				}
+
+				// UPDATE THE MOTORS
+				R1 = input[config.primaryCh];
+				R1 = SYSTEM_RadioTruncate(R1);
+				if (config.primaryRev == CH_RVS) {
+					R1 = SYSTEM_ReverseRadio(R1);
+				}
+				R2 = input[config.secondaryCh];
+				R2 = SYSTEM_RadioTruncate(R2);
+				if (config.secondaryRev == CH_RVS) {
+					R2 = SYSTEM_ReverseRadio(R2);
+				}
+				if (config.mode == ARCADE) {
+					M1 = (R1 - (RADIO_CENTER - R2));
+					M2 = (R1 + (RADIO_CENTER - R2));
+				} else {
+					M1 = R1;
+					M2 = R2;
+				}
+				M1 = SYSTEM_RadioToMotor(M1);
+				M2 = SYSTEM_RadioToMotor(M2);
+				MOTOR_Update(M1, M2);
+
+				// UPDATE THE SERVO/WEPON OUTPUTS
+				R3 = input[config.servoChA];
+				if (config.servoRevA == CH_RVS) {
+					R3 = SYSTEM_ReverseRadio(R3);
+				}
+				S1 = R3;
+				R4 = input[config.servoChB];
+				if (config.servoRevB == CH_RVS) {
+					R4 = SYSTEM_ReverseRadio(R4);
+				}
+				S2 = R4;
+				SERVO_Update(S1, S2);
+			}
+
 }
 
 int32_t SYSTEM_RadioToMotor (uint16_t radio)
@@ -209,306 +272,306 @@ uint32_t SYSTEM_GetBatteryVoltage(void)
 
 void SYSTEM_Calibrate(void)
 {
-	MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
-	SERVO_Deinit();
-
-	// CREATE LOCAL VARIABLE TO ASSIT IN CALIBRATION
-	SYSTEM_Config configInt;
-	configInt.hashA = CONFIG_WRITE_HASHA;
-	bool calibrated;
-	uint16_t inputZero[NUM_TOTALINPUTS];
-
-	// SAMPLE INPUTS FOR ZERO REFERENCE
-	for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
-	{
-		inputZero[i] = input[i];
-	}
-
-	// TURN ON LEDS TO TELL OPERATOR CALIBRATION IS STARTING
-	LED_nPulse(4);
-	CORE_Delay(300);
-	LED_GreenON();
-	LED_RedON();
-
-	// JERK THE MOTORS
-	CORE_Delay(500);
-	MOTOR_Update(MOTOR_MAX, MOTOR_MAX);
-	CORE_Delay(200);
-	MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
-
-	// CHECK FOR OPERATOR INPUT
-	calibrated = false;
-	while (!calibrated)
-	{
-		CORE_Delay(CALIBRATE_RADIO_POLL_PERIOD);
-
-		uint8_t numSticks = 0;
-
-		for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
-		{
-			if (numSticks == 0)
-			{
-				if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_H))
-				{
-					numSticks += 1;
-					configInt.primaryCh = i;
-					configInt.primaryRev = CH_FWD;
-				}
-				else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_H))
-				{
-					numSticks += 1;
-					configInt.primaryCh = i;
-					configInt.primaryRev = CH_RVS;
-				}
-			}
-			else if (numSticks >= 1) {
-				if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_L))
-				{
-					numSticks += 1;
-					configInt.secondaryCh = i;
-					configInt.secondaryRev = CH_FWD;
-				}
-				else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_L))
-				{
-					numSticks += 1;
-					configInt.secondaryCh = i;
-					configInt.secondaryRev = CH_RVS;
-				}
-			}
-		} // for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
-
-		if (numSticks == 1)
-		{
-			configInt.mode = ARCADE;
-			calibrated = true;
-		}
-		else if (numSticks == 2)
-		{
-			configInt.mode = TANK;
-			calibrated = true;
-		}
-	} // while (!calibrated)
-
-	// WAIT FOR INPUTS TO FALL BACK TO ZERO REFERENCE
-	SYSTEM_WaitForResetInputs(inputZero);
-	CORE_Delay(100);
-	LED_RedOFF();
-	LED_GreenOFF();
-
-	// 	DELAY BETWEEN TESTS
-	CORE_Delay(2000);
-
-	// TURN ON LEDS TO TELL OPERATOR CALIBRATION IS STARTING
-	LED_GreenON();
-	LED_RedON();
-
-	// JERK THE MOTORS
-	CORE_Delay(500);
-	MOTOR_Update(-MOTOR_MAX, MOTOR_MAX);
-	CORE_Delay(200);
-	MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
-
-	// CHECK FOR OPERATOR INPUT
-	calibrated = false;
-	SYSTEM_Config configInt2;
-	while (!calibrated)
-	{
-		CORE_Delay(CALIBRATE_RADIO_POLL_PERIOD);
-
-		uint8_t numSticks = 0;
-
-		if (configInt.mode == ARCADE)
-		{
-			for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
-			{
-				if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_H))
-				{
-					numSticks += 1;
-					if ((numSticks == 1) && (configInt.primaryCh != i))
-					{
-						configInt.secondaryCh = i;
-						configInt.secondaryRev = CH_RVS;
-					}
-				} // if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_H))
-				else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_H))
-				{
-					numSticks += 1;
-					if ((numSticks == 1) && (configInt.primaryCh != i))
-					{
-						configInt.secondaryCh = i;
-						configInt.secondaryRev = CH_FWD;
-					}
-				} // else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_H))
-			} // for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
-			if (numSticks == 1)
-			{
-				calibrated = true;
-			} // if (numSticks == 1)
-		} // if (configInt.mode == ARCADE)
-
-		else if (configInt.mode == TANK)
-		{
-			for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
-			{
-				if ((i == configInt.primaryCh) || (i == configInt.secondaryCh))
-				{
-					if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_H))
-					{
-						numSticks += 1;
-						if (numSticks == 1) {
-							configInt2.primaryCh = i;
-							configInt2.primaryRev = CH_FWD;
-						} else if (numSticks == 2) {
-							configInt2.secondaryCh = i;
-							configInt2.secondaryRev = CH_FWD;
-						}
-					} // if ((i == configInt.primaryCh) || (i == configInt.secondaryCh))
-					else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_H))
-					{
-						numSticks += 1;
-						if (numSticks == 1) {
-							configInt2.primaryCh = i;
-							configInt2.primaryRev = CH_RVS;
-						} else if (numSticks == 2) {
-							configInt2.secondaryCh = i;
-							configInt2.secondaryRev = CH_RVS;
-						}
-					} // else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_H))
-				} // if ((i == configInt.primaryCh) || (i == configInt.secondaryCh))
-			} // for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
-			if ((numSticks == 2) && (configInt2.primaryRev != configInt2.secondaryRev) )
-			{
-				calibrated = true;
-				if (configInt.primaryRev == configInt2.primaryRev)
-				{
-					configInt2.primaryCh = configInt.secondaryCh;
-					configInt2.primaryRev = configInt.secondaryRev;
-					configInt.secondaryCh = configInt.primaryCh;
-					configInt.secondaryRev = configInt.primaryRev;
-					configInt.primaryCh = configInt2.primaryCh;
-					configInt.primaryRev = configInt2.primaryRev;
-				}
-			}
-		} // else if (configInt.mode == TANK)
-	} // while (!calibrated)
-
-	// WAIT FOR INPUTS TO FALL BACK TO ZERO REFERENCE
-	SYSTEM_WaitForResetInputs(inputZero);
-	CORE_Delay(100);
-	LED_RedOFF();
-	LED_GreenOFF();
-
-	// 	DELAY BETWEEN TESTS
-	CORE_Delay(2000);
-
-	// TURN ON LEDS TO TELL OPERATOR CALIBRATION IS STARTING
-	LED_GreenON();
-	LED_RedON();
-
-	// CHECK FOR OPERATOR INPUT
-	calibrated = false;
-	while (!calibrated)
-	{
-		CORE_Delay(CALIBRATE_RADIO_POLL_PERIOD);
-
-		uint8_t numSticks = 0;
-
-		for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
-		{
-			if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_H))
-			{
-				numSticks += 1;
-				if (numSticks == 1)
-				{
-					configInt.servoChA = i;
-					configInt.servoRevA = CH_FWD;
-				}
-			}
-			else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_H))
-			{
-				numSticks += 1;
-				if (numSticks == 1)
-				{
-					configInt.servoChA = i;
-					configInt.servoRevA = CH_RVS;
-				}
-			}
-		}
-		if (numSticks == 1)
-		{
-			calibrated = true;
-		}
-	}
-
-	// WAIT FOR INPUTS TO FALL BACK TO ZERO REFERENCE
-	SYSTEM_WaitForResetInputs(inputZero);
-	CORE_Delay(100);
-	LED_RedOFF();
-	LED_GreenOFF();
-
-	// 	DELAY BETWEEN TESTS
-	CORE_Delay(2000);
-
-	// TURN ON LEDS TO TELL OPERATOR CALIBRATION IS STARTING
-	LED_GreenON();
-	LED_RedON();
-
-	// CHECK FOR OPERATOR INPUT
-	calibrated = false;
-	while (!calibrated)
-	{
-		CORE_Delay(CALIBRATE_RADIO_POLL_PERIOD);
-
-		uint8_t numSticks = 0;
-
-		for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
-		{
-			if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_H))
-			{
-				numSticks += 1;
-				if (numSticks == 1)
-				{
-					configInt.servoChB = i;
-					configInt.servoRevB = CH_FWD;
-				}
-			}
-			else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_H))
-			{
-				numSticks += 1;
-				if (numSticks == 1)
-				{
-					configInt.servoChB = i;
-					configInt.servoRevB = CH_RVS;
-				}
-			}
-		}
-		if (numSticks == 1)
-		{
-			calibrated = true;
-		}
-	}
-
-	// WAIT FOR INPUTS TO FALL BACK TO ZERO REFERENCE
-	SYSTEM_WaitForResetInputs(inputZero);
-	CORE_Delay(100);
-	LED_RedOFF();
-	LED_GreenOFF();
-
-	// 	DELAY BETWEEN TESTS
-	CORE_Delay(1000);
-
-	// WRITE NEW CONFIG TO EEPROM
-	memcpy(&config, &configInt, sizeof(configInt));
-	EEPROM_Write(EEPROM_OFFSET, &configInt, sizeof(configInt));
-
-	// PULSE LED TO LET USER KNOW SUCCESSFUL
-	LED_nPulse (5);
-
-	// 	DELAY AT END OF TEST
-	CORE_Delay(1000);
-
-	MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
-	SERVO_Init();
+//	MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
+//	SERVO_Deinit();
+//
+//	// CREATE LOCAL VARIABLE TO ASSIT IN CALIBRATION
+//	SYSTEM_Config configInt;
+//	configInt.hashA = CONFIG_WRITE_HASHA;
+//	bool calibrated;
+//	uint16_t inputZero[NUM_TOTALINPUTS];
+//
+//	// SAMPLE INPUTS FOR ZERO REFERENCE
+//	for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
+//	{
+//		inputZero[i] = input[i];
+//	}
+//
+//	// TURN ON LEDS TO TELL OPERATOR CALIBRATION IS STARTING
+//	LED_nPulse(4);
+//	CORE_Delay(300);
+//	LED_GreenON();
+//	LED_RedON();
+//
+//	// JERK THE MOTORS
+//	CORE_Delay(500);
+//	MOTOR_Update(MOTOR_MAX, MOTOR_MAX);
+//	CORE_Delay(200);
+//	MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
+//
+//	// CHECK FOR OPERATOR INPUT
+//	calibrated = false;
+//	while (!calibrated)
+//	{
+//		CORE_Delay(CALIBRATE_RADIO_POLL_PERIOD);
+//
+//		uint8_t numSticks = 0;
+//
+//		for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
+//		{
+//			if (numSticks == 0)
+//			{
+//				if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_H))
+//				{
+//					numSticks += 1;
+//					configInt.primaryCh = i;
+//					configInt.primaryRev = CH_FWD;
+//				}
+//				else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_H))
+//				{
+//					numSticks += 1;
+//					configInt.primaryCh = i;
+//					configInt.primaryRev = CH_RVS;
+//				}
+//			}
+//			else if (numSticks >= 1) {
+//				if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_L))
+//				{
+//					numSticks += 1;
+//					configInt.secondaryCh = i;
+//					configInt.secondaryRev = CH_FWD;
+//				}
+//				else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_L))
+//				{
+//					numSticks += 1;
+//					configInt.secondaryCh = i;
+//					configInt.secondaryRev = CH_RVS;
+//				}
+//			}
+//		} // for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
+//
+//		if (numSticks == 1)
+//		{
+//			configInt.mode = ARCADE;
+//			calibrated = true;
+//		}
+//		else if (numSticks == 2)
+//		{
+//			configInt.mode = TANK;
+//			calibrated = true;
+//		}
+//	} // while (!calibrated)
+//
+//	// WAIT FOR INPUTS TO FALL BACK TO ZERO REFERENCE
+//	SYSTEM_WaitForResetInputs(inputZero);
+//	CORE_Delay(100);
+//	LED_RedOFF();
+//	LED_GreenOFF();
+//
+//	// 	DELAY BETWEEN TESTS
+//	CORE_Delay(2000);
+//
+//	// TURN ON LEDS TO TELL OPERATOR CALIBRATION IS STARTING
+//	LED_GreenON();
+//	LED_RedON();
+//
+//	// JERK THE MOTORS
+//	CORE_Delay(500);
+//	MOTOR_Update(-MOTOR_MAX, MOTOR_MAX);
+//	CORE_Delay(200);
+//	MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
+//
+//	// CHECK FOR OPERATOR INPUT
+//	calibrated = false;
+//	SYSTEM_Config configInt2;
+//	while (!calibrated)
+//	{
+//		CORE_Delay(CALIBRATE_RADIO_POLL_PERIOD);
+//
+//		uint8_t numSticks = 0;
+//
+//		if (configInt.mode == ARCADE)
+//		{
+//			for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
+//			{
+//				if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_H))
+//				{
+//					numSticks += 1;
+//					if ((numSticks == 1) && (configInt.primaryCh != i))
+//					{
+//						configInt.secondaryCh = i;
+//						configInt.secondaryRev = CH_RVS;
+//					}
+//				} // if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_H))
+//				else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_H))
+//				{
+//					numSticks += 1;
+//					if ((numSticks == 1) && (configInt.primaryCh != i))
+//					{
+//						configInt.secondaryCh = i;
+//						configInt.secondaryRev = CH_FWD;
+//					}
+//				} // else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_H))
+//			} // for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
+//			if (numSticks == 1)
+//			{
+//				calibrated = true;
+//			} // if (numSticks == 1)
+//		} // if (configInt.mode == ARCADE)
+//
+//		else if (configInt.mode == TANK)
+//		{
+//			for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
+//			{
+//				if ((i == configInt.primaryCh) || (i == configInt.secondaryCh))
+//				{
+//					if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_H))
+//					{
+//						numSticks += 1;
+//						if (numSticks == 1) {
+//							configInt2.primaryCh = i;
+//							configInt2.primaryRev = CH_FWD;
+//						} else if (numSticks == 2) {
+//							configInt2.secondaryCh = i;
+//							configInt2.secondaryRev = CH_FWD;
+//						}
+//					} // if ((i == configInt.primaryCh) || (i == configInt.secondaryCh))
+//					else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_H))
+//					{
+//						numSticks += 1;
+//						if (numSticks == 1) {
+//							configInt2.primaryCh = i;
+//							configInt2.primaryRev = CH_RVS;
+//						} else if (numSticks == 2) {
+//							configInt2.secondaryCh = i;
+//							configInt2.secondaryRev = CH_RVS;
+//						}
+//					} // else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_H))
+//				} // if ((i == configInt.primaryCh) || (i == configInt.secondaryCh))
+//			} // for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
+//			if ((numSticks == 2) && (configInt2.primaryRev != configInt2.secondaryRev) )
+//			{
+//				calibrated = true;
+//				if (configInt.primaryRev == configInt2.primaryRev)
+//				{
+//					configInt2.primaryCh = configInt.secondaryCh;
+//					configInt2.primaryRev = configInt.secondaryRev;
+//					configInt.secondaryCh = configInt.primaryCh;
+//					configInt.secondaryRev = configInt.primaryRev;
+//					configInt.primaryCh = configInt2.primaryCh;
+//					configInt.primaryRev = configInt2.primaryRev;
+//				}
+//			}
+//		} // else if (configInt.mode == TANK)
+//	} // while (!calibrated)
+//
+//	// WAIT FOR INPUTS TO FALL BACK TO ZERO REFERENCE
+//	SYSTEM_WaitForResetInputs(inputZero);
+//	CORE_Delay(100);
+//	LED_RedOFF();
+//	LED_GreenOFF();
+//
+//	// 	DELAY BETWEEN TESTS
+//	CORE_Delay(2000);
+//
+//	// TURN ON LEDS TO TELL OPERATOR CALIBRATION IS STARTING
+//	LED_GreenON();
+//	LED_RedON();
+//
+//	// CHECK FOR OPERATOR INPUT
+//	calibrated = false;
+//	while (!calibrated)
+//	{
+//		CORE_Delay(CALIBRATE_RADIO_POLL_PERIOD);
+//
+//		uint8_t numSticks = 0;
+//
+//		for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
+//		{
+//			if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_H))
+//			{
+//				numSticks += 1;
+//				if (numSticks == 1)
+//				{
+//					configInt.servoChA = i;
+//					configInt.servoRevA = CH_FWD;
+//				}
+//			}
+//			else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_H))
+//			{
+//				numSticks += 1;
+//				if (numSticks == 1)
+//				{
+//					configInt.servoChA = i;
+//					configInt.servoRevA = CH_RVS;
+//				}
+//			}
+//		}
+//		if (numSticks == 1)
+//		{
+//			calibrated = true;
+//		}
+//	}
+//
+//	// WAIT FOR INPUTS TO FALL BACK TO ZERO REFERENCE
+//	SYSTEM_WaitForResetInputs(inputZero);
+//	CORE_Delay(100);
+//	LED_RedOFF();
+//	LED_GreenOFF();
+//
+//	// 	DELAY BETWEEN TESTS
+//	CORE_Delay(2000);
+//
+//	// TURN ON LEDS TO TELL OPERATOR CALIBRATION IS STARTING
+//	LED_GreenON();
+//	LED_RedON();
+//
+//	// CHECK FOR OPERATOR INPUT
+//	calibrated = false;
+//	while (!calibrated)
+//	{
+//		CORE_Delay(CALIBRATE_RADIO_POLL_PERIOD);
+//
+//		uint8_t numSticks = 0;
+//
+//		for (uint8_t i = 0; i < NUM_TOTALINPUTS; i++)
+//		{
+//			if (input[i] > (inputZero[i] + CALIBRATE_INPUT_THRESHOLD_H))
+//			{
+//				numSticks += 1;
+//				if (numSticks == 1)
+//				{
+//					configInt.servoChB = i;
+//					configInt.servoRevB = CH_FWD;
+//				}
+//			}
+//			else if (input[i] < (inputZero[i] - CALIBRATE_INPUT_THRESHOLD_H))
+//			{
+//				numSticks += 1;
+//				if (numSticks == 1)
+//				{
+//					configInt.servoChB = i;
+//					configInt.servoRevB = CH_RVS;
+//				}
+//			}
+//		}
+//		if (numSticks == 1)
+//		{
+//			calibrated = true;
+//		}
+//	}
+//
+//	// WAIT FOR INPUTS TO FALL BACK TO ZERO REFERENCE
+//	SYSTEM_WaitForResetInputs(inputZero);
+//	CORE_Delay(100);
+//	LED_RedOFF();
+//	LED_GreenOFF();
+//
+//	// 	DELAY BETWEEN TESTS
+//	CORE_Delay(1000);
+//
+//	// WRITE NEW CONFIG TO EEPROM
+//	memcpy(&config, &configInt, sizeof(configInt));
+//	EEPROM_Write(EEPROM_OFFSET, &configInt, sizeof(configInt));
+//
+//	// PULSE LED TO LET USER KNOW SUCCESSFUL
+//	LED_nPulse (5);
+//
+//	// 	DELAY AT END OF TEST
+//	CORE_Delay(1000);
+//
+//	MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
+//	SERVO_Init();
 }
 
 void SYSTEM_WaitForResetInputs(uint16_t* inputZero)

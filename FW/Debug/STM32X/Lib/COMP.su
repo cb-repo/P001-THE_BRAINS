@@ -1,3 +1,3 @@
-COMP.c:45:6:COMP_Init	16	static
-COMP.c:52:6:COMP_Deinit	16	static
-COMP.c:61:6:COMP_Read	16	static
+../STM32X/Lib/COMP.c:52:6:COMP_Init	16	static
+../STM32X/Lib/COMP.c:59:6:COMP_Deinit	16	static
+../STM32X/Lib/COMP.c:68:6:COMP_Read	16	static
