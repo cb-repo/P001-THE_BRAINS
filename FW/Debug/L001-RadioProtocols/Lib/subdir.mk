@@ -8,18 +8,21 @@ C_SRCS += \
 ../L001-RadioProtocols/Lib/IBUS.c \
 ../L001-RadioProtocols/Lib/PPM.c \
 ../L001-RadioProtocols/Lib/PWM.c \
+../L001-RadioProtocols/Lib/Radio.c \
 ../L001-RadioProtocols/Lib/SBUS.c 
 
 OBJS += \
 ./L001-RadioProtocols/Lib/IBUS.o \
 ./L001-RadioProtocols/Lib/PPM.o \
 ./L001-RadioProtocols/Lib/PWM.o \
+./L001-RadioProtocols/Lib/Radio.o \
 ./L001-RadioProtocols/Lib/SBUS.o 
 
 C_DEPS += \
 ./L001-RadioProtocols/Lib/IBUS.d \
 ./L001-RadioProtocols/Lib/PPM.d \
 ./L001-RadioProtocols/Lib/PWM.d \
+./L001-RadioProtocols/Lib/Radio.d \
 ./L001-RadioProtocols/Lib/SBUS.d 
 
 
@@ -30,7 +33,7 @@ L001-RadioProtocols/Lib/%.o L001-RadioProtocols/Lib/%.su: ../L001-RadioProtocols
 clean: clean-L001-2d-RadioProtocols-2f-Lib
 
 clean-L001-2d-RadioProtocols-2f-Lib:
-	-$(RM) ./L001-RadioProtocols/Lib/IBUS.d ./L001-RadioProtocols/Lib/IBUS.o ./L001-RadioProtocols/Lib/IBUS.su ./L001-RadioProtocols/Lib/PPM.d ./L001-RadioProtocols/Lib/PPM.o ./L001-RadioProtocols/Lib/PPM.su ./L001-RadioProtocols/Lib/PWM.d ./L001-RadioProtocols/Lib/PWM.o ./L001-RadioProtocols/Lib/PWM.su ./L001-RadioProtocols/Lib/SBUS.d ./L001-RadioProtocols/Lib/SBUS.o ./L001-RadioProtocols/Lib/SBUS.su
+	-$(RM) ./L001-RadioProtocols/Lib/IBUS.d ./L001-RadioProtocols/Lib/IBUS.o ./L001-RadioProtocols/Lib/IBUS.su ./L001-RadioProtocols/Lib/PPM.d ./L001-RadioProtocols/Lib/PPM.o ./L001-RadioProtocols/Lib/PPM.su ./L001-RadioProtocols/Lib/PWM.d ./L001-RadioProtocols/Lib/PWM.o ./L001-RadioProtocols/Lib/PWM.su ./L001-RadioProtocols/Lib/Radio.d ./L001-RadioProtocols/Lib/Radio.o ./L001-RadioProtocols/Lib/Radio.su ./L001-RadioProtocols/Lib/SBUS.d ./L001-RadioProtocols/Lib/SBUS.o ./L001-RadioProtocols/Lib/SBUS.su
 
 .PHONY: clean-L001-2d-RadioProtocols-2f-Lib
 

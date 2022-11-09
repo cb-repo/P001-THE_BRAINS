@@ -7,7 +7,6 @@
 C_SRCS += \
 ../Core/Src/LED.c \
 ../Core/Src/Motor.c \
-../Core/Src/Radio.c \
 ../Core/Src/Servo.c \
 ../Core/Src/System.c \
 ../Core/Src/main.c \
@@ -16,7 +15,6 @@ C_SRCS += \
 OBJS += \
 ./Core/Src/LED.o \
 ./Core/Src/Motor.o \
-./Core/Src/Radio.o \
 ./Core/Src/Servo.o \
 ./Core/Src/System.o \
 ./Core/Src/main.o \
@@ -25,7 +23,6 @@ OBJS += \
 C_DEPS += \
 ./Core/Src/LED.d \
 ./Core/Src/Motor.d \
-./Core/Src/Radio.d \
 ./Core/Src/Servo.d \
 ./Core/Src/System.d \
 ./Core/Src/main.d \
@@ -39,7 +36,7 @@ Core/Src/%.o Core/Src/%.su: ../Core/Src/%.c Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/LED.d ./Core/Src/LED.o ./Core/Src/LED.su ./Core/Src/Motor.d ./Core/Src/Motor.o ./Core/Src/Motor.su ./Core/Src/Radio.d ./Core/Src/Radio.o ./Core/Src/Radio.su ./Core/Src/Servo.d ./Core/Src/Servo.o ./Core/Src/Servo.su ./Core/Src/System.d ./Core/Src/System.o ./Core/Src/System.su ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/system_stm32l0xx.d ./Core/Src/system_stm32l0xx.o ./Core/Src/system_stm32l0xx.su
+	-$(RM) ./Core/Src/LED.d ./Core/Src/LED.o ./Core/Src/LED.su ./Core/Src/Motor.d ./Core/Src/Motor.o ./Core/Src/Motor.su ./Core/Src/Servo.d ./Core/Src/Servo.o ./Core/Src/Servo.su ./Core/Src/System.d ./Core/Src/System.o ./Core/Src/System.su ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/system_stm32l0xx.d ./Core/Src/system_stm32l0xx.o ./Core/Src/system_stm32l0xx.su
 
 .PHONY: clean-Core-2f-Src
 

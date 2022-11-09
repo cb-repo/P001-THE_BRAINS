@@ -41,11 +41,13 @@ Core/Src/main.o: ../Core/Src/main.c ../STM32X/Lib/Core.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h \
  ../STM32X/Lib/Core.inl.h ../Core/Inc/System.h ../STM32X/Lib/STM32X.h \
- ../Core/Inc/Motor.h ../Core/Inc/Radio.h ../L001-RadioProtocols/Lib/PWM.h \
- ../STM32X/Lib/GPIO.h ../STM32X/Lib/GPIO.inl.h ../STM32X/Lib/TIM.h \
- ../STM32X/Lib/GPIO.h ../STM32X/Lib/TIM.inl.h \
+ ../STM32X/Lib/GPIO.h ../STM32X/Lib/GPIO.inl.h ../STM32X/Lib/ADC.h \
+ ../STM32X/Lib/EEPROM.h ../STM32X/Lib/UART.h \
+ ../L001-RadioProtocols/Lib/Radio.h ../L001-RadioProtocols/Lib/PWM.h \
+ ../STM32X/Lib/TIM.h ../STM32X/Lib/GPIO.h ../STM32X/Lib/TIM.inl.h \
  ../L001-RadioProtocols/Lib/PPM.h ../L001-RadioProtocols/Lib/SBUS.h \
- ../STM32X/Lib/UART.h ../L001-RadioProtocols/Lib/IBUS.h \
+ ../L001-RadioProtocols/Lib/IBUS.h ../Core/Inc/Servo.h \
+ ../Core/Inc/Motor.h ../Core/Inc/LED.h ../Core/Inc/Motor.h \
  ../Core/Inc/Servo.h
 ../STM32X/Lib/Core.h:
 ../STM32X/Lib/STM32X.h:
@@ -93,16 +95,21 @@ Core/Src/main.o: ../Core/Src/main.c ../STM32X/Lib/Core.h \
 ../STM32X/Lib/Core.inl.h:
 ../Core/Inc/System.h:
 ../STM32X/Lib/STM32X.h:
-../Core/Inc/Motor.h:
-../Core/Inc/Radio.h:
-../L001-RadioProtocols/Lib/PWM.h:
 ../STM32X/Lib/GPIO.h:
 ../STM32X/Lib/GPIO.inl.h:
+../STM32X/Lib/ADC.h:
+../STM32X/Lib/EEPROM.h:
+../STM32X/Lib/UART.h:
+../L001-RadioProtocols/Lib/Radio.h:
+../L001-RadioProtocols/Lib/PWM.h:
 ../STM32X/Lib/TIM.h:
 ../STM32X/Lib/GPIO.h:
 ../STM32X/Lib/TIM.inl.h:
 ../L001-RadioProtocols/Lib/PPM.h:
 ../L001-RadioProtocols/Lib/SBUS.h:
-../STM32X/Lib/UART.h:
 ../L001-RadioProtocols/Lib/IBUS.h:
+../Core/Inc/Servo.h:
+../Core/Inc/Motor.h:
+../Core/Inc/LED.h:
+../Core/Inc/Motor.h:
 ../Core/Inc/Servo.h:

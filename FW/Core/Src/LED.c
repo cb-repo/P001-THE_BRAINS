@@ -34,6 +34,16 @@ void LED_Init (void)
 	GPIO_EnableOutput(LED_FAULT_GPIO, LED_FAULT_PIN, false);
 }
 
+bool LED_GreenState (void)
+{
+	return GPIO_Read(LED_STATUS_GPIO, LED_STATUS_PIN);
+}
+
+bool LED_RedState (void)
+{
+	return GPIO_Read(LED_FAULT_GPIO, LED_FAULT_PIN);
+}
+
 void LED_GreenON (void)
 {
 	GPIO_Write(LED_STATUS_GPIO, LED_STATUS_PIN, true);
@@ -54,15 +64,24 @@ void LED_RedOFF (void)
 	GPIO_Write(LED_FAULT_GPIO, LED_FAULT_PIN, false);
 }
 
-bool LED_GreenState (void)
+void LED_GreenToggle (void)
 {
-	return GPIO_Read(LED_STATUS_GPIO, LED_STATUS_PIN);
+	if (LED_GreenState()) {
+		LED_GreenOFF();
+	} else {
+		LED_GreenON();
+	}
 }
 
-bool LED_RedState (void)
+void LED_RedToggle (void)
 {
-	return GPIO_Read(LED_FAULT_GPIO, LED_FAULT_PIN);
+	if (LED_RedState()) {
+		LED_RedOFF();
+	} else {
+		LED_RedON();
+	}
 }
+
 
 void LED_Pulse (void)
 {

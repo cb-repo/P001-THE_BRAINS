@@ -1,6 +1,6 @@
-Core/Src/Radio.o: ../Core/Src/Radio.c ../Core/Inc/Radio.h \
- ../STM32X/Lib/STM32X.h ../Core/Inc/Board.h \
- ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h \
+L001-RadioProtocols/Lib/Radio.o: ../L001-RadioProtocols/Lib/Radio.c \
+ ../L001-RadioProtocols/Lib/Radio.h ../STM32X/Lib/STM32X.h \
+ ../Core/Inc/Board.h ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h \
  ../Core/Inc/stm32l0xx_hal_conf.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_rcc.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_def.h \
@@ -46,7 +46,7 @@ Core/Src/Radio.o: ../Core/Src/Radio.c ../Core/Inc/Radio.h \
  ../STM32X/Lib/TIM.inl.h ../L001-RadioProtocols/Lib/PPM.h \
  ../L001-RadioProtocols/Lib/SBUS.h ../STM32X/Lib/UART.h \
  ../L001-RadioProtocols/Lib/IBUS.h
-../Core/Inc/Radio.h:
+../L001-RadioProtocols/Lib/Radio.h:
 ../STM32X/Lib/STM32X.h:
 ../Core/Inc/Board.h:
 ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h:
