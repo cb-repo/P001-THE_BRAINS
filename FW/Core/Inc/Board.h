@@ -108,7 +108,7 @@
 // 		Battery Detect - Pin17 (PA7)
 #define BATTERY_GPIO		GPIOA
 #define	BATTERY_PIN			GPIO_PIN_7
-#define BATTERY_CHANNEL		ADC_CHANNEL_7
+#define BATTERY_CHANNEL		ADC_Channel_7
 #define BATTERY_DET_RLOW	18
 #define BATTERY_DET_RHIGH	100
 // 		Status/Green LED - Pin19 (PB1)
