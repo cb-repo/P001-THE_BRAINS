@@ -95,7 +95,7 @@ void SYSTEM_Update (void)
 	SYSTEM_HandleLEDs();
 
 	// Handle System Calibration
-	SYSTEM_UpdateCalibration();
+	SYSTEM_HandleCalibration();
 
 	//
 	SYSTEM_HandleOutputs();
@@ -107,10 +107,8 @@ void SYSTEM_Update (void)
 
 void SYSTEM_HandleFaultStatus (void)
 {
-	// Initialize Loop Variables
 	uint32_t SystemVolt = SYSTEM_GetBatteryVoltage();
 	int32_t SystemTemp = ADC_ReadDieTemp();
-	RADIO_Data* ptrDataRadio = RADIO_GetDataPtr();
 
 	//
 	if (!fault.inputVoltage) {
@@ -123,10 +121,11 @@ void SYSTEM_HandleFaultStatus (void)
 	if (!fault.overTemperature) {
 		if (SystemTemp >= TEMP_HIGH) { fault.overTemperature = true; }
 	} else {
-		if (SystemTemp < (TEMP_HIGH + TEMP_HYST)) { fault.overTemperature = false; }
+		if (SystemTemp <= (TEMP_HIGH - TEMP_HYST)) { fault.overTemperature = false; }
 	}
 
 	//
+	RADIO_Data* ptrDataRadio = RADIO_GetDataPtr();
 	if (ptrDataRadio->inputLost) {
 		fault.signalLost = true;
 	} else {
@@ -146,7 +145,7 @@ void SYSTEM_HandleCalibration (void)
 		if (now > CALIBRATE_TIMEOUT) {
 			calibrateWindow = false;
 		} else if (now < CALIBRATE_TIMEOUT && !GPIO_Read(CALIBRATE_GPIO, CALIBRATE_PIN)) {
-			SYSTEM_HandleCalibration();
+			SYSTEM_UpdateCalibration();
 			calibrateWindow = false;
 		}
 	}
@@ -197,19 +196,19 @@ void SYSTEM_HandleOutputs (void)
 	if (f && !f_p)
 	{
 		MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
-		SERVO_Deinit();
+//		SERVO_Deinit();
 	}
 
 	// FAULT CONDITION - FALLING EDGE
 	if (!f && f_p )
 	{
-		SERVO_Init();
+//		SERVO_Init();
 	}
 
 	// NO FAULT
 	if (!f)
 	{
-		SYSTEM_UpdateServo();
+//		SYSTEM_UpdateServo();
 		SYSTEM_UpdateMotors();
 	}
 
@@ -257,47 +256,28 @@ void SYSTEM_UpdateMotors (void)
 
 void SYSTEM_VerifyConfig (void)
 {
-	if ((config.hashA != CONFIG_HASH_A) || (config.hashB != CONFIG_HASH_A))
+	if ((config.hashA != CONFIG_HASH_A) || (config.hashB != CONFIG_HASH_B))
 	{
 		config.hashA = 				CONFIG_HASH_A;
-
 		config.mode = 				TANK;
 		config.chDriveA = 			IP1;
 		config.chDriveB = 			IP2;
 		config.chServoA = 			IP3;
 		config.chServoB = 			IP4;
 		memset(config.chRevMask, 0, sizeof(config.chRevMask));
-
-		config.radio.GPIO_PWM[IP1] = PWM_S1_GPIO;
-		config.radio.GPIO_PWM[IP2] = PWM_S2_GPIO;
-		config.radio.GPIO_PWM[IP3] = PWM_S3_GPIO;
-		config.radio.GPIO_PWM[IP4] = PWM_S4_GPIO;
-		config.radio.Pin_PWM[IP1] =	PWM_S1_PIN;
-		config.radio.Pin_PWM[IP2] =	PWM_S2_PIN;
-		config.radio.Pin_PWM[IP3] =	PWM_S3_PIN;
-		config.radio.Pin_PWM[IP4] =	PWM_S4_PIN;
-		config.radio.UART = 		RADIO_UART;
 		config.radio.Baud_SBUS = 	SBUS_BAUD;
-		config.radio.GPIO_UART = 	RADIO_UART_GPIO;
-		config.radio.Pin_UART = 	RADIO_UART_PIN;
-		config.radio.Timer = 		TIM_RADIO;
-		config.radio.TimerFreq = 	TIM_RADIO_FREQ;
-		config.radio.TimerReload =	TIM_RADIO_RELOAD;
 		config.radio.Protocol =		PWM;
-		config.radio.ptrDataRadio = RADIO_GetDataPtr();
-
-		config.hashB = 			CONFIG_HASH_B;
+		config.hashB = 				CONFIG_HASH_B;
 
 		EEPROM_Write(EEPROM_OFFSET, &config, sizeof(config));
-		LED_nPulse(3);
+		LED_nPulse(2);
 	}
 }
 
 uint32_t SYSTEM_GetBatteryVoltage (void)
 {
 	uint32_t ain = ADC_Read(BATTERY_CHANNEL);
-	uint32_t mv = AIN_AinToMv(ain);
-	return AIN_AinToDivider(mv, BATTERY_DET_RLOW, BATTERY_DET_RHIGH);
+	return AIN_AinToDivider(ain, BATTERY_DET_RLOW, BATTERY_DET_RHIGH);
 }
 
 int32_t SYSTEM_RadioToMotor (uint16_t radio)
@@ -448,13 +428,13 @@ void SYSTEM_CalibrateMotorSameDirection (SYSTEM_Config* c)
 				{
 					c->chDriveA = i;
 					c->chRevMask[i] = false;
-					numSticks += 1;
+					numSticks = 1;
 				}
 				else if (ptrDataRadio->ch[i] < (channelZero[i] - CALIBRATE_INPUT_THRESHOLD))
 				{
 					c->chDriveA = i;
 					c->chRevMask[i] = true;
-					numSticks += 1;
+					numSticks = 1;
 				}
 			}
 			// Detect Drive Channel B
@@ -462,15 +442,20 @@ void SYSTEM_CalibrateMotorSameDirection (SYSTEM_Config* c)
 			{
 				if (ptrDataRadio->ch[i] > (channelZero[i] + CALIBRATE_INPUT_THRESHOLD))
 				{
-					c->chDriveB = i;
-					c->chRevMask[i] = false;
-					numSticks += 1;
+					if (i != c->chDriveA) {
+						c->chDriveB = i;
+						c->chRevMask[i] = false;
+						numSticks += 1;
+					}
+
 				}
 				else if (ptrDataRadio->ch[i] < (channelZero[i] - CALIBRATE_INPUT_THRESHOLD))
 				{
-					c->chDriveB = i;
-					c->chRevMask[i] = true;
-					numSticks += 1;
+					if (i != c->chDriveA) {
+						c->chDriveB = i;
+						c->chRevMask[i] = true;
+						numSticks += 1;
+					}
 				}
 			}
 		}

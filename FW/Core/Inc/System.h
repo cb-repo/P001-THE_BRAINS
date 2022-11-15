@@ -20,8 +20,8 @@
  */
 
 #define EEPROM_OFFSET				0
-#define CONFIG_HASH_A				0x7ee12336
-#define CONFIG_HASH_B				0x8771b50d
+#define CONFIG_HASH_A				0x7ae12336
+#define CONFIG_HASH_B				0x8771c50d
 
 #define LED_FAULTFLASH	500
 
@@ -30,7 +30,7 @@
 #define BATT_HYST		100
 
 #define TEMP_HIGH		100
-#define TEMP_HYST		50
+#define TEMP_HYST		10
 
 /*
  * PUBLIC TYPES

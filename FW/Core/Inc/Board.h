@@ -24,6 +24,12 @@
 #define TIM_RADIO 			TIM_6
 #define TIM_RADIO_RELOAD 	0xffff
 #define TIM_RADIO_FREQ		1000000
+#define PWM_TIM				TIM_RADIO
+#define PWM_TIM_FREQ		TIM_RADIO_FREQ
+#define PWM_TIM_RELOAD		TIM_RADIO_RELOAD
+#define PPM_TIM				TIM_RADIO
+#define PPM_TIM_FREQ		TIM_RADIO_RELOAD
+#define PPM_TIM_RELOAD		TIM_RADIO_FREQ
 // 		Servo1 O/P
 #define TIM21_ENABLE
 #define TIM_SERVO1 			TIM_21
@@ -39,6 +45,8 @@
 // UART CONFIG
 //		LPUART1_Tx - Pin21 (PB10) -- Not Using Tx Function
 //		LPUART1_Rx - Pin22 (PB11)
+#define SBUS_UART			UART_LP
+#define IBUS_UART			UART_LP
 #define RADIO_UART			UART_LP
 #define RADIO_UART_GPIO		UARTLP_GPIO
 #define RADIO_UART_PIN		UARTLP_PINS
@@ -70,6 +78,9 @@
 // 		RadioS4 - Pin15 (PA5)
 #define PWM_S4_GPIO		GPIOA
 #define PWM_S4_PIN		GPIO_PIN_5
+
+#define PPM_GPIO		PWM_S1_GPIO
+#define PPM_PIN			PWM_S1_PIN
 
 
 // DC-MOTOR CONFIG

@@ -32,12 +32,13 @@ int main (void)
 	CORE_Init();
 	SYSTEM_Init();
 	MOTOR_Init();
-	SERVO_Init();
 
 	CORE_Delay(100); // Have time to check for a valid radio before proceeding
 	while (1)
 	{
 		SYSTEM_Update();
+
+//		US_Delay(1000);
 		CORE_Idle();
 	}
 }
