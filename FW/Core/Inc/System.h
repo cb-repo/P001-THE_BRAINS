@@ -21,7 +21,7 @@
 
 #define EEPROM_OFFSET				0
 #define CONFIG_HASH_A				0x7be13336
-#define CONFIG_HASH_B				0x8761d50e
+#define CONFIG_HASH_B				0x8761d60e
 
 #define LED_FAULTFLASH	500
 

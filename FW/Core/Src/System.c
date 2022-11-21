@@ -286,7 +286,7 @@ void SYSTEM_VerifyConfig (void)
 		config.chServoB = 			IP4;
 		config.chServoBrev = 		false;
 		config.radio.Baud_SBUS = 	SBUS_BAUD;
-		config.radio.Protocol =		PPM;
+		config.radio.Protocol =		PWM;
 		config.hashB = 				CONFIG_HASH_B;
 
 		EEPROM_Write(EEPROM_OFFSET, &config, sizeof(config));

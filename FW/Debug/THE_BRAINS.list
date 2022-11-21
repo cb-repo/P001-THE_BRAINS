@@ -2746,9 +2746,9 @@ void SYSTEM_VerifyConfig (void)
  8001244:	4b0a      	ldr	r3, [pc, #40]	; (8001270 <SYSTEM_VerifyConfig+0x80>)
  8001246:	4a0d      	ldr	r2, [pc, #52]	; (800127c <SYSTEM_VerifyConfig+0x8c>)
  8001248:	611a      	str	r2, [r3, #16]
-		config.radio.Protocol =		PPM;
+		config.radio.Protocol =		PWM;
  800124a:	4b09      	ldr	r3, [pc, #36]	; (8001270 <SYSTEM_VerifyConfig+0x80>)
- 800124c:	2200      	movs	r2, #0
+ 800124c:	2203      	movs	r2, #3
  800124e:	751a      	strb	r2, [r3, #20]
 		config.hashB = 				CONFIG_HASH_B;
  8001250:	4b07      	ldr	r3, [pc, #28]	; (8001270 <SYSTEM_VerifyConfig+0x80>)
@@ -2772,7 +2772,7 @@ void SYSTEM_VerifyConfig (void)
  800126e:	46c0      	nop			; (mov r8, r8)
  8001270:	200002b4 	.word	0x200002b4
  8001274:	7be13336 	.word	0x7be13336
- 8001278:	8761d50e 	.word	0x8761d50e
+ 8001278:	8761d60e 	.word	0x8761d60e
  800127c:	000186a0 	.word	0x000186a0
 
 08001280 <SYSTEM_GetBatteryVoltage>:
@@ -3118,7 +3118,7 @@ void SYSTEM_UpdateCalibration (void)
  800148e:	46c0      	nop			; (mov r8, r8)
  8001490:	200002b4 	.word	0x200002b4
  8001494:	7be13336 	.word	0x7be13336
- 8001498:	8761d50e 	.word	0x8761d50e
+ 8001498:	8761d60e 	.word	0x8761d60e
 
 0800149c <SYSTEM_CalibrateSampleChannelZero>:
 
