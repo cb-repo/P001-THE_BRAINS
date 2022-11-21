@@ -115,18 +115,28 @@ void MOTOR_M1_Update (int32_t throttle)
 		throttle = MOTOR_MAX;
 	}
 
-	if (throttle <= MOTOR_OFF + MOTOR_STALL) {
+	if ( throttle <= ( MOTOR_OFF + MOTOR_STALL ) ) {
 		if (MOTOR_BRAKE) {
 			MOTOR_M1_Brake();
 		} else {
 			MOTOR_M1_Coast();
 		}
-	} else if (reverse) {
-		TIM_SetPulse(TIM_MOTOR, MOTOR_LPWM1_CH, 0);
-		TIM_SetPulse(TIM_MOTOR, MOTOR_LPWM2_CH, throttle);
-	} else {
-		TIM_SetPulse(TIM_MOTOR, MOTOR_LPWM1_CH, throttle);
-		TIM_SetPulse(TIM_MOTOR, MOTOR_LPWM2_CH, 0);
+	}
+	else
+	{
+		if ( throttle >= (MOTOR_MAX - MOTOR_MAX_THRESH ) ) {
+			throttle = MOTOR_MAX;
+		} else {
+			throttle += throttle * (MOTOR_MAX - throttle) / MOTOR_MAX;
+		}
+
+		if (reverse) {
+			TIM_SetPulse(TIM_MOTOR, MOTOR_LPWM1_CH, 0);
+			TIM_SetPulse(TIM_MOTOR, MOTOR_LPWM2_CH, throttle);
+		} else {
+			TIM_SetPulse(TIM_MOTOR, MOTOR_LPWM1_CH, throttle);
+			TIM_SetPulse(TIM_MOTOR, MOTOR_LPWM2_CH, 0);
+		}
 	}
 }
 

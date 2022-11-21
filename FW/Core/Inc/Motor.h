@@ -11,10 +11,11 @@
 
 #define MOTOR_FREQ			(20*1000) 	// 20kHz
 #define MOTOR_RES			255
-#define MOTOR_STALL			50
+#define MOTOR_STALL			10
 #define MOTOR_OFF			0
 #define MOTOR_MIN			1
 #define MOTOR_MAX			256
+#define MOTOR_MAX_THRESH	10
 
 /*
  * PUBLIC TYPES

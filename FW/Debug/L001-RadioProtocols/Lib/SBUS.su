@@ -1,9 +1,8 @@
 ../STM32X/Lib/Core.inl.h:12:24:CORE_GetTick	8	static
-../L001-RadioProtocols/Lib/SBUS.c:58:6:SBUS_Detect	24	static
-../L001-RadioProtocols/Lib/SBUS.c:74:6:SBUS_Init	16	static
-../L001-RadioProtocols/Lib/SBUS.c:81:6:SBUS_Deinit	8	static
-../L001-RadioProtocols/Lib/SBUS.c:86:6:SBUS_Update	16	static
-../L001-RadioProtocols/Lib/SBUS.c:119:12:SBUS_GetDataPtr	8	static
-../L001-RadioProtocols/Lib/SBUS.c:128:10:SBUS_Truncate	24	static
-../L001-RadioProtocols/Lib/SBUS.c:149:6:SBUS_JitterAverage	64	static
-../L001-RadioProtocols/Lib/SBUS.c:309:6:SBUS_HandleUART	8	static
+../L001-RadioProtocols/Lib/SBUS.c:55:6:SBUS_Detect	24	static
+../L001-RadioProtocols/Lib/SBUS.c:76:6:SBUS_Init	16	static
+../L001-RadioProtocols/Lib/SBUS.c:84:6:SBUS_Deinit	8	static
+../L001-RadioProtocols/Lib/SBUS.c:89:6:SBUS_Update	16	static
+../L001-RadioProtocols/Lib/SBUS.c:141:12:SBUS_GetDataPtr	8	static
+../L001-RadioProtocols/Lib/SBUS.c:150:10:SBUS_Transform	24	static
+../L001-RadioProtocols/Lib/SBUS.c:180:6:SBUS_HandleUART	16	static

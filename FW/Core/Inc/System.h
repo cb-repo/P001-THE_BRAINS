@@ -20,8 +20,8 @@
  */
 
 #define EEPROM_OFFSET				0
-#define CONFIG_HASH_A				0x7ae12336
-#define CONFIG_HASH_B				0x8771c50d
+#define CONFIG_HASH_A				0x7be13336
+#define CONFIG_HASH_B				0x8761d50e
 
 #define LED_FAULTFLASH	500
 
@@ -62,7 +62,10 @@ typedef struct _SYSTEM_Config {
 	uint8_t chDriveB;
 	uint8_t chServoA;
 	uint8_t chServoB;
-	int8_t chRevMask[RADIO_NUM_CHANNELS];
+	bool chDriveArev;
+	bool chDriveBrev;
+	bool chServoArev;
+	bool chServoBrev;
 	RADIO_Properties radio;
 	uint32_t hashB;
 } SYSTEM_Config;

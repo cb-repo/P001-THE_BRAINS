@@ -48,7 +48,7 @@ Core/Src/main.o: ../Core/Src/main.c ../STM32X/Lib/Core.h \
  ../L001-RadioProtocols/Lib/PPM.h ../L001-RadioProtocols/Lib/SBUS.h \
  ../L001-RadioProtocols/Lib/IBUS.h ../Core/Inc/Servo.h \
  ../Core/Inc/Motor.h ../Core/Inc/LED.h ../Core/Inc/Motor.h \
- ../Core/Inc/Servo.h
+ ../Core/Inc/Servo.h ../STM32X/Lib/US.h
 ../STM32X/Lib/Core.h:
 ../STM32X/Lib/STM32X.h:
 ../Core/Inc/Board.h:
@@ -113,3 +113,4 @@ Core/Src/main.o: ../Core/Src/main.c ../STM32X/Lib/Core.h \
 ../Core/Inc/LED.h:
 ../Core/Inc/Motor.h:
 ../Core/Inc/Servo.h:
+../STM32X/Lib/US.h:

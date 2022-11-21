@@ -53,7 +53,7 @@
 #define UARTLP_GPIO			GPIOB
 #define UARTLP_PINS			GPIO_PIN_11 // (GPIO_PIN_10 | GPIO_PIN_11)
 #define UARTLP_AF		    GPIO_AF4_LPUART1
-#define UART_BFR_SIZE     	128
+#define UART_BFR_SIZE     	256
 
 
 // IRQ CONFIG

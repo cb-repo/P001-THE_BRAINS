@@ -6,4 +6,4 @@
 ../Core/Src/Motor.c:89:6:MOTOR_M1_Coast	8	static
 ../Core/Src/Motor.c:96:6:MOTOR_M2_Coast	8	static
 ../Core/Src/Motor.c:103:6:MOTOR_M1_Update	24	static
-../Core/Src/Motor.c:133:6:MOTOR_M2_Update	24	static
+../Core/Src/Motor.c:143:6:MOTOR_M2_Update	24	static

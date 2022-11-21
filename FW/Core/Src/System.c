@@ -15,6 +15,8 @@
 #define CALIBRATE_ZERO_THRESHOLD	50
 #define CALIBRATE_INPUT_THRESHOLD	200
 
+#define FAULT_VOLTAGE_TRIP			100
+
 /*
  * PRIVATE TYPES
  */
@@ -31,9 +33,9 @@ void SYSTEM_UpdateServo(void);
 void SYSTEM_UpdateMotors(void);
 void SYSTEM_VerifyConfig(void);
 
-uint32_t SYSTEM_GetBatteryVoltage(void);
-int32_t SYSTEM_RadioToMotor (uint16_t);
-void SYSTEM_ReverseRadio(uint16_t*);
+uint32_t SYSTEM_GetBatteryVoltage (void);
+int32_t	SYSTEM_RadioToMotor (uint16_t);
+uint16_t SYSTEM_ReverseRadio (uint16_t);
 
 void SYSTEM_UpdateCalibration(void);
 void SYSTEM_CalibrateSampleChannelZero (void);
@@ -42,6 +44,7 @@ void SYSTEM_CalibrateMotorOppositeDirection (SYSTEM_Config*);
 void SYSTEM_CalibrateServoA (SYSTEM_Config*);
 void SYSTEM_CalibrateServoB (SYSTEM_Config*);
 void SYSTEM_WaitForResetInputs (void);
+void SYSTEM_WaitForInput (void);
 
 
 /*
@@ -107,14 +110,24 @@ void SYSTEM_Update (void)
 
 void SYSTEM_HandleFaultStatus (void)
 {
+	static bool faultVoltage = false;
+	static uint32_t tickVolt = 0;
 	uint32_t SystemVolt = SYSTEM_GetBatteryVoltage();
 	int32_t SystemTemp = ADC_ReadDieTemp();
 
 	//
-	if (!fault.inputVoltage) {
-		if (SystemVolt <= fault.faultVoltage) { fault.inputVoltage = true; }
+	if (!faultVoltage) {
+		if (SystemVolt <= fault.faultVoltage) {
+			faultVoltage = true;
+			tickVolt = CORE_GetTick();
+		}
 	} else {
-		if (SystemVolt >= (fault.faultVoltage + BATT_HYST)) { fault.inputVoltage = false; }
+		if (SystemVolt >= (fault.faultVoltage + BATT_HYST)) {
+			faultVoltage = false;
+			fault.inputVoltage = false;
+		} else if (FAULT_VOLTAGE_TRIP <= (CORE_GetTick() - tickVolt)) {
+			fault.inputVoltage = true;
+		}
 	}
 
 	//
@@ -141,7 +154,7 @@ void SYSTEM_HandleCalibration (void)
 	static bool calibrateWindow = true;
 
 	//
-	if (calibrateWindow && !fault.signalLost) {
+	if (calibrateWindow) {
 		if (now > CALIBRATE_TIMEOUT) {
 			calibrateWindow = false;
 		} else if (now < CALIBRATE_TIMEOUT && !GPIO_Read(CALIBRATE_GPIO, CALIBRATE_PIN)) {
@@ -187,33 +200,31 @@ void SYSTEM_HandleLEDs (void)
 void SYSTEM_HandleOutputs (void)
 {
 	// Initialize Loop Variables
-	static SYSTEM_FaultStatus fault_p;
-
 	bool f = (fault.overTemperature || fault.inputVoltage || fault.signalLost);
-	bool f_p = (fault_p.overTemperature || fault_p.inputVoltage || fault_p.signalLost);
+	static bool f_p = true; // Init servo on first loop
 
 	// FAULT CONDITION - RISING EDGE
 	if (f && !f_p)
 	{
 		MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
-//		SERVO_Deinit();
+		SERVO_Deinit();
 	}
 
 	// FAULT CONDITION - FALLING EDGE
 	if (!f && f_p )
 	{
-//		SERVO_Init();
+		SERVO_Init();
 	}
 
 	// NO FAULT
 	if (!f)
 	{
-//		SYSTEM_UpdateServo();
+		SYSTEM_UpdateServo();
 		SYSTEM_UpdateMotors();
 	}
 
-	fault_p = fault;
-//	memcpy(&fault_p, fault, sizeof(fault_p));
+	//
+	f_p = f;
 }
 
 void SYSTEM_UpdateServo (void)
@@ -224,8 +235,8 @@ void SYSTEM_UpdateServo (void)
 	uint16_t servoB = ptrDataRadio->ch[config.chServoB];
 
 	// Check for channel reverse
-	if (config.chRevMask[config.chServoA]) { SYSTEM_ReverseRadio(&servoA); }
-	if (config.chRevMask[config.chServoB]) { SYSTEM_ReverseRadio(&servoB); }
+	if (config.chServoArev) { servoA = SYSTEM_ReverseRadio(servoA); }
+	if (config.chServoBrev) { servoB = SYSTEM_ReverseRadio(servoB); }
 
 	// Update Servos
 	SERVO_Update(servoA, servoB);
@@ -238,20 +249,26 @@ void SYSTEM_UpdateMotors (void)
 	uint16_t driveA = ptrDataRadio->ch[config.chDriveA];
 	uint16_t driveB = ptrDataRadio->ch[config.chDriveB];
 
-	// Check for channel reverse
-	if (config.chRevMask[config.chDriveA]) { SYSTEM_ReverseRadio(&driveA); }
-	if (config.chRevMask[config.chDriveB]) { SYSTEM_ReverseRadio(&driveB); }
-
-	// Mix channels for Arcade drive mode
-	if (config.mode == ARCADE)
+	if (driveA && driveB)
 	{
-		uint16_t a = SYSTEM_RadioToMotor(driveA - (RADIO_CENTER - driveB));
-		uint16_t b = SYSTEM_RadioToMotor(driveA + (RADIO_CENTER - driveB));
-		driveA = a;
-		driveB = b;
-	}
+		// Check for channel reverse
+		if (config.chDriveArev) { driveA = SYSTEM_ReverseRadio(driveA); }
+		if (config.chDriveBrev) { driveB = SYSTEM_ReverseRadio(driveB); }
 
-	MOTOR_Update( SYSTEM_RadioToMotor(driveA), SYSTEM_RadioToMotor(driveB) );
+		// Mix channels for Arcade drive mode
+		if (config.mode == ARCADE)
+		{
+			int32_t dA = driveA - (RADIO_CENTER - driveB);
+			int32_t dB = driveA + (RADIO_CENTER - driveB);
+			driveA = (uint16_t)dA;
+			driveB = (uint16_t)dB;
+		}
+		MOTOR_Update( SYSTEM_RadioToMotor(driveA), SYSTEM_RadioToMotor(driveB) );
+	}
+	else
+	{
+		MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
+	}
 }
 
 void SYSTEM_VerifyConfig (void)
@@ -261,16 +278,19 @@ void SYSTEM_VerifyConfig (void)
 		config.hashA = 				CONFIG_HASH_A;
 		config.mode = 				TANK;
 		config.chDriveA = 			IP1;
+		config.chDriveArev = 		false;
 		config.chDriveB = 			IP2;
+		config.chDriveBrev = 		false;
 		config.chServoA = 			IP3;
+		config.chServoArev =		false;
 		config.chServoB = 			IP4;
-		memset(config.chRevMask, 0, sizeof(config.chRevMask));
+		config.chServoBrev = 		false;
 		config.radio.Baud_SBUS = 	SBUS_BAUD;
-		config.radio.Protocol =		PWM;
+		config.radio.Protocol =		PPM;
 		config.hashB = 				CONFIG_HASH_B;
 
 		EEPROM_Write(EEPROM_OFFSET, &config, sizeof(config));
-		LED_nPulse(2);
+		LED_nPulse(5);
 	}
 }
 
@@ -282,22 +302,18 @@ uint32_t SYSTEM_GetBatteryVoltage (void)
 
 int32_t SYSTEM_RadioToMotor (uint16_t radio)
 {
-	if (radio > RADIO_MAX)
-	{
+	if (radio > RADIO_MAX) {
 		radio = RADIO_MAX;
-	}
-	else if (radio < RADIO_MIN)
-	{
+	} else if (radio < RADIO_MIN) {
 		radio = RADIO_MIN;
 	}
 
 	return (((int32_t)radio - RADIO_CENTER) * MOTOR_MAX) / RADIO_HALFSCALE;
 }
 
-void SYSTEM_ReverseRadio (uint16_t* radio)
+uint16_t SYSTEM_ReverseRadio (uint16_t radio)
 {
-	uint16_t r = *radio;
-	*radio = ((2 * RADIO_CENTER) - r);
+	return ((2 * RADIO_CENTER) - radio);
 }
 
 
@@ -313,14 +329,20 @@ void SYSTEM_UpdateCalibration (void)
 	SYSTEM_Config c;
 
 	//
-	RADIO_Detect(&config.radio);
-	RADIO_Init(&config.radio);
+	RADIO_Detect(&c.radio);
+	RADIO_Init(&c.radio);
 
 	//
 	SYSTEM_CalibrateSampleChannelZero();
 
+	//
+	LED_GreenON();
+	LED_RedON();
+	SYSTEM_WaitForInput();
+
+
 	// TURN ON LEDS TO TELL OPERATOR CALIBRATION IS STARTING
-	LED_nPulse(5);
+	LED_nPulse(2);
 	LED_GreenON();
 	LED_RedON();
 	SYSTEM_CalibrateMotorSameDirection(&c);
@@ -365,12 +387,19 @@ void SYSTEM_UpdateCalibration (void)
 	CORE_Delay(CALIBRATION_TEST_DELAY);
 
 	// WRITE NEW CONFIG TO EEPROM
-	config.mode = c.mode;
-	config.chDriveA = c.chDriveA;
-	config.chDriveB = c.chDriveB;
-	config.chServoA = c.chServoA;
-	config.chServoB = c.chServoB;
-	memcpy(config.chRevMask, c.chRevMask, sizeof(config.chRevMask));
+	config.chDriveA 		= c.chDriveA;
+	config.chDriveArev 		= c.chDriveArev;
+	config.chDriveB 		= c.chDriveB;
+	config.chDriveBrev 		= c.chDriveBrev;
+	config.chServoA 		= c.chServoA;
+	config.chServoArev 		= c.chServoArev;
+	config.chServoB 		= c.chServoB;
+	config.chServoBrev 		= c.chServoBrev;
+	config.mode 			= c.mode;
+	config.radio.Protocol 	= c.radio.Protocol;
+	config.radio.Baud_SBUS	= c.radio.Baud_SBUS;
+	config.hashA 			= CONFIG_HASH_A;
+	config.hashB 			= CONFIG_HASH_B;
 	EEPROM_Write(EEPROM_OFFSET, &config, sizeof(config));
 
 	// PULSE LED TO LET USER KNOW SUCCESSFUL
@@ -389,7 +418,8 @@ void SYSTEM_CalibrateSampleChannelZero (void)
 	RADIO_Data * ptrDataRadio = RADIO_GetDataPtr();
 
 	// Update Radio Inputs
-	RADIO_Update();
+	uint32_t tick = CORE_GetTick();
+	while (100 > CORE_GetTick() - tick) { RADIO_Update(); }
 
 	// Sample All Radio Inputs
 	for (uint8_t i = 0; i < ptrDataRadio->ch_num; i++)
@@ -427,13 +457,13 @@ void SYSTEM_CalibrateMotorSameDirection (SYSTEM_Config* c)
 				if (ptrDataRadio->ch[i] > (channelZero[i] + CALIBRATE_INPUT_THRESHOLD))
 				{
 					c->chDriveA = i;
-					c->chRevMask[i] = false;
+					c->chDriveArev = false;
 					numSticks = 1;
 				}
 				else if (ptrDataRadio->ch[i] < (channelZero[i] - CALIBRATE_INPUT_THRESHOLD))
 				{
 					c->chDriveA = i;
-					c->chRevMask[i] = true;
+					c->chDriveArev = true;
 					numSticks = 1;
 				}
 			}
@@ -444,7 +474,7 @@ void SYSTEM_CalibrateMotorSameDirection (SYSTEM_Config* c)
 				{
 					if (i != c->chDriveA) {
 						c->chDriveB = i;
-						c->chRevMask[i] = false;
+						c->chDriveBrev = false;
 						numSticks += 1;
 					}
 
@@ -453,7 +483,7 @@ void SYSTEM_CalibrateMotorSameDirection (SYSTEM_Config* c)
 				{
 					if (i != c->chDriveA) {
 						c->chDriveB = i;
-						c->chRevMask[i] = true;
+						c->chDriveBrev = true;
 						numSticks += 1;
 					}
 				}
@@ -523,14 +553,17 @@ void SYSTEM_CalibrateMotorOppositeDirection (SYSTEM_Config* c)
 			// Check if both sticks are pressed and one channel has been reversed
 			if (  driveA &&
 				  driveB &&
-				((driveRevA == c->chRevMask[c->chDriveA]) != (driveRevB == c->chRevMask[c->chDriveB])) )
+				((driveRevA == c->chDriveArev) != (driveRevB == c->chDriveBrev)) )
 			{
 				// if driveB has been reversed then channels A and B need to be swapped
-				if (driveRevB != c->chRevMask[c->chDriveB]) {
+				if (driveRevB != c->chDriveBrev) {
 					SYSTEM_Config cInt;
-					cInt.chDriveA = c->chDriveA;
-					c->chDriveA = c->chDriveB;
-					c->chDriveB = cInt.chDriveA;
+					cInt.chDriveA = 	c->chDriveA;
+					cInt.chDriveArev =	c->chDriveArev;
+					c->chDriveA = 		c->chDriveB;
+					c->chDriveArev = 	c->chDriveBrev;
+					c->chDriveB = 		cInt.chDriveA;
+					c->chDriveBrev = 	cInt.chDriveArev;
 				}
 				numSticks = 1;
 			}
@@ -544,13 +577,13 @@ void SYSTEM_CalibrateMotorOppositeDirection (SYSTEM_Config* c)
 					if (ptrDataRadio->ch[i] > (channelZero[i] + CALIBRATE_INPUT_THRESHOLD))
 					{
 						c->chDriveB = i;
-						c->chRevMask[i] = true;
+						c->chDriveBrev = true;
 						numSticks += 1;
 					}
 					else if (ptrDataRadio->ch[i] < (channelZero[i] - CALIBRATE_INPUT_THRESHOLD))
 					{
 						c->chDriveB = i;
-						c->chRevMask[i] = false;
+						c->chDriveBrev = false;
 						numSticks += 1;
 					}
 
@@ -595,12 +628,12 @@ void SYSTEM_CalibrateServoA (SYSTEM_Config* c)
 			{
 				if (ptrDataRadio->ch[i] > (channelZero[i] + CALIBRATE_ZERO_THRESHOLD))
 				{
-					config.chServoA = i;
-					config.chRevMask[i] = false;
+					c->chServoA = i;
+					c->chServoArev = false;
 					numSticks += 1;
 				} else if (ptrDataRadio->ch[i] < (channelZero[i] - CALIBRATE_ZERO_THRESHOLD)) {
-					config.chServoA = i;
-					config.chRevMask[i] = true;
+					c->chServoA = i;
+					c->chServoArev = true;
 					numSticks += 1;
 				}
 			}
@@ -636,12 +669,12 @@ void SYSTEM_CalibrateServoB (SYSTEM_Config* c)
 			{
 				if (ptrDataRadio->ch[i] > (channelZero[i] + CALIBRATE_ZERO_THRESHOLD))
 				{
-					config.chServoB = i;
-					config.chRevMask[i] = false;
+					c->chServoB = i;
+					c->chServoBrev = false;
 					numSticks += 1;
 				} else if (ptrDataRadio->ch[i] < (channelZero[i] - CALIBRATE_ZERO_THRESHOLD)) {
-					config.chServoB = i;
-					config.chRevMask[i] = true;
+					c->chServoB = i;
+					c->chServoBrev = true;
 					numSticks += 1;
 				}
 			}
@@ -681,6 +714,38 @@ void SYSTEM_WaitForResetInputs (void)
 
 		// Check For Break Condition
 		if (numSticks == 0) { break; }
+
+		// Loop Pacing
+		CORE_Idle();
+	}
+}
+
+
+void SYSTEM_WaitForInput (void)
+{
+	// Initialize Function Variables
+	RADIO_Data * ptrDataRadio = RADIO_GetDataPtr();
+
+	//
+	while (1)
+	{
+		// Initialize Loop Variables
+		uint8_t numSticks = 0;
+
+		// Update Radio Inputs
+		RADIO_Update();
+
+		// Check All Inputs
+		for (uint8_t i = 0; i < ptrDataRadio->ch_num; i++)
+		{
+			if ((ptrDataRadio->ch[i] > (channelZero[i] + CALIBRATE_ZERO_THRESHOLD)) || (ptrDataRadio->ch[i] < (channelZero[i] - CALIBRATE_ZERO_THRESHOLD)))
+			{
+				numSticks += 1;
+			}
+		}
+
+		// Check For Break Condition
+		if (numSticks > 0) { break; }
 
 		// Loop Pacing
 		CORE_Idle();
