@@ -11,6 +11,6 @@
 ../L001-RadioProtocols/Lib/PWM.c:144:10:PWM_Truncate	24	static
 ../L001-RadioProtocols/Lib/PWM.c:165:6:PWM_memset	16	static
 ../L001-RadioProtocols/Lib/PWM.c:180:6:PWM1_IRQ	16	static
-../L001-RadioProtocols/Lib/PWM.c:208:6:PWM2_IRQ	16	static
-../L001-RadioProtocols/Lib/PWM.c:237:6:PWM3_IRQ	16	static
-../L001-RadioProtocols/Lib/PWM.c:266:6:PWM4_IRQ	16	static
+../L001-RadioProtocols/Lib/PWM.c:210:6:PWM2_IRQ	16	static
+../L001-RadioProtocols/Lib/PWM.c:241:6:PWM3_IRQ	16	static
+../L001-RadioProtocols/Lib/PWM.c:272:6:PWM4_IRQ	16	static

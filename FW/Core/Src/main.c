@@ -9,7 +9,7 @@
 /*
  * PRIVATE DEFINITIONS
  */
-Motor_Update(  );
+
 /*
  * PRIVATE TYPES
  */

@@ -6,8 +6,8 @@
 ../STM32X/Lib/ADC.c:224:10:AIN_AinToDivider	24	static
 ../STM32X/Lib/ADC.c:229:10:AIN_AinToMv	16	static
 ../STM32X/Lib/ADC.c:234:9:ADC_ReadDieTemp	16	static
-../STM32X/Lib/ADC.c:248:10:ADC_ReadVRef	16	static
-../STM32X/Lib/ADC.c:297:13:ADC_StopConversion	8	static
-../STM32X/Lib/ADC.c:309:13:ADC_WaitForFlag	16	static
-../STM32X/Lib/ADC.c:314:13:ADC_Calibrate	8	static
-../STM32X/Lib/ADC.c:321:17:ADC_SelectSampleTime	48	static
+../STM32X/Lib/ADC.c:246:10:ADC_ReadVRef	16	static
+../STM32X/Lib/ADC.c:295:13:ADC_StopConversion	8	static
+../STM32X/Lib/ADC.c:307:13:ADC_WaitForFlag	16	static
+../STM32X/Lib/ADC.c:312:13:ADC_Calibrate	8	static
+../STM32X/Lib/ADC.c:319:17:ADC_SelectSampleTime	48	static

@@ -43,7 +43,8 @@ void SYSTEM_CalibrateMotorSameDirection (SYSTEM_Config*);
 void SYSTEM_CalibrateMotorOppositeDirection (SYSTEM_Config*);
 void SYSTEM_CalibrateServoA (SYSTEM_Config*);
 void SYSTEM_CalibrateServoB (SYSTEM_Config*);
-void SYSTEM_WaitForResetInputs (void);
+void SYSTEM_WaitForResetInputsAll (void);
+void SYSTEM_WaitForResetInputsServo (SYSTEM_Config*);
 void SYSTEM_WaitForInput (void);
 
 
@@ -131,11 +132,18 @@ void SYSTEM_HandleFaultStatus (void)
 	}
 
 	//
-	if (!fault.overTemperature) {
-		if (SystemTemp >= TEMP_HIGH) { fault.overTemperature = true; }
-	} else {
-		if (SystemTemp <= (TEMP_HIGH - TEMP_HYST)) { fault.overTemperature = false; }
-	}
+//	if (!fault.overTemperature)
+//	{
+//		if (SystemTemp >= TEMP_HIGH) {
+//			fault.overTemperature = true;
+//		}
+//	}
+//	else
+//	{
+//		if (SystemTemp <= (TEMP_HIGH - TEMP_HYST)) {
+//			fault.overTemperature = false;
+//		}
+//	}
 
 	//
 	RADIO_Data* ptrDataRadio = RADIO_GetDataPtr();
@@ -206,7 +214,7 @@ void SYSTEM_HandleOutputs (void)
 	// FAULT CONDITION - RISING EDGE
 	if (f && !f_p)
 	{
-		MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
+  		MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
 		SERVO_Deinit();
 	}
 
@@ -248,6 +256,10 @@ void SYSTEM_UpdateMotors (void)
 	RADIO_Data* ptrDataRadio = RADIO_GetDataPtr();
 	uint16_t driveA = ptrDataRadio->ch[config.chDriveA];
 	uint16_t driveB = ptrDataRadio->ch[config.chDriveB];
+
+	// Check for channel reverse
+	if (config.chDriveArev) { driveA = SYSTEM_ReverseRadio(driveA); }
+	if (config.chDriveBrev) { driveB = SYSTEM_ReverseRadio(driveB); }
 
 	if (driveA && driveB)
 	{
@@ -350,7 +362,7 @@ void SYSTEM_UpdateCalibration (void)
 	LED_GreenOFF();
 
 	//
-	SYSTEM_WaitForResetInputs();
+	SYSTEM_WaitForResetInputsAll();
 	CORE_Delay(CALIBRATION_TEST_DELAY);
 
 	//
@@ -361,7 +373,7 @@ void SYSTEM_UpdateCalibration (void)
 	LED_GreenOFF();
 
 	//
-	SYSTEM_WaitForResetInputs();
+	SYSTEM_WaitForResetInputsAll();
 	CORE_Delay(CALIBRATION_TEST_DELAY);
 
 	// TURN ON LEDS TO TELL OPERATOR CALIBRATION IS STARTING
@@ -372,7 +384,7 @@ void SYSTEM_UpdateCalibration (void)
 	LED_GreenOFF();
 
 	// WAIT FOR INPUTS TO FALL BACK TO ZERO REFERENCE
-	SYSTEM_WaitForResetInputs();
+	SYSTEM_WaitForResetInputsServo(&c);
 	CORE_Delay(CALIBRATION_TEST_DELAY);
 
 	// TURN ON LEDS TO TELL OPERATOR CALIBRATION IS STARTING
@@ -383,7 +395,7 @@ void SYSTEM_UpdateCalibration (void)
 	LED_GreenOFF();
 
 	// WAIT FOR INPUTS TO FALL BACK TO ZERO REFERENCE
-	SYSTEM_WaitForResetInputs();
+	SYSTEM_WaitForResetInputsServo(&c);
 	CORE_Delay(CALIBRATION_TEST_DELAY);
 
 	// WRITE NEW CONFIG TO EEPROM
@@ -689,7 +701,7 @@ void SYSTEM_CalibrateServoB (SYSTEM_Config* c)
 }
 
 
-void SYSTEM_WaitForResetInputs (void)
+void SYSTEM_WaitForResetInputsAll (void)
 {
 	// Initialize Function Variables
 	RADIO_Data * ptrDataRadio = RADIO_GetDataPtr();
@@ -707,6 +719,39 @@ void SYSTEM_WaitForResetInputs (void)
 		for (uint8_t i = 0; i < ptrDataRadio->ch_num; i++)
 		{
 			if ((ptrDataRadio->ch[i] > (channelZero[i] + CALIBRATE_ZERO_THRESHOLD)) || (ptrDataRadio->ch[i] < (channelZero[i] - CALIBRATE_ZERO_THRESHOLD)))
+			{
+				numSticks += 1;
+			}
+		}
+
+		// Check For Break Condition
+		if (numSticks == 0) { break; }
+
+		// Loop Pacing
+		CORE_Idle();
+	}
+}
+
+void SYSTEM_WaitForResetInputsServo (SYSTEM_Config* c)
+{
+	// Initialize Function Variables
+	RADIO_Data * ptrDataRadio = RADIO_GetDataPtr();
+
+	//
+	while (1)
+	{
+		// Initialize Loop Variables
+		uint8_t numSticks = 0;
+
+		// Update Radio Inputs
+		RADIO_Update();
+
+		// Check All Inputs
+		for (uint8_t i = 0; i < ptrDataRadio->ch_num; i++)
+		{
+			if (((ptrDataRadio->ch[i] > (channelZero[i] + CALIBRATE_ZERO_THRESHOLD)) ||
+				 (ptrDataRadio->ch[i] < (channelZero[i] - CALIBRATE_ZERO_THRESHOLD))) &&
+				!(i == c->chDriveA || i == c->chDriveB) )
 			{
 				numSticks += 1;
 			}
