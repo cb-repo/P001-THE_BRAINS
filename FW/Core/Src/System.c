@@ -41,6 +41,7 @@ int32_t		SYSTEM_RadioToMotor 					( uint16_t );
 uint16_t 	SYSTEM_ReverseRadio 					( uint16_t );
 
 void 		SYSTEM_UpdateCalibration				( void );
+void 		SYSTEM_CalibrateRadioDetect 			( SYSTEM_Config* );
 void 		SYSTEM_CalibrateSampleChannelZero 		( void );
 void 		SYSTEM_CalibrateMotorSameDirection 		( SYSTEM_Config* );
 void 		SYSTEM_CalibrateMotorOppositeDirection	( SYSTEM_Config* );
@@ -382,19 +383,18 @@ void SYSTEM_UpdateCalibration (void)
 	MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
 	SERVO_Deinit();
 
+	//
+	LED_GreenON();
+	LED_RedON();
+
 	// CREATE LOCAL VARIABLE TO ASSIST IN CALIBRATION
 	SYSTEM_Config c;
 
 	//
-	RADIO_DetectNew(&c.radio);
-	RADIO_Init(&c.radio);
-
-	//
+	SYSTEM_CalibrateRadioDetect(&c);
 	SYSTEM_CalibrateSampleChannelZero();
 
 	//
-	LED_GreenON();
-	LED_RedON();
 	SYSTEM_WaitForInput();
 
 
@@ -467,6 +467,37 @@ void SYSTEM_UpdateCalibration (void)
 	// Reinitialize Outputs
 	MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
 	SERVO_Init();
+}
+
+void SYSTEM_CalibrateRadioDetect (SYSTEM_Config* c)
+{
+	// CREATE LOCAL VARIABLE TO ASSIST IN CALIBRATION
+	RADIO_Data* dataRadioPtr = RADIO_GetDataPtr();
+	uint32_t now = CORE_GetTick();
+	uint32_t tick;
+
+	// Save Current Radio Config to Calibration Config
+	c->radio = config.radio;
+
+	// If no Radio Detected, Proceed with Detection
+	while (dataRadioPtr->inputLost)
+	{
+		// Allow Old Radio to ReConnect
+		if (STARTUP_RADIO_TIMEOUT >= (now - tick))
+		{
+			// Update Radio Data
+			RADIO_Update();
+		}
+		// Radio Input Timeout. Check for Different Radio Type.
+		else
+		{
+			RADIO_DetectNew(&c->radio);
+			// Init Radio Config (Weather or not a new one was connected)
+			RADIO_Init(&c->radio);
+			// Update Variables for Next Loop
+			tick = now;
+		}
+	}
 }
 
 void SYSTEM_CalibrateSampleChannelZero (void)
