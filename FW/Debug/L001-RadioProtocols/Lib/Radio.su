@@ -1,5 +1,5 @@
 ../STM32X/Lib/Core.inl.h:12:24:CORE_GetTick	8	static
-../L001-RadioProtocols/Lib/Radio.c:32:6:RADIO_Detect	24	static
-../L001-RadioProtocols/Lib/Radio.c:86:6:RADIO_Init	16	static
-../L001-RadioProtocols/Lib/Radio.c:117:6:RADIO_Update	8	static
-../L001-RadioProtocols/Lib/Radio.c:152:13:RADIO_GetDataPtr	8	static
+../L001-RadioProtocols/Lib/Radio.c:32:6:RADIO_DetectNew	32	static
+../L001-RadioProtocols/Lib/Radio.c:91:6:RADIO_Init	16	static
+../L001-RadioProtocols/Lib/Radio.c:124:6:RADIO_Update	8	static
+../L001-RadioProtocols/Lib/Radio.c:159:13:RADIO_GetDataPtr	8	static

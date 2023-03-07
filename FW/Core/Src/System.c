@@ -6,7 +6,7 @@
  * PRIVATE DEFINITIONS
  */
 
-#define CALIBRATION_TEST_DELAY	2000
+#define CALIBRATION_TEST_DELAY		2000
 
 #define CALIBRATE_DRIVEINPUT_PERIOD	100
 #define CALIBRATE_MOTORJERK_PERIOD	500
@@ -17,6 +17,8 @@
 
 #define FAULT_VOLTAGE_TRIP			100
 
+#define STARTUP_RADIO_TIMEOUT		1000
+
 /*
  * PRIVATE TYPES
  */
@@ -25,27 +27,28 @@
  * PRIVATE PROTOTYPES
  */
 
-void SYSTEM_HandleFaultStatus(void);
-void SYSTEM_HandleLEDs(void);
-void SYSTEM_HandleCalibration (void);
-void SYSTEM_HandleOutputs(void);
-void SYSTEM_UpdateServo(void);
-void SYSTEM_UpdateMotors(void);
-void SYSTEM_VerifyConfig(void);
+void 		SYSTEM_HandleRadioConnection			( void );
+void 		SYSTEM_HandleFaultStatus				( void );
+void 		SYSTEM_HandleLEDs						( void );
+void 		SYSTEM_HandleCalibration 				( void );
+void 		SYSTEM_HandleOutputs					( void );
+void 		SYSTEM_UpdateServo						( void );
+void 		SYSTEM_UpdateMotors						( void );
+void 		SYSTEM_VerifyConfig						( void );
 
-uint32_t SYSTEM_GetBatteryVoltage (void);
-int32_t	SYSTEM_RadioToMotor (uint16_t);
-uint16_t SYSTEM_ReverseRadio (uint16_t);
+uint32_t	SYSTEM_GetBatteryVoltage 				( void );
+int32_t		SYSTEM_RadioToMotor 					( uint16_t );
+uint16_t 	SYSTEM_ReverseRadio 					( uint16_t );
 
-void SYSTEM_UpdateCalibration(void);
-void SYSTEM_CalibrateSampleChannelZero (void);
-void SYSTEM_CalibrateMotorSameDirection (SYSTEM_Config*);
-void SYSTEM_CalibrateMotorOppositeDirection (SYSTEM_Config*);
-void SYSTEM_CalibrateServoA (SYSTEM_Config*);
-void SYSTEM_CalibrateServoB (SYSTEM_Config*);
-void SYSTEM_WaitForResetInputsAll (void);
-void SYSTEM_WaitForResetInputsServo (SYSTEM_Config*);
-void SYSTEM_WaitForInput (void);
+void 		SYSTEM_UpdateCalibration				( void );
+void 		SYSTEM_CalibrateSampleChannelZero 		( void );
+void 		SYSTEM_CalibrateMotorSameDirection 		( SYSTEM_Config* );
+void 		SYSTEM_CalibrateMotorOppositeDirection	( SYSTEM_Config* );
+void 		SYSTEM_CalibrateServoA 					( SYSTEM_Config* );
+void 		SYSTEM_CalibrateServoB 					( SYSTEM_Config* );
+void 		SYSTEM_WaitForResetInputsAll 			( void );
+void 		SYSTEM_WaitForResetInputsServo 			( SYSTEM_Config* );
+void 		SYSTEM_WaitForInput 					( void );
 
 
 /*
@@ -83,14 +86,14 @@ void SYSTEM_Init(void)
 	// CHECK FOR VALID CONFIG
 	SYSTEM_VerifyConfig();
 
-	//
+	// INITI THE RADIO GIVEN CURRENT CONFIG
 	RADIO_Init(&config.radio);
 }
 
 void SYSTEM_Update (void)
 {
 	// Update Inputs
-	RADIO_Update();
+	SYSTEM_HandleRadioConnection();
 
 	// Check For Fault Conditions
 	SYSTEM_HandleFaultStatus();
@@ -108,6 +111,44 @@ void SYSTEM_Update (void)
 /*
  * PRIVATE FUNCTIONS
  */
+
+void SYSTEM_HandleRadioConnection (void)
+{
+	// Init Loop Variables
+	RADIO_Data* dataRadioPtr = RADIO_GetDataPtr();
+	uint32_t now = CORE_GetTick();
+	static uint32_t tick = 0;
+
+	// Radio Has Been Detected
+	if (!dataRadioPtr->inputLost)
+	{
+		RADIO_Update();
+	}
+
+	// No Valid Radio
+	else
+	{
+		// Allow Old Radio to ReConnect
+		if (STARTUP_RADIO_TIMEOUT >= (now - tick))
+		{
+			// Update Radio Data
+			RADIO_Update();
+		}
+		// Radio Input Timeout. Check for Different Radio Type.
+		else
+		{
+			if (RADIO_DetectNew(&config.radio))
+			{
+				// Write New Radio to EEPROM
+				EEPROM_Write(EEPROM_OFFSET, &config, sizeof(config));
+			}
+			// Init Radio Config (Weather or not a new one was connected)
+			RADIO_Init(&config.radio);
+			// Update Variables for Next Loop
+			tick = now;
+		}
+	}
+}
 
 void SYSTEM_HandleFaultStatus (void)
 {
@@ -161,11 +202,15 @@ void SYSTEM_HandleCalibration (void)
 	uint32_t now = CORE_GetTick();
 	static bool calibrateWindow = true;
 
-	//
-	if (calibrateWindow) {
-		if (now > CALIBRATE_TIMEOUT) {
+	// If Still Within Calibration Window Since Boot
+	if (calibrateWindow)
+	{
+		if (now > CALIBRATE_TIMEOUT)
+		{
 			calibrateWindow = false;
-		} else if (now < CALIBRATE_TIMEOUT && !GPIO_Read(CALIBRATE_GPIO, CALIBRATE_PIN)) {
+		}
+		else if (!GPIO_Read(CALIBRATE_GPIO, CALIBRATE_PIN))
+		{
 			SYSTEM_UpdateCalibration();
 			calibrateWindow = false;
 		}
@@ -341,7 +386,7 @@ void SYSTEM_UpdateCalibration (void)
 	SYSTEM_Config c;
 
 	//
-	RADIO_Detect(&c.radio);
+	RADIO_DetectNew(&c.radio);
 	RADIO_Init(&c.radio);
 
 	//

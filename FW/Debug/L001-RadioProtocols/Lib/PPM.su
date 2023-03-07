@@ -4,9 +4,9 @@
 ../STM32X/Lib/TIM.inl.h:10:24:TIM_Read	16	static
 ../L001-RadioProtocols/Lib/PPM.c:39:6:PPM_Detect	16	static
 ../L001-RadioProtocols/Lib/PPM.c:54:6:PPM_Init	8	static
-../L001-RadioProtocols/Lib/PPM.c:65:6:PPM_Deinit	8	static
-../L001-RadioProtocols/Lib/PPM.c:73:6:PPM_Update	16	static
-../L001-RadioProtocols/Lib/PPM.c:99:11:PPM_GetDataPtr	8	static
-../L001-RadioProtocols/Lib/PPM.c:108:10:PPM_Truncate	24	static
-../L001-RadioProtocols/Lib/PPM.c:129:6:PPM_memset	16	static
-../L001-RadioProtocols/Lib/PPM.c:142:6:PPM_IRQ	16	static
+../L001-RadioProtocols/Lib/PPM.c:66:6:PPM_Deinit	8	static
+../L001-RadioProtocols/Lib/PPM.c:74:6:PPM_Update	16	static
+../L001-RadioProtocols/Lib/PPM.c:101:11:PPM_GetDataPtr	8	static
+../L001-RadioProtocols/Lib/PPM.c:110:10:PPM_Truncate	24	static
+../L001-RadioProtocols/Lib/PPM.c:131:6:PPM_memset	16	static
+../L001-RadioProtocols/Lib/PPM.c:144:6:PPM_IRQ	16	static
