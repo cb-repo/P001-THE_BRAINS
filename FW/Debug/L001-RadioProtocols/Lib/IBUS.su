@@ -2,8 +2,8 @@
 ../L001-RadioProtocols/Lib/IBUS.c:54:6:IBUS_Detect	16	static
 ../L001-RadioProtocols/Lib/IBUS.c:70:6:IBUS_Init	8	static
 ../L001-RadioProtocols/Lib/IBUS.c:78:6:IBUS_Deinit	8	static
-../L001-RadioProtocols/Lib/IBUS.c:83:6:IBUS_Update	32	static
+../L001-RadioProtocols/Lib/IBUS.c:83:6:IBUS_Update	40	static
 ../L001-RadioProtocols/Lib/IBUS.c:116:12:IBUS_GetDataPtr	8	static
 ../L001-RadioProtocols/Lib/IBUS.c:125:10:IBUS_Truncate	24	static
-../L001-RadioProtocols/Lib/IBUS.c:146:6:IBUS_Checksum	16	static
+../L001-RadioProtocols/Lib/IBUS.c:146:6:IBUS_Checksum	24	static
 ../L001-RadioProtocols/Lib/IBUS.c:167:6:IBUS_HandleUART	16	static

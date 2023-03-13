@@ -1,33 +1,40 @@
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
+
 #include "System.h"
+
 
 /*
  * PRIVATE DEFINITIONS
  */
 
-#define CALIBRATION_TEST_DELAY		2000
 
-#define CALIBRATE_DRIVEINPUT_PERIOD	100
+#define CALIBRATION_TEST_DELAY		1000
+
+#define CALIBRATE_DRIVEINPUT_PERIOD	200
 #define CALIBRATE_MOTORJERK_PERIOD	500
 
 #define CALIBRATE_TIMEOUT			5000
-#define CALIBRATE_ZERO_THRESHOLD	50
-#define CALIBRATE_INPUT_THRESHOLD	200
 
 #define FAULT_VOLTAGE_TRIP			100
 
-#define STARTUP_RADIO_TIMEOUT		1000
+#define STARTUP_RADIO_TIMEOUT		200
+#define STARTUP_NEWINPUT_TIMEOUT	50
+
+#define CALIBRATION_INPUT_WIGGLE	20
+
 
 /*
  * PRIVATE TYPES
  */
 
+
 /*
  * PRIVATE PROTOTYPES
  */
 
-void 		SYSTEM_HandleRadioConnection			( void );
+
+void 		SYSTEM_InitRadio						( void );
 void 		SYSTEM_HandleFaultStatus				( void );
 void 		SYSTEM_HandleLEDs						( void );
 void 		SYSTEM_HandleCalibration 				( void );
@@ -40,45 +47,57 @@ uint32_t	SYSTEM_GetBatteryVoltage 				( void );
 int32_t		SYSTEM_RadioToMotor 					( uint16_t );
 uint16_t 	SYSTEM_ReverseRadio 					( uint16_t );
 
+bool		SYSTEM_InitiateCalibration				( void );
 void 		SYSTEM_UpdateCalibration				( void );
-void 		SYSTEM_CalibrateRadioDetect 			( SYSTEM_Config* );
-void 		SYSTEM_CalibrateSampleChannelZero 		( void );
 void 		SYSTEM_CalibrateMotorSameDirection 		( SYSTEM_Config* );
 void 		SYSTEM_CalibrateMotorOppositeDirection	( SYSTEM_Config* );
 void 		SYSTEM_CalibrateServoA 					( SYSTEM_Config* );
 void 		SYSTEM_CalibrateServoB 					( SYSTEM_Config* );
-void 		SYSTEM_WaitForResetInputsAll 			( void );
+void 		SYSTEM_WaitForActiveInput 				( void );
+void 		SYSTEM_WaitForResetInputs 				( void );
 void 		SYSTEM_WaitForResetInputsServo 			( SYSTEM_Config* );
-void 		SYSTEM_WaitForInput 					( void );
+uint32_t 	SYSTEM_CountActiveInputs 				( void );
+uint32_t 	SYSTEM_CountActiveInputsServo 			( SYSTEM_Config* );
 
 
 /*
  * PRIVATE VARIABLES
  */
 
+
 SYSTEM_FaultStatus fault;
 SYSTEM_Config config;
 
-uint16_t channelZero[RADIO_NUM_CHANNELS];
+bool calibrateWindow = false;
 
 /*
  * PUBLIC FUNCTIONS
  */
 
+
+/*
+ * TEXT
+ *
+ * INPUTS:
+ * OUTPUTS:
+ */
 void SYSTEM_Init(void)
 {
-	//
+	// INIT ADC, USED FOR BATTERY VOLTAGE AND TEMPERATURE DETECTION
 	ADC_Init();
+
+	// INIT BATTERY VOLTAGE DETECT INPUT AND DETERMINE IF 1S OR 2S INPUT
 	GPIO_Init(BATTERY_GPIO, BATTERY_PIN, GPIO_Mode_Analog);
 	if (SYSTEM_GetBatteryVoltage() >= BATT_2S_LOW) {
 		fault.faultVoltage = BATT_2S_LOW;
 	} else {
 		fault.faultVoltage = BATT_1S_LOW;
 	}
+
 	// INIT THE CALIBRATION INPUT
 	GPIO_EnableInput(CALIBRATE_GPIO, CALIBRATE_PIN, GPIO_Pull_Up);
 
-	// INIT LEDs
+	// INIT STATUS LEDs
 	LED_Init();
 
 	// READ CONFIGURATION FROM EEPROM
@@ -87,14 +106,21 @@ void SYSTEM_Init(void)
 	// CHECK FOR VALID CONFIG
 	SYSTEM_VerifyConfig();
 
-	// INITI THE RADIO GIVEN CURRENT CONFIG
-	RADIO_Init(&config.radio);
+	// INIT RADIO BASED ON EXISTING CONFIG
+	SYSTEM_InitRadio();
 }
 
+
+/*
+ * TEXT
+ *
+ * INPUTS:
+ * OUTPUTS:
+ */
 void SYSTEM_Update (void)
 {
 	// Update Inputs
-	SYSTEM_HandleRadioConnection();
+	RADIO_Update();
 
 	// Check For Fault Conditions
 	SYSTEM_HandleFaultStatus();
@@ -109,52 +135,83 @@ void SYSTEM_Update (void)
 	SYSTEM_HandleOutputs();
 }
 
+
 /*
  * PRIVATE FUNCTIONS
  */
 
-void SYSTEM_HandleRadioConnection (void)
+
+/*
+ * TEXT
+ *
+ * INPUTS:
+ * OUTPUTS:
+ */
+void SYSTEM_InitRadio (void)
 {
-	// Init Loop Variables
-	RADIO_Data* dataRadioPtr = RADIO_GetDataPtr();
+	// INIT FUNCTION VARIABLES
+	RADIO_Data* ptrRadioData = RADIO_GetDataPtr();
 	uint32_t now = CORE_GetTick();
-	static uint32_t tick = 0;
+	uint32_t tickStartup = now;
+	uint32_t tickInput = now;
 
-	// Radio Has Been Detected
-	if (!dataRadioPtr->inputLost)
-	{
-		RADIO_Update();
-	}
+	// INIT RADIO MODULE
+	RADIO_Init(&config.radio);
 
-	// No Valid Radio
-	else
+	// ALLOWANCE FOR RADIO TO CONNECT PRIOR TO CONTINUING
+	while ( ptrRadioData->inputLost && STARTUP_RADIO_TIMEOUT >= (now - tickStartup) )
 	{
-		// Allow Old Radio to ReConnect
-		if (STARTUP_RADIO_TIMEOUT >= (now - tick))
+		// ALLOW TIME FOR DETECTION OF EXISTING RADIO CONFIG
+		while ( STARTUP_NEWINPUT_TIMEOUT >= (now - tickInput) )
 		{
-			// Update Radio Data
+			// UPDATE LOOP VARIABLES
+			now = CORE_GetTick();
+			// UPDATE RADIO DATA
 			RADIO_Update();
-		}
-		// Radio Input Timeout. Check for Different Radio Type.
-		else
-		{
-			if (RADIO_DetectNew(&config.radio))
+			// LOOP PACING
+			CORE_Idle();
+			// CHECK IF VALID RADIO IS DETECTED
+			if ( !ptrRadioData->inputLost )
 			{
-				// Write New Radio to EEPROM
+				// ENABLE POSSIBILITY OF CALIBRATION AT LATER DATE
+				calibrateWindow = true;
+				// ENSURE CHANNEL NEUTRAL/ZERO POSITIONS ARE CORRECT
+				RADIO_SetChannelZeroPosition();
+				// NO NEED TO KEEP LOOPING AS RADIO ALREADY DETECTED
+				break;
+			}
+		}
+
+		// UPDATE LOOP VARAIBLES
+		tickInput = now;
+
+		// ONLY EVALUATE IF NO RADIO DETECTED
+		if ( !ptrRadioData->inputLost )
+		{
+			// CHECK FOR A DIFFERENT RADIO TYPE
+			if ( RADIO_DetectNew(&config.radio) )
+			{
+				// WRITE NEW CONFIG TO EEPROM
 				EEPROM_Write(EEPROM_OFFSET, &config, sizeof(config));
 			}
-			// Init Radio Config (Weather or not a new one was connected)
+			// REINIT RADIO WITH CONFIG
 			RADIO_Init(&config.radio);
-			// Update Variables for Next Loop
-			tick = now;
 		}
 	}
 }
 
+
+/*
+ * TEXT
+ *
+ * INPUTS:
+ * OUTPUTS:
+ */
 void SYSTEM_HandleFaultStatus (void)
 {
 	static bool faultVoltage = false;
 	static uint32_t tickVolt = 0;
+	RADIO_Data* ptrRadioData = RADIO_GetDataPtr();
 	uint32_t SystemVolt = SYSTEM_GetBatteryVoltage();
 	int32_t SystemTemp = ADC_ReadDieTemp();
 
@@ -188,8 +245,7 @@ void SYSTEM_HandleFaultStatus (void)
 //	}
 
 	//
-	RADIO_Data* ptrDataRadio = RADIO_GetDataPtr();
-	if (ptrDataRadio->inputLost) {
+	if (ptrRadioData->inputLost) {
 		fault.signalLost = true;
 	} else {
 		fault.signalLost = false;
@@ -197,48 +253,71 @@ void SYSTEM_HandleFaultStatus (void)
 }
 
 
+/*
+ * TEXT
+ *
+ * INPUTS:
+ * OUTPUTS:
+ */
 void SYSTEM_HandleCalibration (void)
 {
-	// Initialize Loop Variables
+	// INIT LOOP VARIABLES
 	uint32_t now = CORE_GetTick();
-	static bool calibrateWindow = true;
 
-	// If Still Within Calibration Window Since Boot
+	// IF STILL WITHIN BOOT CALIBRATION WINDOW
 	if (calibrateWindow)
 	{
-		if (now > CALIBRATE_TIMEOUT)
+		// HAS THE USER INDICATED THEY WANT TO CALIBRATE DEVICE
+		if (SYSTEM_InitiateCalibration())
 		{
+			// RUN CALIBRATION SEQUENCE
+			SYSTEM_UpdateCalibration();
 			calibrateWindow = false;
 		}
-		else if (!GPIO_Read(CALIBRATE_GPIO, CALIBRATE_PIN))
+		// HAS THE WINDOW ELAPSED
+		if (now >= CALIBRATE_TIMEOUT)
 		{
-			SYSTEM_UpdateCalibration();
 			calibrateWindow = false;
 		}
 	}
 }
 
+
+/*
+ * TEXT
+ *
+ * INPUTS:
+ * OUTPUTS:
+ */
 void SYSTEM_HandleLEDs (void)
 {
-	// Initialize Loop Variables
+	// INIT LOOP VARIABLES
 	uint32_t now = CORE_GetTick();
 	static uint32_t tick = 0;
 
-	//
+	// UPDATE LED BASED ON FAULT STATES
 	if (fault.overTemperature)
 	{
-		LED_RedON();
 		LED_GreenOFF();
+		if (LED_FAULT_TEMPFLASH <= (now - tick))
+		{
+			LED_RedToggle();
+			tick = now;
+		}
 	}
 	else if (fault.inputVoltage)
 	{
-		LED_RedON();
-		LED_GreenON();
+		LED_GreenOFF();
+		if (LED_FAULT_VOLTAGEFLASH <= (now - tick))
+		{
+			LED_RedToggle();
+			tick = now;
+		}
 	}
 	else if (fault.signalLost)
 	{
 		LED_RedOFF();
-		if (LED_FAULTFLASH <= (now - tick))
+		if (LED_FAULT_SIGNALFLASH <= (now - tick))
 		{
 			LED_GreenToggle();
 			tick = now;
@@ -251,6 +330,13 @@ void SYSTEM_HandleLEDs (void)
 	}
 }
 
+
+/*
+ * TEXT
+ *
+ * INPUTS:
+ * OUTPUTS:
+ */
 void SYSTEM_HandleOutputs (void)
 {
 	// Initialize Loop Variables
@@ -281,12 +367,19 @@ void SYSTEM_HandleOutputs (void)
 	f_p = f;
 }
 
+
+/*
+ * TEXT
+ *
+ * INPUTS:
+ * OUTPUTS:
+ */
 void SYSTEM_UpdateServo (void)
 {
 	// Extract appropriate data for servo
-	RADIO_Data* ptrDataRadio = RADIO_GetDataPtr();
-	uint16_t servoA = ptrDataRadio->ch[config.chServoA];
-	uint16_t servoB = ptrDataRadio->ch[config.chServoB];
+	RADIO_Data* ptrRadioData = RADIO_GetDataPtr();
+	uint16_t servoA = ptrRadioData->ch[config.chServoA];
+	uint16_t servoB = ptrRadioData->ch[config.chServoB];
 
 	// Check for channel reverse
 	if (config.chServoArev) { servoA = SYSTEM_ReverseRadio(servoA); }
@@ -296,12 +389,19 @@ void SYSTEM_UpdateServo (void)
 	SERVO_Update(servoA, servoB);
 }
 
+
+/*
+ * TEXT
+ *
+ * INPUTS:
+ * OUTPUTS:
+ */
 void SYSTEM_UpdateMotors (void)
 {
 	// Extract appropriate data for motors
-	RADIO_Data* ptrDataRadio = RADIO_GetDataPtr();
-	uint16_t driveA = ptrDataRadio->ch[config.chDriveA];
-	uint16_t driveB = ptrDataRadio->ch[config.chDriveB];
+	RADIO_Data* ptrRadioData = RADIO_GetDataPtr();
+	uint16_t driveA = ptrRadioData->ch[config.chDriveA];
+	uint16_t driveB = ptrRadioData->ch[config.chDriveB];
 
 	// Check for channel reverse
 	if (config.chDriveArev) { driveA = SYSTEM_ReverseRadio(driveA); }
@@ -316,8 +416,8 @@ void SYSTEM_UpdateMotors (void)
 		// Mix channels for Arcade drive mode
 		if (config.mode == ARCADE)
 		{
-			int32_t dA = driveA - (RADIO_CENTER - driveB);
-			int32_t dB = driveA + (RADIO_CENTER - driveB);
+			int32_t dA = driveA - (RADIO_CH_CENTER - driveB);
+			int32_t dB = driveA + (RADIO_CH_CENTER - driveB);
 			driveA = (uint16_t)dA;
 			driveB = (uint16_t)dB;
 		}
@@ -329,10 +429,19 @@ void SYSTEM_UpdateMotors (void)
 	}
 }
 
+
+/*
+ * TEXT
+ *
+ * INPUTS:
+ * OUTPUTS:
+ */
 void SYSTEM_VerifyConfig (void)
 {
+	// CHECK FOR CORRECT CONFIG HASH VALUES - CALIBRATION WRITTEN TO EEPROM
 	if ((config.hashA != CONFIG_HASH_A) || (config.hashB != CONFIG_HASH_B))
 	{
+		// FRESH DEVICE USED SO WRITE DEFAULT CONFIG TO EEPROM
 		config.hashA = 				CONFIG_HASH_A;
 		config.mode = 				TANK;
 		config.chDriveA = 			IP1;
@@ -346,102 +455,183 @@ void SYSTEM_VerifyConfig (void)
 		config.radio.Baud_SBUS = 	SBUS_BAUD;
 		config.radio.Protocol =		PWM;
 		config.hashB = 				CONFIG_HASH_B;
-
 		EEPROM_Write(EEPROM_OFFSET, &config, sizeof(config));
-		LED_nPulse(5);
 	}
 }
 
+
+/*
+ * TEXT
+ *
+ * INPUTS:
+ * OUTPUTS:
+ */
 uint32_t SYSTEM_GetBatteryVoltage (void)
 {
 	uint32_t ain = ADC_Read(BATTERY_CHANNEL);
 	return AIN_AinToDivider(ain, BATTERY_DET_RLOW, BATTERY_DET_RHIGH);
 }
 
+
+/*
+ * TEXT
+ *
+ * INPUTS:
+ * OUTPUTS:
+ */
 int32_t SYSTEM_RadioToMotor (uint16_t radio)
 {
-	if (radio > RADIO_MAX) {
-		radio = RADIO_MAX;
-	} else if (radio < RADIO_MIN) {
-		radio = RADIO_MIN;
+	if (radio > RADIO_CH_MAX) {
+		radio = RADIO_CH_MAX;
+	} else if (radio < RADIO_CH_MIN) {
+		radio = RADIO_CH_MIN;
 	}
 
-	return (((int32_t)radio - RADIO_CENTER) * MOTOR_MAX) / RADIO_HALFSCALE;
+	return (((int32_t)radio - RADIO_CH_CENTER) * MOTOR_MAX) / RADIO_CH_HALFSCALE;
 }
 
+
+/*
+ * TEXT
+ *
+ * INPUTS:
+ * OUTPUTS:
+ */
 uint16_t SYSTEM_ReverseRadio (uint16_t radio)
 {
-	return ((2 * RADIO_CENTER) - radio);
+	return ((2 * RADIO_CH_CENTER) - radio);
 }
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+/*
+ * TEXT
+ *
+ * INPUTS:
+ * OUTPUTS:
+ */
+bool SYSTEM_InitiateCalibration (void)
+{
+	// INIT LOOP VARIABLES
+	RADIO_Data* 					ptrRadioData 					= RADIO_GetDataPtr();
+	static RADIO_ChannelActiveFlags	chActive_p[RADIO_NUM_CHANNELS]	= {chActive_False};
+	static uint8_t 					chCounter[RADIO_NUM_CHANNELS] 	= {0};
+	bool 							retVal 							= false;
+
+	// ONLY PROCEED IF THERE IS A RADIO DETECTED
+	if ( !ptrRadioData->inputLost )
+	{
+		// DETECT METHOD 1: STICK WIGGLE
+		// ITTERATE THROUGH EACH AVALIBLE RADIO CHANNEL
+		for (uint8_t ch = 0; ch < ptrRadioData->ch_num; ch++)
+		{
+			// IF THE CHANNEL IS NOW INACTIVE BUT WAS PREVIOUSLY ACTIVE
+			if ( (ptrRadioData->chActive[ch] == chActive_False) &&
+			   ( (chActive_p[ch] == chActive_True) ||
+				 (chActive_p[ch] == chActive_TrueRev ) ) )
+			{
+				// INCREMENT THE COUNTER
+				chCounter[ch] += 1;
+			}
+
+			// CHECK IF ENOUGH INPUT WIGGLES HAVE BEEN DONE
+			if (chCounter[ch] > CALIBRATION_INPUT_WIGGLE)
+			{
+				retVal = true;
+				break;
+			}
+
+			// UPDATE VARIABLES FOR NEXT LOOP
+			chActive_p[ch] = ptrRadioData->chActive[ch];
+		}
+
+		// DETECT METHOD 2: CALIBRATE PADS SHORTED ON BACK OF DEVICE
+		if (!GPIO_Read(CALIBRATE_GPIO, CALIBRATE_PIN))
+		{
+			retVal = true;
+		}
+	}
+
+	return retVal;
+}
+
+
+/*
+ * TEXT
+ *
+ * INPUTS:
+ * OUTPUTS:
+ */
 void SYSTEM_UpdateCalibration (void)
 {
 	// DISABLE ALL OUTPUTS
 	MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
 	SERVO_Deinit();
 
-	//
+	// TURN ON LEDS TO TELL OPERATOR CALIBRATION IS STARTING
+	LED_nPulse(10);
 	LED_GreenON();
 	LED_RedON();
 
 	// CREATE LOCAL VARIABLE TO ASSIST IN CALIBRATION
 	SYSTEM_Config c;
+	c.radio = config.radio;
 
-	//
-	SYSTEM_CalibrateRadioDetect(&c);
-	SYSTEM_CalibrateSampleChannelZero();
+	// WAIT FOR USER TO PRESS A STICK TO INITATE CALIBRATION SEQUENCE
+	SYSTEM_WaitForActiveInput();
+	SYSTEM_WaitForResetInputs();
+	CORE_Delay(CALIBRATION_TEST_DELAY);
 
-	//
-	SYSTEM_WaitForInput();
+	// START OF TEST
 
-
-	// TURN ON LEDS TO TELL OPERATOR CALIBRATION IS STARTING
-	LED_nPulse(2);
-	LED_GreenON();
+	LED_GreenOFF();
+	LED_RedOFF();
+	CORE_Delay(CALIBRATION_TEST_DELAY);
+	MOTOR_Update(MOTOR_MAX, MOTOR_MAX);
+	CORE_Delay(CALIBRATE_MOTORJERK_PERIOD);
+	MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
+	CORE_Delay(CALIBRATE_MOTORJERK_PERIOD);
 	LED_RedON();
 	SYSTEM_CalibrateMotorSameDirection(&c);
+	LED_GreenON();
+	SYSTEM_WaitForResetInputs();
+	CORE_Delay(CALIBRATION_TEST_DELAY);
+	LED_nPulse(3);
+
 	LED_RedOFF();
 	LED_GreenOFF();
-
-	//
-	SYSTEM_WaitForResetInputsAll();
 	CORE_Delay(CALIBRATION_TEST_DELAY);
-
-	//
-	LED_GreenON();
+	MOTOR_Update(-MOTOR_MAX, MOTOR_MAX);
+	CORE_Delay(CALIBRATE_MOTORJERK_PERIOD);
+	MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
+	CORE_Delay(CALIBRATE_MOTORJERK_PERIOD);
 	LED_RedON();
 	SYSTEM_CalibrateMotorOppositeDirection(&c);
+	LED_GreenON();
+	SYSTEM_WaitForResetInputs();
+	CORE_Delay(CALIBRATION_TEST_DELAY);
+	LED_nPulse(3);
+
 	LED_RedOFF();
 	LED_GreenOFF();
-
-	//
-	SYSTEM_WaitForResetInputsAll();
-	CORE_Delay(CALIBRATION_TEST_DELAY);
-
-	// TURN ON LEDS TO TELL OPERATOR CALIBRATION IS STARTING
-	LED_GreenON();
+	CORE_Delay(CALIBRATE_MOTORJERK_PERIOD);
 	LED_RedON();
 	SYSTEM_CalibrateServoA(&c);
-	LED_RedOFF();
-	LED_GreenOFF();
-
-	// WAIT FOR INPUTS TO FALL BACK TO ZERO REFERENCE
+	LED_GreenON();
 	SYSTEM_WaitForResetInputsServo(&c);
 	CORE_Delay(CALIBRATION_TEST_DELAY);
+	LED_nPulse(3);
+	CORE_Delay(CALIBRATION_TEST_DELAY);
 
-	// TURN ON LEDS TO TELL OPERATOR CALIBRATION IS STARTING
-	LED_GreenON();
+	LED_RedOFF();
+	LED_GreenOFF();
+	CORE_Delay(CALIBRATE_MOTORJERK_PERIOD);
 	LED_RedON();
 	SYSTEM_CalibrateServoB(&c);
-	LED_RedOFF();
-	LED_GreenOFF();
-
-	// WAIT FOR INPUTS TO FALL BACK TO ZERO REFERENCE
+	LED_GreenON();
 	SYSTEM_WaitForResetInputsServo(&c);
-	CORE_Delay(CALIBRATION_TEST_DELAY);
 
 	// WRITE NEW CONFIG TO EEPROM
 	config.chDriveA 		= c.chDriveA;
@@ -460,7 +650,7 @@ void SYSTEM_UpdateCalibration (void)
 	EEPROM_Write(EEPROM_OFFSET, &config, sizeof(config));
 
 	// PULSE LED TO LET USER KNOW SUCCESSFUL
-	LED_nPulse (5);
+	LED_nPulse (10);
 	LED_RedOFF();
 	LED_GreenOFF();
 
@@ -469,408 +659,406 @@ void SYSTEM_UpdateCalibration (void)
 	SERVO_Init();
 }
 
-void SYSTEM_CalibrateRadioDetect (SYSTEM_Config* c)
-{
-	// CREATE LOCAL VARIABLE TO ASSIST IN CALIBRATION
-	RADIO_Data* dataRadioPtr = RADIO_GetDataPtr();
-	uint32_t now = CORE_GetTick();
-	uint32_t tick;
 
-	// Save Current Radio Config to Calibration Config
-	c->radio = config.radio;
-
-	// If no Radio Detected, Proceed with Detection
-	while (dataRadioPtr->inputLost)
-	{
-		// Allow Old Radio to ReConnect
-		if (STARTUP_RADIO_TIMEOUT >= (now - tick))
-		{
-			// Update Radio Data
-			RADIO_Update();
-		}
-		// Radio Input Timeout. Check for Different Radio Type.
-		else
-		{
-			RADIO_DetectNew(&c->radio);
-			// Init Radio Config (Weather or not a new one was connected)
-			RADIO_Init(&c->radio);
-			// Update Variables for Next Loop
-			tick = now;
-		}
-	}
-}
-
-void SYSTEM_CalibrateSampleChannelZero (void)
-{
-	// Initialize Function Variables
-	RADIO_Data * ptrDataRadio = RADIO_GetDataPtr();
-
-	// Update Radio Inputs
-	uint32_t tick = CORE_GetTick();
-	while (100 > CORE_GetTick() - tick) { RADIO_Update(); }
-
-	// Sample All Radio Inputs
-	for (uint8_t i = 0; i < ptrDataRadio->ch_num; i++)
-	{
-		channelZero[i] = ptrDataRadio->ch[i];
-	}
-}
-
+/*
+ * TEXT
+ *
+ * INPUTS:
+ * OUTPUTS:
+ */
 void SYSTEM_CalibrateMotorSameDirection (SYSTEM_Config* c)
 {
-	// Initialize Function Variables
-	RADIO_Data * ptrDataRadio = RADIO_GetDataPtr();
+	// INIT FUNCTION VARIABLES
+	RADIO_Data * ptrRadioData = RADIO_GetDataPtr();
 
-	// JERK THE MOTORS
-	MOTOR_Update(MOTOR_MAX, MOTOR_MAX);
-	CORE_Delay(CALIBRATE_MOTORJERK_PERIOD);
-	MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
-
-	// CHECK FOR OPERATOR INPUT
+	// LOOP UNTIL BREAK CONDITION REACHED
 	while (1)
 	{
-		// Initialize Loop Variables
-		uint8_t numSticks = 0;
+		// INIT LOOP VARIABLES
 		uint32_t tick = CORE_GetTick();
 
-		// Update Radio Inputs
+		// UPDATE RADIO DATA AND COUNT ACTIVE INPUTS
 		RADIO_Update();
+		uint32_t chActive = SYSTEM_CountActiveInputs();
 
-		// Check All Inputs
-		for (uint8_t i = 0; i < ptrDataRadio->ch_num; i++)
+		// START BREAK SEQUENCE FOR ARCADE INPUT DRIVE STYLE
+		if (chActive == 1)
 		{
-			// Detect Drive Channel A
-			if (numSticks == 0)
-			{
-				if (ptrDataRadio->ch[i] > (channelZero[i] + CALIBRATE_INPUT_THRESHOLD))
-				{
-					c->chDriveA = i;
-					c->chDriveArev = false;
-					numSticks = 1;
-				}
-				else if (ptrDataRadio->ch[i] < (channelZero[i] - CALIBRATE_INPUT_THRESHOLD))
-				{
-					c->chDriveA = i;
-					c->chDriveArev = true;
-					numSticks = 1;
-				}
-			}
-			// Detect Drive Channel B
-			else // if (numSticks >= 1)
-			{
-				if (ptrDataRadio->ch[i] > (channelZero[i] + CALIBRATE_INPUT_THRESHOLD))
-				{
-					if (i != c->chDriveA) {
-						c->chDriveB = i;
-						c->chDriveBrev = false;
-						numSticks += 1;
-					}
-
-				}
-				else if (ptrDataRadio->ch[i] < (channelZero[i] - CALIBRATE_INPUT_THRESHOLD))
-				{
-					if (i != c->chDriveA) {
-						c->chDriveB = i;
-						c->chDriveBrev = true;
-						numSticks += 1;
-					}
-				}
-			}
-		}
-
-		// Check For Break Condition
-		if (numSticks == 1) {
 			c->mode = ARCADE;
 			break;
-		} else if (numSticks == 2) 	{
+		}
+		// START BREAK SEQUENCE FOR TANK INPUT DRIVE STYLE
+		else if (chActive == 2)
+		{
 			c->mode = TANK;
 			break;
 		}
 
-		while (CALIBRATE_DRIVEINPUT_PERIOD >= CORE_GetTick() - tick)
+		// LOOP PACING
+		while (CALIBRATE_DRIVEINPUT_PERIOD >= (CORE_GetTick() - tick))
 		{
 			RADIO_Update();
 			CORE_Idle();
 		}
 	}
+
+	// ITTERATE THROUGH EACH CHANNEL TO FIND THE PUSHED STICK
+	for (uint8_t ch = 0; ch < ptrRadioData->ch_num; ch++)
+	{
+		// IF STICK IS ACTIVE IN POSITIVE DIRECTION
+		if (ptrRadioData->chActive[ch] == chActive_True)
+		{
+			c->chDriveA = ch;
+			c->chDriveArev = false;
+			break;
+		}
+		// IF STICK IS ACTIVE IN NEGATIVE DIRECTION
+		else if (ptrRadioData->chActive[ch] == chActive_TrueRev)
+		{
+			c->chDriveA = ch;
+			c->chDriveArev = true;
+			break;
+		}
+	}
+
+	// IF TANK MODE WAS SELECTED
+	if (c->mode == TANK)
+	{
+		// CONTINUE ITTERATING THROUGH EACH CHANNEL TO FIND THE SECOND PUSHED STICK
+		for (uint8_t ch = c->chDriveA; ch < ptrRadioData->ch_num; ch++)
+		{
+			// IF STICK IS ACTIVE IN POSITIVE DIRECTION
+			if (ptrRadioData->chActive[ch] == chActive_True)
+			{
+				c->chDriveB = ch;
+				c->chDriveBrev = false;
+				break;
+			}
+			// IF STICK IS ACTIVE IN NEGATIVE DIRECTION
+			else if (ptrRadioData->chActive[ch] == chActive_TrueRev)
+			{
+				c->chDriveB = ch;
+				c->chDriveBrev = true;
+				break;
+			}
+		}
+	}
 }
 
 
+/*
+ * TEXT
+ *
+ * INPUTS:
+ * OUTPUTS:
+ */
 void SYSTEM_CalibrateMotorOppositeDirection (SYSTEM_Config* c)
 {
-	// Initialize Function Variables
-	RADIO_Data * ptrDataRadio = RADIO_GetDataPtr();
+	// INIT FUNCTION VARIABLES
+	RADIO_Data * ptrRadioData = RADIO_GetDataPtr();
 
-	// JERK THE MOTORS
-	MOTOR_Update(-MOTOR_MAX, MOTOR_MAX);
-	CORE_Delay(CALIBRATE_MOTORJERK_PERIOD);
-	MOTOR_Update(MOTOR_OFF, MOTOR_OFF);
-
-
-	// CHECK FOR OPERATOR INPUT
+	// LOOP UNTIL BREAK CONDITION REACHED
 	while (1)
 	{
-		// Initialize Loop Variables
-		uint8_t numSticks = 0;
+		// INIT LOOP VARIABLES
 		uint32_t tick = CORE_GetTick();
 
-		// Update Radio Inputs
+		// UPDATE RADIO DATA AND COUNT ACTIVE INPUTS
 		RADIO_Update();
+		uint32_t chActive = SYSTEM_CountActiveInputs();
 
-		// Check All Inputs
-
-		switch (c->mode) {
-		case TANK:;
-			bool driveA = false;
-			bool driveRevA = false;
-			if (ptrDataRadio->ch[c->chDriveA] > (channelZero[c->chDriveA] + CALIBRATE_INPUT_THRESHOLD)) {
-				driveA = true;
-			} else if (ptrDataRadio->ch[c->chDriveA] < (channelZero[c->chDriveA] - CALIBRATE_INPUT_THRESHOLD)) {
-				driveA = true;
-				driveRevA = true;
-			}
-
-			bool driveB = false;
-			bool driveRevB = false;
-			if (ptrDataRadio->ch[c->chDriveB] > (channelZero[c->chDriveB] + CALIBRATE_INPUT_THRESHOLD)) {
-				driveB = true;
-			} else if (ptrDataRadio->ch[c->chDriveB] < (channelZero[c->chDriveB] - CALIBRATE_INPUT_THRESHOLD)) {
-				driveB = true;
-				driveRevB = true;
-			}
-			// Check if both sticks are pressed and one channel has been reversed
-			if (  driveA &&
-				  driveB &&
-				((driveRevA == c->chDriveArev) != (driveRevB == c->chDriveBrev)) )
-			{
-				// if driveB has been reversed then channels A and B need to be swapped
-				if (driveRevB != c->chDriveBrev) {
-					SYSTEM_Config cInt;
-					cInt.chDriveA = 	c->chDriveA;
-					cInt.chDriveArev =	c->chDriveArev;
-					c->chDriveA = 		c->chDriveB;
-					c->chDriveArev = 	c->chDriveBrev;
-					c->chDriveB = 		cInt.chDriveA;
-					c->chDriveBrev = 	cInt.chDriveArev;
-				}
-				numSticks = 1;
-			}
-			break; //break from case
-
-		case ARCADE:;
-			for (uint8_t i = 0; i < ptrDataRadio->ch_num; i++)
-			{
-				if (numSticks == 0 && i != c->chDriveA)
-				{
-					if (ptrDataRadio->ch[i] > (channelZero[i] + CALIBRATE_INPUT_THRESHOLD))
-					{
-						c->chDriveB = i;
-						c->chDriveBrev = true;
-						numSticks += 1;
-					}
-					else if (ptrDataRadio->ch[i] < (channelZero[i] - CALIBRATE_INPUT_THRESHOLD))
-					{
-						c->chDriveB = i;
-						c->chDriveBrev = false;
-						numSticks += 1;
-					}
-
-				}
-			}
-			break; //break from case
+		// DO SOME PRECHECKS BEFORE BREAK SEQUENCE
+		bool chRevDriveA = false;
+		if (ptrRadioData->chActive[c->chDriveA] == chActive_TrueRev)
+		{
+			chRevDriveA = true;
+		}
+		bool chRevDriveB = false;
+		if (ptrRadioData->chActive[c->chDriveA] == chActive_TrueRev)
+		{
+			chRevDriveA = true;
 		}
 
-		// Check For Break Condition
-		if (numSticks == 1) {
+		// START BREAK SEQUENCE FOR ARCADE INPUT DRIVE STYLE
+		if (c->mode == ARCADE && 											// Arcade mode chosen from previous detection
+			chActive == 1 && 												// Only one channel is active
+			ptrRadioData->chActive[c->chDriveA] == chActive_False )			// DriveA channel is not active channel
+		{
+			break;
+		}
+		// START BREAK SEQUENCE FOR TANK INPUT DRIVE STYLE
+		else if (c->mode == TANK && 													// Tank mode chosen from previous detection
+				 chActive == 2 &&														// Only two active channels
+				 ptrRadioData->chActive[c->chDriveA] != chActive_False &&				// DriveA channel was one of the two active channels
+				 ptrRadioData->chActive[c->chDriveB] != chActive_False &&				// DriveB channel was one of the two active channels
+				 ((chRevDriveA == c->chDriveArev) != (chRevDriveB == c->chDriveBrev)) ) // Check only one of the changed directions
+		{
+			// IF DRIVEB HAS BEEN REVERSED THEN CHANNELS A AND B NEED TO BE SWAPPED
+			if (chRevDriveB != c->chDriveBrev) {
+				SYSTEM_Config cInt;
+				cInt.chDriveA 		= c->chDriveA;
+				cInt.chDriveArev 	= c->chDriveArev;
+				c->chDriveA 		= c->chDriveB;
+				c->chDriveArev 		= c->chDriveBrev;
+				c->chDriveB 		= cInt.chDriveA;
+				c->chDriveBrev 		= cInt.chDriveArev;
+			}
 			break;
 		}
 
-		// Loop Pacing
-		while (CALIBRATE_DRIVEINPUT_PERIOD >= CORE_GetTick() - tick)
+		// LOOP PACING
+		while (CALIBRATE_DRIVEINPUT_PERIOD >= (CORE_GetTick() - tick))
 		{
 			RADIO_Update();
 			CORE_Idle();
 		}
 	}
+
+	// EXTRACT REMAINING ARCADE DRIVE DATA
+	if (c->mode == ARCADE)
+	{
+		// ITTERATE THROUGH EVERY INPUT
+		for (uint8_t ch = 0; ch < ptrRadioData->ch_num; ch++)
+		{
+			// IF STICK IS ACTIVE IN POSITIVE DIRECTION
+			if (ptrRadioData->chActive[ch] == chActive_True)
+			{
+				c->chDriveB = ch;
+				c->chDriveBrev = true;
+				break;
+			}
+			// IF STICK IS ACTIVE IN NEGATIVE DIRECTION
+			else if (ptrRadioData->chActive[ch] == chActive_TrueRev)
+			{
+				c->chDriveB = ch;
+				c->chDriveBrev = false;
+				break;
+			}
+		}
+	}
 }
 
 
+/*
+ * TEXT
+ *
+ * INPUTS:
+ * OUTPUTS:
+ */
 void SYSTEM_CalibrateServoA (SYSTEM_Config* c)
 {
-	// Initialize Function Variables
-	RADIO_Data * ptrDataRadio = RADIO_GetDataPtr();
+	// INIT FUNCTION VARIABLES
+	RADIO_Data * ptrRadioData = RADIO_GetDataPtr();
 
-	//
+	// LOOP UNTIL BREAK CONDITION REACHED
 	while (1)
 	{
-		// Initialize Loop Variables
-		uint8_t numSticks = 0;
-
-		// Update Radio Inputs
+		// UPDATE RADIO INPUTS
 		RADIO_Update();
-
-		// Check All Inputs
-		for (uint8_t i = 0; i < ptrDataRadio->ch_num; i++)
+		// START BREAK SEQUENCE WHEN ANY STICK IS PUSHED (EXCL DRIVE INPUTS)
+		if ( SYSTEM_CountActiveInputsServo(c) == 1)
 		{
-			if ( (i != config.chDriveA) && (i != config.chDriveB) )
+			break;
+		}
+		// LOOP PACING
+		CORE_Idle();
+	}
+
+	// ITTERATE THROUGH EACH CHANNEL TO FIND PUSHED STICK
+	for (uint8_t ch = 0; ch < ptrRadioData->ch_num; ch++)
+	{
+		// IGNROE DRIVE INPUTS
+		if (ch != c->chDriveA && ch != c->chDriveB)
+		{
+			// IF STICK IS ACTIVE IN POSITIVE DIRECTION
+			if (ptrRadioData->chActive[ch] == chActive_True)
 			{
-				if (ptrDataRadio->ch[i] > (channelZero[i] + CALIBRATE_ZERO_THRESHOLD))
-				{
-					c->chServoA = i;
-					c->chServoArev = false;
-					numSticks += 1;
-				} else if (ptrDataRadio->ch[i] < (channelZero[i] - CALIBRATE_ZERO_THRESHOLD)) {
-					c->chServoA = i;
-					c->chServoArev = true;
-					numSticks += 1;
-				}
+				c->chServoA = ch;
+				c->chServoArev = false;
+			}
+			// IF STICK IS ACTIVE IN NEGATIVE DIRECTION
+			else if (ptrRadioData->chActive[ch] == chActive_TrueRev)
+			{
+				c->chServoA = ch;
+				c->chServoArev = true;
 			}
 		}
-
-		// Check For Break Condition
-		if (numSticks == 1) { break; }
-
-		// Loop Pacing
-		CORE_Idle();
 	}
 }
 
 
+/*
+ * TEXT
+ *
+ * INPUTS:
+ * OUTPUTS:
+ */
 void SYSTEM_CalibrateServoB (SYSTEM_Config* c)
 {
-	// Initialize Function Variables
-	RADIO_Data * ptrDataRadio = RADIO_GetDataPtr();
+	// INIT FUNCTION VARIABLES
+	RADIO_Data * ptrRadioData = RADIO_GetDataPtr();
 
-	//
+	// LOOP UNTIL BREAK CONDITION REACHED
 	while (1)
 	{
-		// Initialize Loop Variables
-		uint8_t numSticks = 0;
-
-		// Update Radio Inputs
+		// UPDATE RADIO INPUTS
 		RADIO_Update();
-
-		// Check All Inputs
-		for (uint8_t i = 0; i < ptrDataRadio->ch_num; i++)
+		// START BREAK SEQUENCE WHEN ANY STICK IS PUSHED (EXCL DRIVE INPUTS)
+		if ( SYSTEM_CountActiveInputsServo(c) == 1)
 		{
-			if ( (i != config.chDriveA) && (i != config.chDriveB) )
+			break;
+		}
+		// LOOP PACING
+		CORE_Idle();
+	}
+
+	// ITTERATE THROUGH EACH CHANNEL TO FIND PUSHED STICK
+	for (uint8_t ch = 0; ch < ptrRadioData->ch_num; ch++)
+	{
+		// IGNROE DRIVE INPUTS
+		if (ch != c->chDriveA && ch != c->chDriveB)
+		{
+			// IF STICK IS ACTIVE IN POSITIVE DIRECTION
+			if (ptrRadioData->chActive[ch] == chActive_True)
 			{
-				if (ptrDataRadio->ch[i] > (channelZero[i] + CALIBRATE_ZERO_THRESHOLD))
-				{
-					c->chServoB = i;
-					c->chServoBrev = false;
-					numSticks += 1;
-				} else if (ptrDataRadio->ch[i] < (channelZero[i] - CALIBRATE_ZERO_THRESHOLD)) {
-					c->chServoB = i;
-					c->chServoBrev = true;
-					numSticks += 1;
-				}
+				c->chServoB = ch;
+				c->chServoBrev = false;
+			}
+			// IF STICK IS ACTIVE IN NEGATIVE DIRECTION
+			else if (ptrRadioData->chActive[ch] == chActive_TrueRev)
+			{
+				c->chServoB = ch;
+				c->chServoBrev = true;
 			}
 		}
-
-		// Check For Break Condition
-		if (numSticks == 1) { break; }
-
-		// Loop Pacing
-		CORE_Idle();
 	}
 }
 
 
-void SYSTEM_WaitForResetInputsAll (void)
+/*
+ * WAITS UNTIL ANY OF THE RADIO INPUTS ARE ACTIVE
+ *
+ * INPUTS: 	N/A
+ * OUTPUTS: N/A
+ */
+void SYSTEM_WaitForActiveInput (void)
 {
-	// Initialize Function Variables
-	RADIO_Data * ptrDataRadio = RADIO_GetDataPtr();
-
-	//
+	// LOOP UNTIL BREAK CONDITION REACHED
 	while (1)
 	{
-		// Initialize Loop Variables
-		uint8_t numSticks = 0;
-
-		// Update Radio Inputs
+		// UPDATE RADIO DATA
 		RADIO_Update();
 
-		// Check All Inputs
-		for (uint8_t i = 0; i < ptrDataRadio->ch_num; i++)
-		{
-			if ((ptrDataRadio->ch[i] > (channelZero[i] + CALIBRATE_ZERO_THRESHOLD)) || (ptrDataRadio->ch[i] < (channelZero[i] - CALIBRATE_ZERO_THRESHOLD)))
-			{
-				numSticks += 1;
-			}
+		// BREAK IF ANY STICKS ARE PUSHED
+		if (SYSTEM_CountActiveInputs() > 0) {
+			break;
 		}
 
-		// Check For Break Condition
-		if (numSticks == 0) { break; }
-
-		// Loop Pacing
+		// LOOP PACING
 		CORE_Idle();
 	}
 }
 
+
+/*
+ * WAITS UNTIL ALL RADIO INPUTS ARE BACK TO NEUTRAL POSITION
+ *
+ * INPUTS: 	N/A
+ * OUTPUTS: N/A
+ */
+void SYSTEM_WaitForResetInputs (void)
+{
+	// LOOP UNTIL BREAK CONDITION REACHED
+	while (1)
+	{
+		// UPDATE RADIO DATA
+		RADIO_Update();
+
+		// BREAK WHEN ALL STICKS HAVE RETURNED BACK TO ZERO POSITION
+		if ( SYSTEM_CountActiveInputs() == 0) {
+			break;
+		}
+
+		// LOOP PACING
+		CORE_Idle();
+	}
+}
+
+/*
+ * WAITS UNTIL ALL RADIO INPUTS ARE BACK TO NEUTRAL POSITION (EXCL DRIVE INPUTS)
+ *
+ * INPUTS: 	POINTER TO SYSTEM_Config STRUCT CONTAINING DRIVE INPUTS TO IGNORE
+ * OUTPUTS: N/A
+ */
 void SYSTEM_WaitForResetInputsServo (SYSTEM_Config* c)
 {
-	// Initialize Function Variables
-	RADIO_Data * ptrDataRadio = RADIO_GetDataPtr();
-
-	//
+	// LOOP UNTIL BREAK CONDITION REACHED
 	while (1)
 	{
-		// Initialize Loop Variables
-		uint8_t numSticks = 0;
-
-		// Update Radio Inputs
+		// UPDATE RADIO DATA
 		RADIO_Update();
 
-		// Check All Inputs
-		for (uint8_t i = 0; i < ptrDataRadio->ch_num; i++)
-		{
-			if (((ptrDataRadio->ch[i] > (channelZero[i] + CALIBRATE_ZERO_THRESHOLD)) ||
-				 (ptrDataRadio->ch[i] < (channelZero[i] - CALIBRATE_ZERO_THRESHOLD))) &&
-				!(i == c->chDriveA || i == c->chDriveB) )
-			{
-				numSticks += 1;
-			}
+		// BREAK WHEN ALL STICKS HAVE RETURNED BACK TO ZERO POSITION (EXCL DRIVE INPUTS)
+		if ( SYSTEM_CountActiveInputsServo(c) == 0) {
+			break;
 		}
 
-		// Check For Break Condition
-		if (numSticks == 0) { break; }
-
-		// Loop Pacing
+		// LOOP PACING
 		CORE_Idle();
 	}
 }
 
-
-void SYSTEM_WaitForInput (void)
+/*
+ * COUNTS AND RETURNS NUMBER OF THE RADIO INPUTS ARE ACTIVE
+ *
+ * INPUTS: 	N/A
+ * OUTPUTS: NUMBER OF ACTIVE RADIO CHANNELS
+ */
+uint32_t SYSTEM_CountActiveInputs (void)
 {
-	// Initialize Function Variables
-	RADIO_Data * ptrDataRadio = RADIO_GetDataPtr();
+	// INIT FUNCTION VARIABLES
+	RADIO_Data * ptrRadioData = RADIO_GetDataPtr();
+	uint32_t retVal = 0;
 
-	//
-	while (1)
+	// ITTERATE THROUGH EACH RADIO INPUT
+	for (uint8_t ch = 0; ch < ptrRadioData->ch_num; ch++)
 	{
-		// Initialize Loop Variables
-		uint8_t numSticks = 0;
-
-		// Update Radio Inputs
-		RADIO_Update();
-
-		// Check All Inputs
-		for (uint8_t i = 0; i < ptrDataRadio->ch_num; i++)
+		if ( (ptrRadioData->chActive[ch] == chActive_True) ||
+			 (ptrRadioData->chActive[ch] == chActive_TrueRev) )
 		{
-			if ((ptrDataRadio->ch[i] > (channelZero[i] + CALIBRATE_ZERO_THRESHOLD)) || (ptrDataRadio->ch[i] < (channelZero[i] - CALIBRATE_ZERO_THRESHOLD)))
-			{
-				numSticks += 1;
-			}
+			retVal += 1;
 		}
-
-		// Check For Break Condition
-		if (numSticks > 0) { break; }
-
-		// Loop Pacing
-		CORE_Idle();
 	}
+
+	// RETURN NUMBER OF ACTIVE INPUTS
+	return retVal;
+}
+
+/*
+ * COUNTS AND RETURNS NUMBER OF THE RADIO INPUTS ARE ACTIVE (EXCL DRIVE INPUTS)
+ *
+ * INPUTS: 	POINTER TO SYSTEM_Config STRUCT CONTAINING DRIVE INPUTS TO IGNORE
+ * OUTPUTS: NUMBER OF ACTIVE RADIO CHANNELS (EXCL DRIVE INPUTS)
+ */
+uint32_t SYSTEM_CountActiveInputsServo (SYSTEM_Config* c)
+{
+	// INIT FUNCTION VARIABLES
+	RADIO_Data * ptrRadioData = RADIO_GetDataPtr();
+	uint32_t retVal = 0;
+
+	// ITTERATE THROUGH EACH RADIO INPUT
+	for (uint8_t ch = 0; ch < ptrRadioData->ch_num; ch++)
+	{
+		if ( ( (ptrRadioData->chActive[ch] == chActive_True) ||
+			   (ptrRadioData->chActive[ch] == chActive_TrueRev) ) &&
+			 (ch != c->chDriveA && ch != c->chDriveB) )
+		{
+			retVal += 1;
+		}
+	}
+
+	// RETURN NUMBER OF ACTIVE INPUTS
+	return retVal;
 }
 
 

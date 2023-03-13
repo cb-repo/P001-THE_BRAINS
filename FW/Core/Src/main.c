@@ -1,6 +1,7 @@
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 #include "Core.h"
+#include "Radio.h"
 #include "System.h"
 #include "Motor.h"
 #include "Servo.h"
@@ -22,8 +23,6 @@
  * PRIVATE VARIABLES
  */
 
-
-
 /*
  * PUBLIC FUNCTIONS
  */
@@ -40,6 +39,7 @@ int main (void)
 	while (1)
 	{
 		SYSTEM_Update();
+
 		US_Delay(1000);
 //		CORE_Idle();
 	}

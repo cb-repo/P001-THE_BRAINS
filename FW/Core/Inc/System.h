@@ -19,18 +19,25 @@
  * PUBLIC DEFINITIONS
  */
 
-#define EEPROM_OFFSET				0
-#define CONFIG_HASH_A				0x7be13336
-#define CONFIG_HASH_B				0x8761d60e
+#define SYSTEM_GETBIT(var, bit) (((var) >> (bit)) & 1)
+#define SYSTEM_SETBIT(var, bit) (var |= (1 << (bit)))
+#define SYSTEM_RSTBIT(var, bit)	(var &= (~(1 << (bit))))
 
-#define LED_FAULTFLASH	500
+#define EEPROM_OFFSET			0
+#define CONFIG_HASH_A			0x7be13336
+#define CONFIG_HASH_B			0x8761d60e
 
-#define BATT_1S_LOW		3200
-#define BATT_2S_LOW		6200
-#define BATT_HYST		100
+#define LED_FAULT_SIGNALFLASH	500
+#define LED_FAULT_VOLTAGEFLASH	500
+#define LED_FAULT_TEMPFLASH		100
 
-#define TEMP_HIGH		100
-#define TEMP_HYST		10
+
+#define BATT_1S_LOW				3200
+#define BATT_2S_LOW				6200
+#define BATT_HYST				100
+
+#define TEMP_HIGH				100
+#define TEMP_HYST				10
 
 /*
  * PUBLIC TYPES
