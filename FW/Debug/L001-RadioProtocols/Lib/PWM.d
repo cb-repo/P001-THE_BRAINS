@@ -42,7 +42,7 @@ L001-RadioProtocols/Lib/PWM.o: ../L001-RadioProtocols/Lib/PWM.c \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h \
  ../STM32X/Lib/Core.h ../STM32X/Lib/STM32X.h ../STM32X/Lib/Core.inl.h \
  ../STM32X/Lib/GPIO.h ../STM32X/Lib/GPIO.inl.h ../STM32X/Lib/TIM.h \
- ../STM32X/Lib/GPIO.h ../STM32X/Lib/TIM.inl.h
+ ../STM32X/Lib/GPIO.h ../STM32X/Lib/TIM.inl.h ../STM32X/Lib/US.h
 ../L001-RadioProtocols/Lib/PWM.h:
 ../STM32X/Lib/STM32X.h:
 ../Core/Inc/Board.h:
@@ -94,3 +94,4 @@ L001-RadioProtocols/Lib/PWM.o: ../L001-RadioProtocols/Lib/PWM.c \
 ../STM32X/Lib/TIM.h:
 ../STM32X/Lib/GPIO.h:
 ../STM32X/Lib/TIM.inl.h:
+../STM32X/Lib/US.h:

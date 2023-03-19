@@ -42,7 +42,7 @@ Core/Src/System.o: ../Core/Src/System.c ../Core/Inc/System.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h \
  ../STM32X/Lib/Core.h ../STM32X/Lib/STM32X.h ../STM32X/Lib/Core.inl.h \
  ../STM32X/Lib/GPIO.h ../STM32X/Lib/GPIO.inl.h ../STM32X/Lib/ADC.h \
- ../STM32X/Lib/EEPROM.h ../STM32X/Lib/UART.h \
+ ../STM32X/Lib/EEPROM.h ../STM32X/Lib/UART.h ../STM32X/Lib/US.h \
  ../L001-RadioProtocols/Lib/Radio.h ../L001-RadioProtocols/Lib/PWM.h \
  ../STM32X/Lib/TIM.h ../STM32X/Lib/GPIO.h ../STM32X/Lib/TIM.inl.h \
  ../L001-RadioProtocols/Lib/PPM.h ../L001-RadioProtocols/Lib/SBUS.h \
@@ -99,6 +99,7 @@ Core/Src/System.o: ../Core/Src/System.c ../Core/Inc/System.h \
 ../STM32X/Lib/ADC.h:
 ../STM32X/Lib/EEPROM.h:
 ../STM32X/Lib/UART.h:
+../STM32X/Lib/US.h:
 ../L001-RadioProtocols/Lib/Radio.h:
 ../L001-RadioProtocols/Lib/PWM.h:
 ../STM32X/Lib/TIM.h:

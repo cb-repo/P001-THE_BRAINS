@@ -41,7 +41,8 @@ L001-RadioProtocols/Lib/IBUS.o: ../L001-RadioProtocols/Lib/IBUS.c \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h \
  ../STM32X/Lib/Core.h ../STM32X/Lib/STM32X.h ../STM32X/Lib/Core.inl.h \
- ../STM32X/Lib/UART.h ../STM32X/Lib/GPIO.h ../STM32X/Lib/GPIO.inl.h
+ ../STM32X/Lib/UART.h ../STM32X/Lib/GPIO.h ../STM32X/Lib/GPIO.inl.h \
+ ../STM32X/Lib/US.h
 ../L001-RadioProtocols/Lib/IBUS.h:
 ../STM32X/Lib/STM32X.h:
 ../Core/Inc/Board.h:
@@ -91,3 +92,4 @@ L001-RadioProtocols/Lib/IBUS.o: ../L001-RadioProtocols/Lib/IBUS.c \
 ../STM32X/Lib/UART.h:
 ../STM32X/Lib/GPIO.h:
 ../STM32X/Lib/GPIO.inl.h:
+../STM32X/Lib/US.h:

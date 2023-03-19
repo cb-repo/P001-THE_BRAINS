@@ -706,7 +706,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x44 ./Core/Src/main.o
  .debug_macro   0x0000000000000000      0x146 ./Core/Src/main.o
  .debug_macro   0x0000000000000000       0x22 ./Core/Src/main.o
- .debug_macro   0x0000000000000000       0x3a ./Core/Src/main.o
+ .debug_macro   0x0000000000000000       0x40 ./Core/Src/main.o
  .debug_macro   0x0000000000000000       0x28 ./Core/Src/main.o
  .debug_macro   0x0000000000000000       0x2e ./Core/Src/main.o
  .debug_macro   0x0000000000000000       0x46 ./Core/Src/main.o
@@ -7679,6 +7679,8 @@ Discarded input sections
  .text          0x0000000000000000        0x0 ./L001-RadioProtocols/Lib/IBUS.o
  .data          0x0000000000000000        0x0 ./L001-RadioProtocols/Lib/IBUS.o
  .bss           0x0000000000000000        0x0 ./L001-RadioProtocols/Lib/IBUS.o
+ .text.IBUS_DetInit
+                0x0000000000000000       0x5c ./L001-RadioProtocols/Lib/IBUS.o
  .debug_macro   0x0000000000000000      0xa4e ./L001-RadioProtocols/Lib/IBUS.o
  .debug_macro   0x0000000000000000       0x22 ./L001-RadioProtocols/Lib/IBUS.o
  .debug_macro   0x0000000000000000       0x8e ./L001-RadioProtocols/Lib/IBUS.o
@@ -7821,6 +7823,8 @@ Discarded input sections
  .text          0x0000000000000000        0x0 ./L001-RadioProtocols/Lib/PPM.o
  .data          0x0000000000000000        0x0 ./L001-RadioProtocols/Lib/PPM.o
  .bss           0x0000000000000000        0x0 ./L001-RadioProtocols/Lib/PPM.o
+ .text.PPM_DetInit
+                0x0000000000000000       0x4c ./L001-RadioProtocols/Lib/PPM.o
  .debug_macro   0x0000000000000000      0xa4e ./L001-RadioProtocols/Lib/PPM.o
  .debug_macro   0x0000000000000000       0x22 ./L001-RadioProtocols/Lib/PPM.o
  .debug_macro   0x0000000000000000       0x8e ./L001-RadioProtocols/Lib/PPM.o
@@ -7963,6 +7967,8 @@ Discarded input sections
  .text          0x0000000000000000        0x0 ./L001-RadioProtocols/Lib/PWM.o
  .data          0x0000000000000000        0x0 ./L001-RadioProtocols/Lib/PWM.o
  .bss           0x0000000000000000        0x0 ./L001-RadioProtocols/Lib/PWM.o
+ .text.PWM_DetInit
+                0x0000000000000000       0x84 ./L001-RadioProtocols/Lib/PWM.o
  .debug_macro   0x0000000000000000      0xa4e ./L001-RadioProtocols/Lib/PWM.o
  .debug_macro   0x0000000000000000       0x22 ./L001-RadioProtocols/Lib/PWM.o
  .debug_macro   0x0000000000000000       0x8e ./L001-RadioProtocols/Lib/PWM.o
@@ -8032,7 +8038,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x44 ./L001-RadioProtocols/Lib/PWM.o
  .debug_macro   0x0000000000000000      0x146 ./L001-RadioProtocols/Lib/PWM.o
  .debug_macro   0x0000000000000000       0x22 ./L001-RadioProtocols/Lib/PWM.o
- .debug_macro   0x0000000000000000       0x3a ./L001-RadioProtocols/Lib/PWM.o
+ .debug_macro   0x0000000000000000       0x40 ./L001-RadioProtocols/Lib/PWM.o
  .group         0x0000000000000000        0xc ./L001-RadioProtocols/Lib/Radio.o
  .group         0x0000000000000000        0xc ./L001-RadioProtocols/Lib/Radio.o
  .group         0x0000000000000000        0xc ./L001-RadioProtocols/Lib/Radio.o
@@ -8179,7 +8185,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x44 ./L001-RadioProtocols/Lib/Radio.o
  .debug_macro   0x0000000000000000      0x146 ./L001-RadioProtocols/Lib/Radio.o
  .debug_macro   0x0000000000000000       0x22 ./L001-RadioProtocols/Lib/Radio.o
- .debug_macro   0x0000000000000000       0x3a ./L001-RadioProtocols/Lib/Radio.o
+ .debug_macro   0x0000000000000000       0x40 ./L001-RadioProtocols/Lib/Radio.o
  .debug_macro   0x0000000000000000       0x28 ./L001-RadioProtocols/Lib/Radio.o
  .debug_macro   0x0000000000000000       0x52 ./L001-RadioProtocols/Lib/Radio.o
  .debug_macro   0x0000000000000000       0x2e ./L001-RadioProtocols/Lib/Radio.o
@@ -8257,6 +8263,8 @@ Discarded input sections
  .text          0x0000000000000000        0x0 ./L001-RadioProtocols/Lib/SBUS.o
  .data          0x0000000000000000        0x0 ./L001-RadioProtocols/Lib/SBUS.o
  .bss           0x0000000000000000        0x0 ./L001-RadioProtocols/Lib/SBUS.o
+ .text.SBUS_DetInit
+                0x0000000000000000       0x60 ./L001-RadioProtocols/Lib/SBUS.o
  .debug_macro   0x0000000000000000      0xa4e ./L001-RadioProtocols/Lib/SBUS.o
  .debug_macro   0x0000000000000000       0x22 ./L001-RadioProtocols/Lib/SBUS.o
  .debug_macro   0x0000000000000000       0x8e ./L001-RadioProtocols/Lib/SBUS.o
@@ -12455,7 +12463,7 @@ LOAD /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.
                 0x0000000008000000                g_pfnVectors
                 0x00000000080000c0                . = ALIGN (0x4)
 
-.text           0x00000000080000c0     0x4c0c
+.text           0x00000000080000c0     0x4f3c
                 0x00000000080000c0                . = ALIGN (0x4)
  *(.text)
  .text          0x00000000080000c0       0x48 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/crtbegin.o
@@ -12577,547 +12585,546 @@ LOAD /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.
                 0x0000000008000daa       0x20 ./Core/Src/System.o
  *fill*         0x0000000008000dca        0x2 
  .text.SYSTEM_Init
-                0x0000000008000dcc       0x74 ./Core/Src/System.o
+                0x0000000008000dcc       0x80 ./Core/Src/System.o
                 0x0000000008000dcc                SYSTEM_Init
  .text.SYSTEM_Update
-                0x0000000008000e40       0x1e ./Core/Src/System.o
-                0x0000000008000e40                SYSTEM_Update
- *fill*         0x0000000008000e5e        0x2 
+                0x0000000008000e4c       0x1e ./Core/Src/System.o
+                0x0000000008000e4c                SYSTEM_Update
+ *fill*         0x0000000008000e6a        0x2 
  .text.SYSTEM_InitRadio
-                0x0000000008000e60       0xb4 ./Core/Src/System.o
-                0x0000000008000e60                SYSTEM_InitRadio
+                0x0000000008000e6c       0xa0 ./Core/Src/System.o
+                0x0000000008000e6c                SYSTEM_InitRadio
  .text.SYSTEM_HandleFaultStatus
-                0x0000000008000f14       0xa4 ./Core/Src/System.o
-                0x0000000008000f14                SYSTEM_HandleFaultStatus
+                0x0000000008000f0c       0xc8 ./Core/Src/System.o
+                0x0000000008000f0c                SYSTEM_HandleFaultStatus
  .text.SYSTEM_HandleCalibration
-                0x0000000008000fb8       0x48 ./Core/Src/System.o
-                0x0000000008000fb8                SYSTEM_HandleCalibration
+                0x0000000008000fd4       0x48 ./Core/Src/System.o
+                0x0000000008000fd4                SYSTEM_HandleCalibration
  .text.SYSTEM_HandleLEDs
-                0x0000000008001000       0x9c ./Core/Src/System.o
-                0x0000000008001000                SYSTEM_HandleLEDs
+                0x000000000800101c       0x9c ./Core/Src/System.o
+                0x000000000800101c                SYSTEM_HandleLEDs
  .text.SYSTEM_HandleOutputs
-                0x000000000800109c       0x9c ./Core/Src/System.o
-                0x000000000800109c                SYSTEM_HandleOutputs
+                0x00000000080010b8       0x9c ./Core/Src/System.o
+                0x00000000080010b8                SYSTEM_HandleOutputs
  .text.SYSTEM_UpdateServo
-                0x0000000008001138       0x80 ./Core/Src/System.o
-                0x0000000008001138                SYSTEM_UpdateServo
+                0x0000000008001154       0x80 ./Core/Src/System.o
+                0x0000000008001154                SYSTEM_UpdateServo
  .text.SYSTEM_UpdateMotors
-                0x00000000080011b8      0x128 ./Core/Src/System.o
-                0x00000000080011b8                SYSTEM_UpdateMotors
+                0x00000000080011d4      0x128 ./Core/Src/System.o
+                0x00000000080011d4                SYSTEM_UpdateMotors
  .text.SYSTEM_VerifyConfig
-                0x00000000080012e0       0x88 ./Core/Src/System.o
-                0x00000000080012e0                SYSTEM_VerifyConfig
+                0x00000000080012fc       0x88 ./Core/Src/System.o
+                0x00000000080012fc                SYSTEM_VerifyConfig
  .text.SYSTEM_GetBatteryVoltage
-                0x0000000008001368       0x26 ./Core/Src/System.o
-                0x0000000008001368                SYSTEM_GetBatteryVoltage
- *fill*         0x000000000800138e        0x2 
+                0x0000000008001384       0x26 ./Core/Src/System.o
+                0x0000000008001384                SYSTEM_GetBatteryVoltage
+ *fill*         0x00000000080013aa        0x2 
  .text.SYSTEM_RadioToMotor
-                0x0000000008001390       0x5c ./Core/Src/System.o
-                0x0000000008001390                SYSTEM_RadioToMotor
+                0x00000000080013ac       0x5c ./Core/Src/System.o
+                0x00000000080013ac                SYSTEM_RadioToMotor
  .text.SYSTEM_ReverseRadio
-                0x00000000080013ec       0x24 ./Core/Src/System.o
-                0x00000000080013ec                SYSTEM_ReverseRadio
+                0x0000000008001408       0x24 ./Core/Src/System.o
+                0x0000000008001408                SYSTEM_ReverseRadio
  .text.SYSTEM_InitiateCalibration
-                0x0000000008001410       0xe4 ./Core/Src/System.o
-                0x0000000008001410                SYSTEM_InitiateCalibration
+                0x000000000800142c       0xf4 ./Core/Src/System.o
+                0x000000000800142c                SYSTEM_InitiateCalibration
  .text.SYSTEM_UpdateCalibration
-                0x00000000080014f4      0x210 ./Core/Src/System.o
-                0x00000000080014f4                SYSTEM_UpdateCalibration
+                0x0000000008001520      0x1e8 ./Core/Src/System.o
+                0x0000000008001520                SYSTEM_UpdateCalibration
  .text.SYSTEM_CalibrateMotorSameDirection
-                0x0000000008001704      0x144 ./Core/Src/System.o
-                0x0000000008001704                SYSTEM_CalibrateMotorSameDirection
+                0x0000000008001708      0x14c ./Core/Src/System.o
+                0x0000000008001708                SYSTEM_CalibrateMotorSameDirection
  .text.SYSTEM_CalibrateMotorOppositeDirection
-                0x0000000008001848      0x1c6 ./Core/Src/System.o
-                0x0000000008001848                SYSTEM_CalibrateMotorOppositeDirection
+                0x0000000008001854      0x1d4 ./Core/Src/System.o
+                0x0000000008001854                SYSTEM_CalibrateMotorOppositeDirection
  .text.SYSTEM_CalibrateServoA
-                0x0000000008001a0e       0xb6 ./Core/Src/System.o
-                0x0000000008001a0e                SYSTEM_CalibrateServoA
+                0x0000000008001a28       0xb8 ./Core/Src/System.o
+                0x0000000008001a28                SYSTEM_CalibrateServoA
  .text.SYSTEM_CalibrateServoB
-                0x0000000008001ac4       0xb6 ./Core/Src/System.o
-                0x0000000008001ac4                SYSTEM_CalibrateServoB
+                0x0000000008001ae0       0xb8 ./Core/Src/System.o
+                0x0000000008001ae0                SYSTEM_CalibrateServoB
  .text.SYSTEM_WaitForActiveInput
-                0x0000000008001b7a       0x1e ./Core/Src/System.o
-                0x0000000008001b7a                SYSTEM_WaitForActiveInput
- .text.SYSTEM_WaitForResetInputs
                 0x0000000008001b98       0x1e ./Core/Src/System.o
-                0x0000000008001b98                SYSTEM_WaitForResetInputs
+                0x0000000008001b98                SYSTEM_WaitForActiveInput
+ .text.SYSTEM_WaitForResetInputs
+                0x0000000008001bb6       0x1e ./Core/Src/System.o
+                0x0000000008001bb6                SYSTEM_WaitForResetInputs
  .text.SYSTEM_WaitForResetInputsServo
-                0x0000000008001bb6       0x28 ./Core/Src/System.o
-                0x0000000008001bb6                SYSTEM_WaitForResetInputsServo
+                0x0000000008001bd4       0x28 ./Core/Src/System.o
+                0x0000000008001bd4                SYSTEM_WaitForResetInputsServo
  .text.SYSTEM_CountActiveInputs
-                0x0000000008001bde       0x6c ./Core/Src/System.o
-                0x0000000008001bde                SYSTEM_CountActiveInputs
+                0x0000000008001bfc       0x68 ./Core/Src/System.o
+                0x0000000008001bfc                SYSTEM_CountActiveInputs
  .text.SYSTEM_CountActiveInputsServo
-                0x0000000008001c4a       0x88 ./Core/Src/System.o
-                0x0000000008001c4a                SYSTEM_CountActiveInputsServo
- .text.main     0x0000000008001cd2       0x2a ./Core/Src/main.o
-                0x0000000008001cd2                main
+                0x0000000008001c64       0x8c ./Core/Src/System.o
+                0x0000000008001c64                SYSTEM_CountActiveInputsServo
+ .text.main     0x0000000008001cf0       0x1e ./Core/Src/main.o
+                0x0000000008001cf0                main
  .text.SystemInit
-                0x0000000008001cfc        0xa ./Core/Src/system_stm32l0xx.o
-                0x0000000008001cfc                SystemInit
- *fill*         0x0000000008001d06        0x2 
+                0x0000000008001d0e        0xa ./Core/Src/system_stm32l0xx.o
+                0x0000000008001d0e                SystemInit
  .text.Reset_Handler
-                0x0000000008001d08       0x50 ./Core/Startup/startup_stm32l051k8ux.o
-                0x0000000008001d08                Reset_Handler
+                0x0000000008001d18       0x50 ./Core/Startup/startup_stm32l051k8ux.o
+                0x0000000008001d18                Reset_Handler
  .text.Default_Handler
-                0x0000000008001d58        0x2 ./Core/Startup/startup_stm32l051k8ux.o
-                0x0000000008001d58                HardFault_Handler
-                0x0000000008001d58                ADC1_COMP_IRQHandler
-                0x0000000008001d58                PVD_IRQHandler
-                0x0000000008001d58                PendSV_Handler
-                0x0000000008001d58                NMI_Handler
-                0x0000000008001d58                I2C1_IRQHandler
-                0x0000000008001d58                SPI1_IRQHandler
-                0x0000000008001d58                I2C2_IRQHandler
-                0x0000000008001d58                RTC_IRQHandler
-                0x0000000008001d58                DMA1_Channel4_5_6_7_IRQHandler
-                0x0000000008001d58                RCC_IRQHandler
-                0x0000000008001d58                DMA1_Channel1_IRQHandler
-                0x0000000008001d58                Default_Handler
-                0x0000000008001d58                EXTI0_1_IRQHandler
-                0x0000000008001d58                SPI2_IRQHandler
-                0x0000000008001d58                SVC_Handler
-                0x0000000008001d58                WWDG_IRQHandler
-                0x0000000008001d58                DMA1_Channel2_3_IRQHandler
-                0x0000000008001d58                USART2_IRQHandler
-                0x0000000008001d58                FLASH_IRQHandler
-                0x0000000008001d58                USART1_IRQHandler
-                0x0000000008001d58                LPTIM1_IRQHandler
- *fill*         0x0000000008001d5a        0x2 
+                0x0000000008001d68        0x2 ./Core/Startup/startup_stm32l051k8ux.o
+                0x0000000008001d68                HardFault_Handler
+                0x0000000008001d68                ADC1_COMP_IRQHandler
+                0x0000000008001d68                PVD_IRQHandler
+                0x0000000008001d68                PendSV_Handler
+                0x0000000008001d68                NMI_Handler
+                0x0000000008001d68                I2C1_IRQHandler
+                0x0000000008001d68                SPI1_IRQHandler
+                0x0000000008001d68                I2C2_IRQHandler
+                0x0000000008001d68                RTC_IRQHandler
+                0x0000000008001d68                DMA1_Channel4_5_6_7_IRQHandler
+                0x0000000008001d68                RCC_IRQHandler
+                0x0000000008001d68                DMA1_Channel1_IRQHandler
+                0x0000000008001d68                Default_Handler
+                0x0000000008001d68                EXTI0_1_IRQHandler
+                0x0000000008001d68                SPI2_IRQHandler
+                0x0000000008001d68                SVC_Handler
+                0x0000000008001d68                WWDG_IRQHandler
+                0x0000000008001d68                DMA1_Channel2_3_IRQHandler
+                0x0000000008001d68                USART2_IRQHandler
+                0x0000000008001d68                FLASH_IRQHandler
+                0x0000000008001d68                USART1_IRQHandler
+                0x0000000008001d68                LPTIM1_IRQHandler
+ *fill*         0x0000000008001d6a        0x2 
  .text.__NVIC_EnableIRQ
-                0x0000000008001d5c       0x34 ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
+                0x0000000008001d6c       0x34 ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
  .text.__NVIC_DisableIRQ
-                0x0000000008001d90       0x44 ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
+                0x0000000008001da0       0x44 ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
  .text.__NVIC_SetPriority
-                0x0000000008001dd4       0xdc ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
+                0x0000000008001de4       0xdc ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
  .text.SysTick_Config
-                0x0000000008001eb0       0x48 ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
+                0x0000000008001ec0       0x48 ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
  .text.HAL_NVIC_SetPriority
-                0x0000000008001ef8       0x2a ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
-                0x0000000008001ef8                HAL_NVIC_SetPriority
+                0x0000000008001f08       0x2a ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
+                0x0000000008001f08                HAL_NVIC_SetPriority
  .text.HAL_NVIC_EnableIRQ
-                0x0000000008001f22       0x20 ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
-                0x0000000008001f22                HAL_NVIC_EnableIRQ
+                0x0000000008001f32       0x20 ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
+                0x0000000008001f32                HAL_NVIC_EnableIRQ
  .text.HAL_NVIC_DisableIRQ
-                0x0000000008001f42       0x20 ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
-                0x0000000008001f42                HAL_NVIC_DisableIRQ
+                0x0000000008001f52       0x20 ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
+                0x0000000008001f52                HAL_NVIC_DisableIRQ
  .text.HAL_SYSTICK_Config
-                0x0000000008001f62       0x1a ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
-                0x0000000008001f62                HAL_SYSTICK_Config
+                0x0000000008001f72       0x1a ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
+                0x0000000008001f72                HAL_SYSTICK_Config
  .text.CORE_GetTick
-                0x0000000008001f7c       0x14 ./L001-RadioProtocols/Lib/IBUS.o
- .text.IBUS_Detect
-                0x0000000008001f90       0x40 ./L001-RadioProtocols/Lib/IBUS.o
-                0x0000000008001f90                IBUS_Detect
+                0x0000000008001f8c       0x14 ./L001-RadioProtocols/Lib/IBUS.o
  .text.IBUS_Init
-                0x0000000008001fd0       0x38 ./L001-RadioProtocols/Lib/IBUS.o
-                0x0000000008001fd0                IBUS_Init
+                0x0000000008001fa0       0x44 ./L001-RadioProtocols/Lib/IBUS.o
+                0x0000000008001fa0                IBUS_Init
  .text.IBUS_Deinit
-                0x0000000008002008       0x18 ./L001-RadioProtocols/Lib/IBUS.o
-                0x0000000008002008                IBUS_Deinit
+                0x0000000008001fe4       0x18 ./L001-RadioProtocols/Lib/IBUS.o
+                0x0000000008001fe4                IBUS_Deinit
  .text.IBUS_Update
-                0x0000000008002020       0xd8 ./L001-RadioProtocols/Lib/IBUS.o
-                0x0000000008002020                IBUS_Update
+                0x0000000008001ffc       0xd8 ./L001-RadioProtocols/Lib/IBUS.o
+                0x0000000008001ffc                IBUS_Update
  .text.IBUS_GetDataPtr
-                0x00000000080020f8       0x10 ./L001-RadioProtocols/Lib/IBUS.o
-                0x00000000080020f8                IBUS_GetDataPtr
+                0x00000000080020d4       0x10 ./L001-RadioProtocols/Lib/IBUS.o
+                0x00000000080020d4                IBUS_GetDataPtr
  .text.IBUS_Truncate
-                0x0000000008002108       0x6c ./L001-RadioProtocols/Lib/IBUS.o
-                0x0000000008002108                IBUS_Truncate
+                0x00000000080020e4       0x6c ./L001-RadioProtocols/Lib/IBUS.o
+                0x00000000080020e4                IBUS_Truncate
  .text.IBUS_Checksum
-                0x0000000008002174       0x80 ./L001-RadioProtocols/Lib/IBUS.o
-                0x0000000008002174                IBUS_Checksum
+                0x0000000008002150       0x80 ./L001-RadioProtocols/Lib/IBUS.o
+                0x0000000008002150                IBUS_Checksum
  .text.IBUS_HandleUART
-                0x00000000080021f4      0x148 ./L001-RadioProtocols/Lib/IBUS.o
-                0x00000000080021f4                IBUS_HandleUART
+                0x00000000080021d0      0x148 ./L001-RadioProtocols/Lib/IBUS.o
+                0x00000000080021d0                IBUS_HandleUART
  .text.CORE_GetTick
-                0x000000000800233c       0x14 ./L001-RadioProtocols/Lib/PPM.o
+                0x0000000008002318       0x14 ./L001-RadioProtocols/Lib/PPM.o
  .text.GPIO_EnableInput
-                0x0000000008002350       0x26 ./L001-RadioProtocols/Lib/PPM.o
+                0x000000000800232c       0x26 ./L001-RadioProtocols/Lib/PPM.o
  .text.GPIO_Deinit
-                0x0000000008002376       0x1e ./L001-RadioProtocols/Lib/PPM.o
+                0x0000000008002352       0x1e ./L001-RadioProtocols/Lib/PPM.o
  .text.TIM_Read
-                0x0000000008002394       0x16 ./L001-RadioProtocols/Lib/PPM.o
- *fill*         0x00000000080023aa        0x2 
- .text.PPM_Detect
-                0x00000000080023ac       0x3c ./L001-RadioProtocols/Lib/PPM.o
-                0x00000000080023ac                PPM_Detect
+                0x0000000008002370       0x16 ./L001-RadioProtocols/Lib/PPM.o
+ *fill*         0x0000000008002386        0x2 
  .text.PPM_Init
-                0x00000000080023e8       0x60 ./L001-RadioProtocols/Lib/PPM.o
-                0x00000000080023e8                PPM_Init
+                0x0000000008002388       0x6c ./L001-RadioProtocols/Lib/PPM.o
+                0x0000000008002388                PPM_Init
  .text.PPM_Deinit
-                0x0000000008002448       0x38 ./L001-RadioProtocols/Lib/PPM.o
-                0x0000000008002448                PPM_Deinit
+                0x00000000080023f4       0x38 ./L001-RadioProtocols/Lib/PPM.o
+                0x00000000080023f4                PPM_Deinit
  .text.PPM_Update
-                0x0000000008002480       0xa4 ./L001-RadioProtocols/Lib/PPM.o
-                0x0000000008002480                PPM_Update
+                0x000000000800242c      0x160 ./L001-RadioProtocols/Lib/PPM.o
+                0x000000000800242c                PPM_Update
  .text.PPM_GetDataPtr
-                0x0000000008002524       0x10 ./L001-RadioProtocols/Lib/PPM.o
-                0x0000000008002524                PPM_GetDataPtr
+                0x000000000800258c       0x10 ./L001-RadioProtocols/Lib/PPM.o
+                0x000000000800258c                PPM_GetDataPtr
  .text.PPM_Truncate
-                0x0000000008002534       0x6c ./L001-RadioProtocols/Lib/PPM.o
-                0x0000000008002534                PPM_Truncate
+                0x000000000800259c       0x6c ./L001-RadioProtocols/Lib/PPM.o
+                0x000000000800259c                PPM_Truncate
  .text.PPM_memset
-                0x00000000080025a0       0x3c ./L001-RadioProtocols/Lib/PPM.o
-                0x00000000080025a0                PPM_memset
- .text.PPM_IRQ  0x00000000080025dc       0xb8 ./L001-RadioProtocols/Lib/PPM.o
-                0x00000000080025dc                PPM_IRQ
+                0x0000000008002608       0x3c ./L001-RadioProtocols/Lib/PPM.o
+                0x0000000008002608                PPM_memset
+ .text.PPM_IRQ  0x0000000008002644       0xb8 ./L001-RadioProtocols/Lib/PPM.o
+                0x0000000008002644                PPM_IRQ
  .text.CORE_GetTick
-                0x0000000008002694       0x14 ./L001-RadioProtocols/Lib/PWM.o
+                0x00000000080026fc       0x14 ./L001-RadioProtocols/Lib/PWM.o
  .text.GPIO_EnableInput
-                0x00000000080026a8       0x26 ./L001-RadioProtocols/Lib/PWM.o
+                0x0000000008002710       0x26 ./L001-RadioProtocols/Lib/PWM.o
  .text.GPIO_Deinit
-                0x00000000080026ce       0x1e ./L001-RadioProtocols/Lib/PWM.o
+                0x0000000008002736       0x1e ./L001-RadioProtocols/Lib/PWM.o
  .text.GPIO_Read
-                0x00000000080026ec       0x20 ./L001-RadioProtocols/Lib/PWM.o
+                0x0000000008002754       0x20 ./L001-RadioProtocols/Lib/PWM.o
  .text.TIM_Read
-                0x000000000800270c       0x16 ./L001-RadioProtocols/Lib/PWM.o
- *fill*         0x0000000008002722        0x2 
- .text.PWM_Detect
-                0x0000000008002724       0x78 ./L001-RadioProtocols/Lib/PWM.o
-                0x0000000008002724                PWM_Detect
+                0x0000000008002774       0x16 ./L001-RadioProtocols/Lib/PWM.o
+ *fill*         0x000000000800278a        0x2 
  .text.PWM_Init
-                0x000000000800279c       0xe8 ./L001-RadioProtocols/Lib/PWM.o
-                0x000000000800279c                PWM_Init
+                0x000000000800278c       0xf4 ./L001-RadioProtocols/Lib/PWM.o
+                0x000000000800278c                PWM_Init
  .text.PWM_Deinit
-                0x0000000008002884       0x84 ./L001-RadioProtocols/Lib/PWM.o
-                0x0000000008002884                PWM_Deinit
+                0x0000000008002880       0x84 ./L001-RadioProtocols/Lib/PWM.o
+                0x0000000008002880                PWM_Deinit
  .text.PWM_Update
-                0x0000000008002908      0x114 ./L001-RadioProtocols/Lib/PWM.o
-                0x0000000008002908                PWM_Update
+                0x0000000008002904      0x110 ./L001-RadioProtocols/Lib/PWM.o
+                0x0000000008002904                PWM_Update
  .text.PWM_GetDataPtr
-                0x0000000008002a1c       0x10 ./L001-RadioProtocols/Lib/PWM.o
-                0x0000000008002a1c                PWM_GetDataPtr
+                0x0000000008002a14       0x10 ./L001-RadioProtocols/Lib/PWM.o
+                0x0000000008002a14                PWM_GetDataPtr
  .text.PWM_Truncate
-                0x0000000008002a2c       0x6c ./L001-RadioProtocols/Lib/PWM.o
-                0x0000000008002a2c                PWM_Truncate
+                0x0000000008002a24       0x6c ./L001-RadioProtocols/Lib/PWM.o
+                0x0000000008002a24                PWM_Truncate
  .text.PWM_memset
-                0x0000000008002a98       0x3c ./L001-RadioProtocols/Lib/PWM.o
-                0x0000000008002a98                PWM_memset
+                0x0000000008002a90       0x3c ./L001-RadioProtocols/Lib/PWM.o
+                0x0000000008002a90                PWM_memset
  .text.PWM1_IRQ
-                0x0000000008002ad4       0x7c ./L001-RadioProtocols/Lib/PWM.o
-                0x0000000008002ad4                PWM1_IRQ
+                0x0000000008002acc       0xac ./L001-RadioProtocols/Lib/PWM.o
+                0x0000000008002acc                PWM1_IRQ
  .text.PWM2_IRQ
-                0x0000000008002b50       0x78 ./L001-RadioProtocols/Lib/PWM.o
-                0x0000000008002b50                PWM2_IRQ
+                0x0000000008002b78       0xa8 ./L001-RadioProtocols/Lib/PWM.o
+                0x0000000008002b78                PWM2_IRQ
  .text.PWM3_IRQ
-                0x0000000008002bc8       0x74 ./L001-RadioProtocols/Lib/PWM.o
-                0x0000000008002bc8                PWM3_IRQ
+                0x0000000008002c20       0xa4 ./L001-RadioProtocols/Lib/PWM.o
+                0x0000000008002c20                PWM3_IRQ
  .text.PWM4_IRQ
-                0x0000000008002c3c       0x74 ./L001-RadioProtocols/Lib/PWM.o
-                0x0000000008002c3c                PWM4_IRQ
- .text.RADIO_DetectNew
-                0x0000000008002cb0       0xfc ./L001-RadioProtocols/Lib/Radio.o
-                0x0000000008002cb0                RADIO_DetectNew
+                0x0000000008002cc4       0xa4 ./L001-RadioProtocols/Lib/PWM.o
+                0x0000000008002cc4                PWM4_IRQ
+ .text.CORE_GetTick
+                0x0000000008002d68       0x14 ./L001-RadioProtocols/Lib/Radio.o
+ .text.RADIO_DetInit
+                0x0000000008002d7c      0x14c ./L001-RadioProtocols/Lib/Radio.o
+                0x0000000008002d7c                RADIO_DetInit
  .text.RADIO_Init
-                0x0000000008002dac       0xa8 ./L001-RadioProtocols/Lib/Radio.o
-                0x0000000008002dac                RADIO_Init
+                0x0000000008002ec8       0xb8 ./L001-RadioProtocols/Lib/Radio.o
+                0x0000000008002ec8                RADIO_Init
  .text.RADIO_Update
-                0x0000000008002e54       0xdc ./L001-RadioProtocols/Lib/Radio.o
-                0x0000000008002e54                RADIO_Update
+                0x0000000008002f80      0x138 ./L001-RadioProtocols/Lib/Radio.o
+                0x0000000008002f80                RADIO_Update
  .text.RADIO_GetDataPtr
-                0x0000000008002f30       0x10 ./L001-RadioProtocols/Lib/Radio.o
-                0x0000000008002f30                RADIO_GetDataPtr
+                0x00000000080030b8       0x10 ./L001-RadioProtocols/Lib/Radio.o
+                0x00000000080030b8                RADIO_GetDataPtr
  .text.RADIO_SetChannelZeroPosition
-                0x0000000008002f40       0x64 ./L001-RadioProtocols/Lib/Radio.o
-                0x0000000008002f40                RADIO_SetChannelZeroPosition
+                0x00000000080030c8       0x5c ./L001-RadioProtocols/Lib/Radio.o
+                0x00000000080030c8                RADIO_SetChannelZeroPosition
+ .text.SYSTEM_DetectRadio
+                0x0000000008003124       0x54 ./L001-RadioProtocols/Lib/Radio.o
+                0x0000000008003124                SYSTEM_DetectRadio
+ .text.RADIO_ResetChannelData
+                0x0000000008003178       0x40 ./L001-RadioProtocols/Lib/Radio.o
+                0x0000000008003178                RADIO_ResetChannelData
+ .text.RADIO_ResetChannelZeroData
+                0x00000000080031b8       0x44 ./L001-RadioProtocols/Lib/Radio.o
+                0x00000000080031b8                RADIO_ResetChannelZeroData
  .text.RADIO_ResetActiveChannelFlags
-                0x0000000008002fa4       0x40 ./L001-RadioProtocols/Lib/Radio.o
-                0x0000000008002fa4                RADIO_ResetActiveChannelFlags
+                0x00000000080031fc       0x40 ./L001-RadioProtocols/Lib/Radio.o
+                0x00000000080031fc                RADIO_ResetActiveChannelFlags
  .text.RADIO_UpdateActiveChannelFlags
-                0x0000000008002fe4       0xf8 ./L001-RadioProtocols/Lib/Radio.o
-                0x0000000008002fe4                RADIO_UpdateActiveChannelFlags
+                0x000000000800323c      0x13c ./L001-RadioProtocols/Lib/Radio.o
+                0x000000000800323c                RADIO_UpdateActiveChannelFlags
  .text.CORE_GetTick
-                0x00000000080030dc       0x14 ./L001-RadioProtocols/Lib/SBUS.o
- .text.SBUS_Detect
-                0x00000000080030f0       0x44 ./L001-RadioProtocols/Lib/SBUS.o
-                0x00000000080030f0                SBUS_Detect
+                0x0000000008003378       0x14 ./L001-RadioProtocols/Lib/SBUS.o
  .text.SBUS_Init
-                0x0000000008003134       0x48 ./L001-RadioProtocols/Lib/SBUS.o
-                0x0000000008003134                SBUS_Init
+                0x000000000800338c       0x50 ./L001-RadioProtocols/Lib/SBUS.o
+                0x000000000800338c                SBUS_Init
  .text.SBUS_Deinit
-                0x000000000800317c       0x18 ./L001-RadioProtocols/Lib/SBUS.o
-                0x000000000800317c                SBUS_Deinit
+                0x00000000080033dc       0x18 ./L001-RadioProtocols/Lib/SBUS.o
+                0x00000000080033dc                SBUS_Deinit
  .text.SBUS_Update
-                0x0000000008003194      0x308 ./L001-RadioProtocols/Lib/SBUS.o
-                0x0000000008003194                SBUS_Update
+                0x00000000080033f4      0x3b8 ./L001-RadioProtocols/Lib/SBUS.o
+                0x00000000080033f4                SBUS_Update
  .text.SBUS_GetDataPtr
-                0x000000000800349c       0x10 ./L001-RadioProtocols/Lib/SBUS.o
-                0x000000000800349c                SBUS_GetDataPtr
+                0x00000000080037ac       0x10 ./L001-RadioProtocols/Lib/SBUS.o
+                0x00000000080037ac                SBUS_GetDataPtr
  .text.SBUS_Transform
-                0x00000000080034ac       0xa4 ./L001-RadioProtocols/Lib/SBUS.o
-                0x00000000080034ac                SBUS_Transform
+                0x00000000080037bc       0xa0 ./L001-RadioProtocols/Lib/SBUS.o
+                0x00000000080037bc                SBUS_Transform
  .text.SBUS_HandleUART
-                0x0000000008003550       0xbc ./L001-RadioProtocols/Lib/SBUS.o
-                0x0000000008003550                SBUS_HandleUART
+                0x000000000800385c       0xbc ./L001-RadioProtocols/Lib/SBUS.o
+                0x000000000800385c                SBUS_HandleUART
  .text.ADC_Init
-                0x000000000800360c       0xb8 ./STM32X/Lib/ADC.o
-                0x000000000800360c                ADC_Init
+                0x0000000008003918       0xb8 ./STM32X/Lib/ADC.o
+                0x0000000008003918                ADC_Init
  .text.ADC_Read
-                0x00000000080036c4       0x4c ./STM32X/Lib/ADC.o
-                0x00000000080036c4                ADC_Read
+                0x00000000080039d0       0x4c ./STM32X/Lib/ADC.o
+                0x00000000080039d0                ADC_Read
  .text.AIN_AinToDivider
-                0x0000000008003710       0x30 ./STM32X/Lib/ADC.o
-                0x0000000008003710                AIN_AinToDivider
+                0x0000000008003a1c       0x30 ./STM32X/Lib/ADC.o
+                0x0000000008003a1c                AIN_AinToDivider
  .text.AIN_AinToMv
-                0x0000000008003740       0x28 ./STM32X/Lib/ADC.o
-                0x0000000008003740                AIN_AinToMv
+                0x0000000008003a4c       0x28 ./STM32X/Lib/ADC.o
+                0x0000000008003a4c                AIN_AinToMv
  .text.ADC_ReadDieTemp
-                0x0000000008003768       0x8c ./STM32X/Lib/ADC.o
-                0x0000000008003768                ADC_ReadDieTemp
+                0x0000000008003a74       0xb0 ./STM32X/Lib/ADC.o
+                0x0000000008003a74                ADC_ReadDieTemp
  .text.ADC_WaitForFlag
-                0x00000000080037f4       0x28 ./STM32X/Lib/ADC.o
+                0x0000000008003b24       0x28 ./STM32X/Lib/ADC.o
  .text.ADC_Calibrate
-                0x000000000800381c       0x28 ./STM32X/Lib/ADC.o
+                0x0000000008003b4c       0x28 ./STM32X/Lib/ADC.o
  .text.CLK_InitSYSCLK
-                0x0000000008003844       0xf4 ./STM32X/Lib/CLK.o
-                0x0000000008003844                CLK_InitSYSCLK
+                0x0000000008003b74       0xf4 ./STM32X/Lib/CLK.o
+                0x0000000008003b74                CLK_InitSYSCLK
  .text.CLK_EnableADCCLK
-                0x0000000008003938        0xa ./STM32X/Lib/CLK.o
-                0x0000000008003938                CLK_EnableADCCLK
- *fill*         0x0000000008003942        0x2 
+                0x0000000008003c68        0xa ./STM32X/Lib/CLK.o
+                0x0000000008003c68                CLK_EnableADCCLK
+ *fill*         0x0000000008003c72        0x2 
  .text.CORE_GetTick
-                0x0000000008003944       0x14 ./STM32X/Lib/Core.o
+                0x0000000008003c74       0x14 ./STM32X/Lib/Core.o
  .text.GPIO_Deinit
-                0x0000000008003958       0x1e ./STM32X/Lib/Core.o
- *fill*         0x0000000008003976        0x2 
+                0x0000000008003c88       0x1e ./STM32X/Lib/Core.o
+ *fill*         0x0000000008003ca6        0x2 
  .text.CLK_GetHCLKFreq
-                0x0000000008003978       0x10 ./STM32X/Lib/Core.o
+                0x0000000008003ca8       0x10 ./STM32X/Lib/Core.o
  .text.CORE_Init
-                0x0000000008003988       0x60 ./STM32X/Lib/Core.o
-                0x0000000008003988                CORE_Init
+                0x0000000008003cb8       0x60 ./STM32X/Lib/Core.o
+                0x0000000008003cb8                CORE_Init
  .text.CORE_Idle
-                0x00000000080039e8        0xc ./STM32X/Lib/Core.o
-                0x00000000080039e8                CORE_Idle
+                0x0000000008003d18        0xc ./STM32X/Lib/Core.o
+                0x0000000008003d18                CORE_Idle
  .text.CORE_Delay
-                0x00000000080039f4       0x36 ./STM32X/Lib/Core.o
-                0x00000000080039f4                CORE_Delay
+                0x0000000008003d24       0x36 ./STM32X/Lib/Core.o
+                0x0000000008003d24                CORE_Delay
  .text.CORE_InitSysTick
-                0x0000000008003a2a       0x30 ./STM32X/Lib/Core.o
- *fill*         0x0000000008003a5a        0x2 
+                0x0000000008003d5a       0x30 ./STM32X/Lib/Core.o
+ *fill*         0x0000000008003d8a        0x2 
  .text.CORE_InitGPIO
-                0x0000000008003a5c       0xb8 ./STM32X/Lib/Core.o
+                0x0000000008003d8c       0xb8 ./STM32X/Lib/Core.o
  .text.SysTick_Handler
-                0x0000000008003b14       0x18 ./STM32X/Lib/Core.o
-                0x0000000008003b14                SysTick_Handler
+                0x0000000008003e44       0x18 ./STM32X/Lib/Core.o
+                0x0000000008003e44                SysTick_Handler
  .text.EEPROM_Write
-                0x0000000008003b2c       0x6c ./STM32X/Lib/EEPROM.o
-                0x0000000008003b2c                EEPROM_Write
+                0x0000000008003e5c       0x6c ./STM32X/Lib/EEPROM.o
+                0x0000000008003e5c                EEPROM_Write
  .text.EEPROM_Read
-                0x0000000008003b98       0x30 ./STM32X/Lib/EEPROM.o
-                0x0000000008003b98                EEPROM_Read
+                0x0000000008003ec8       0x30 ./STM32X/Lib/EEPROM.o
+                0x0000000008003ec8                EEPROM_Read
  .text.EEPROM_Unlock
-                0x0000000008003bc8       0x40 ./STM32X/Lib/EEPROM.o
+                0x0000000008003ef8       0x40 ./STM32X/Lib/EEPROM.o
  .text.EEPROM_Lock
-                0x0000000008003c08       0x1c ./STM32X/Lib/EEPROM.o
+                0x0000000008003f38       0x1c ./STM32X/Lib/EEPROM.o
  .text.EEPROM_WaitForOperation
-                0x0000000008003c24       0x30 ./STM32X/Lib/EEPROM.o
+                0x0000000008003f54       0x30 ./STM32X/Lib/EEPROM.o
  .text.GPIO_Set
-                0x0000000008003c54       0x18 ./STM32X/Lib/GPIO.o
+                0x0000000008003f84       0x18 ./STM32X/Lib/GPIO.o
  .text.GPIO_Reset
-                0x0000000008003c6c       0x18 ./STM32X/Lib/GPIO.o
+                0x0000000008003f9c       0x18 ./STM32X/Lib/GPIO.o
  .text.GPIO_Write
-                0x0000000008003c84       0x38 ./STM32X/Lib/GPIO.o
-                0x0000000008003c84                GPIO_Write
+                0x0000000008003fb4       0x38 ./STM32X/Lib/GPIO.o
+                0x0000000008003fb4                GPIO_Write
  .text.GPIO_EnableAlternate
-                0x0000000008003cbc       0x3c ./STM32X/Lib/GPIO.o
-                0x0000000008003cbc                GPIO_EnableAlternate
+                0x0000000008003fec       0x3c ./STM32X/Lib/GPIO.o
+                0x0000000008003fec                GPIO_EnableAlternate
  .text.GPIO_OnChange
-                0x0000000008003cf8       0x58 ./STM32X/Lib/GPIO.o
-                0x0000000008003cf8                GPIO_OnChange
+                0x0000000008004028       0x58 ./STM32X/Lib/GPIO.o
+                0x0000000008004028                GPIO_OnChange
  .text.GPIO_Init
-                0x0000000008003d50       0xde ./STM32X/Lib/GPIO.o
-                0x0000000008003d50                GPIO_Init
+                0x0000000008004080       0xde ./STM32X/Lib/GPIO.o
+                0x0000000008004080                GPIO_Init
  .text.GPIO_ConfigAlternate
-                0x0000000008003e2e       0x70 ./STM32X/Lib/GPIO.o
- *fill*         0x0000000008003e9e        0x2 
+                0x000000000800415e       0x70 ./STM32X/Lib/GPIO.o
+ *fill*         0x00000000080041ce        0x2 
  .text.GPIO_ConfigInterrupt
-                0x0000000008003ea0      0x12c ./STM32X/Lib/GPIO.o
+                0x00000000080041d0      0x12c ./STM32X/Lib/GPIO.o
  .text.GPIO_SWARBitDouble
-                0x0000000008003fcc       0x78 ./STM32X/Lib/GPIO.o
+                0x00000000080042fc       0x78 ./STM32X/Lib/GPIO.o
  .text.EXTIx_IRQHandler
-                0x0000000008004044       0x3c ./STM32X/Lib/GPIO.o
+                0x0000000008004374       0x3c ./STM32X/Lib/GPIO.o
  .text.EXTIx_EnableIRQn
-                0x0000000008004080       0x32 ./STM32X/Lib/GPIO.o
+                0x00000000080043b0       0x32 ./STM32X/Lib/GPIO.o
  .text.EXTI2_3_IRQHandler
-                0x00000000080040b2       0x10 ./STM32X/Lib/GPIO.o
-                0x00000000080040b2                EXTI2_3_IRQHandler
+                0x00000000080043e2       0x10 ./STM32X/Lib/GPIO.o
+                0x00000000080043e2                EXTI2_3_IRQHandler
  .text.EXTI4_15_IRQHandler
-                0x00000000080040c2       0x22 ./STM32X/Lib/GPIO.o
-                0x00000000080040c2                EXTI4_15_IRQHandler
+                0x00000000080043f2       0x22 ./STM32X/Lib/GPIO.o
+                0x00000000080043f2                EXTI4_15_IRQHandler
  .text.CLK_GetPCLKFreq
-                0x00000000080040e4       0x10 ./STM32X/Lib/TIM.o
+                0x0000000008004414       0x10 ./STM32X/Lib/TIM.o
  .text.TIM_Init
-                0x00000000080040f4       0x58 ./STM32X/Lib/TIM.o
-                0x00000000080040f4                TIM_Init
+                0x0000000008004424       0x58 ./STM32X/Lib/TIM.o
+                0x0000000008004424                TIM_Init
  .text.TIM_SetFreq
-                0x000000000800414c       0x2e ./STM32X/Lib/TIM.o
-                0x000000000800414c                TIM_SetFreq
+                0x000000000800447c       0x2e ./STM32X/Lib/TIM.o
+                0x000000000800447c                TIM_SetFreq
  .text.TIM_SetReload
-                0x000000000800417a       0x1a ./STM32X/Lib/TIM.o
-                0x000000000800417a                TIM_SetReload
+                0x00000000080044aa       0x1a ./STM32X/Lib/TIM.o
+                0x00000000080044aa                TIM_SetReload
  .text.TIM_OnReload
-                0x0000000008004194       0x28 ./STM32X/Lib/TIM.o
-                0x0000000008004194                TIM_OnReload
+                0x00000000080044c4       0x28 ./STM32X/Lib/TIM.o
+                0x00000000080044c4                TIM_OnReload
  .text.TIM_OnPulse
-                0x00000000080041bc       0x4e ./STM32X/Lib/TIM.o
-                0x00000000080041bc                TIM_OnPulse
+                0x00000000080044ec       0x4e ./STM32X/Lib/TIM.o
+                0x00000000080044ec                TIM_OnPulse
  .text.TIM_EnablePwm
-                0x000000000800420a       0x36 ./STM32X/Lib/TIM.o
-                0x000000000800420a                TIM_EnablePwm
+                0x000000000800453a       0x36 ./STM32X/Lib/TIM.o
+                0x000000000800453a                TIM_EnablePwm
  .text.TIM_SetPulse
-                0x0000000008004240       0x5c ./STM32X/Lib/TIM.o
-                0x0000000008004240                TIM_SetPulse
+                0x0000000008004570       0x5c ./STM32X/Lib/TIM.o
+                0x0000000008004570                TIM_SetPulse
  .text.TIM_Start
-                0x000000000800429c       0x28 ./STM32X/Lib/TIM.o
-                0x000000000800429c                TIM_Start
+                0x00000000080045cc       0x28 ./STM32X/Lib/TIM.o
+                0x00000000080045cc                TIM_Start
  .text.TIM_Stop
-                0x00000000080042c4       0x30 ./STM32X/Lib/TIM.o
-                0x00000000080042c4                TIM_Stop
+                0x00000000080045f4       0x30 ./STM32X/Lib/TIM.o
+                0x00000000080045f4                TIM_Stop
  .text.TIM_Deinit
-                0x00000000080042f4       0x48 ./STM32X/Lib/TIM.o
-                0x00000000080042f4                TIM_Deinit
+                0x0000000008004624       0x48 ./STM32X/Lib/TIM.o
+                0x0000000008004624                TIM_Deinit
  .text.TIM_EnableOCx
-                0x000000000800433c      0x11c ./STM32X/Lib/TIM.o
+                0x000000000800466c      0x11c ./STM32X/Lib/TIM.o
  .text.TIM_Reload
-                0x0000000008004458       0x3a ./STM32X/Lib/TIM.o
- *fill*         0x0000000008004492        0x2 
+                0x0000000008004788       0x3a ./STM32X/Lib/TIM.o
+ *fill*         0x00000000080047c2        0x2 
  .text.TIMx_Init
-                0x0000000008004494       0x94 ./STM32X/Lib/TIM.o
+                0x00000000080047c4       0x94 ./STM32X/Lib/TIM.o
  .text.TIMx_Deinit
-                0x0000000008004528       0x94 ./STM32X/Lib/TIM.o
+                0x0000000008004858       0x94 ./STM32X/Lib/TIM.o
  .text.TIM_IRQHandler
-                0x00000000080045bc       0x98 ./STM32X/Lib/TIM.o
+                0x00000000080048ec       0x98 ./STM32X/Lib/TIM.o
  .text.TIM2_IRQHandler
-                0x0000000008004654       0x18 ./STM32X/Lib/TIM.o
-                0x0000000008004654                TIM2_IRQHandler
+                0x0000000008004984       0x18 ./STM32X/Lib/TIM.o
+                0x0000000008004984                TIM2_IRQHandler
  .text.TIM6_IRQHandler
-                0x000000000800466c       0x18 ./STM32X/Lib/TIM.o
-                0x000000000800466c                TIM6_IRQHandler
+                0x000000000800499c       0x18 ./STM32X/Lib/TIM.o
+                0x000000000800499c                TIM6_IRQHandler
  .text.TIM21_IRQHandler
-                0x0000000008004684       0x18 ./STM32X/Lib/TIM.o
-                0x0000000008004684                TIM21_IRQHandler
+                0x00000000080049b4       0x18 ./STM32X/Lib/TIM.o
+                0x00000000080049b4                TIM21_IRQHandler
  .text.TIM22_IRQHandler
-                0x000000000800469c       0x18 ./STM32X/Lib/TIM.o
-                0x000000000800469c                TIM22_IRQHandler
+                0x00000000080049cc       0x18 ./STM32X/Lib/TIM.o
+                0x00000000080049cc                TIM22_IRQHandler
  .text.GPIO_Deinit
-                0x00000000080046b4       0x1e ./STM32X/Lib/UART.o
- *fill*         0x00000000080046d2        0x2 
+                0x00000000080049e4       0x1e ./STM32X/Lib/UART.o
+ *fill*         0x0000000008004a02        0x2 
  .text.CLK_GetPCLKFreq
-                0x00000000080046d4       0x10 ./STM32X/Lib/UART.o
+                0x0000000008004a04       0x10 ./STM32X/Lib/UART.o
  .text.UART_Init
-                0x00000000080046e4      0x1d0 ./STM32X/Lib/UART.o
-                0x00000000080046e4                UART_Init
+                0x0000000008004a14      0x1d0 ./STM32X/Lib/UART.o
+                0x0000000008004a14                UART_Init
  .text.UART_Deinit
-                0x00000000080048b4       0x84 ./STM32X/Lib/UART.o
-                0x00000000080048b4                UART_Deinit
+                0x0000000008004be4       0x84 ./STM32X/Lib/UART.o
+                0x0000000008004be4                UART_Deinit
  .text.UART_ReadCount
-                0x0000000008004938       0x5a ./STM32X/Lib/UART.o
-                0x0000000008004938                UART_ReadCount
+                0x0000000008004c68       0x5a ./STM32X/Lib/UART.o
+                0x0000000008004c68                UART_ReadCount
  .text.UART_Read
-                0x0000000008004992       0x76 ./STM32X/Lib/UART.o
-                0x0000000008004992                UART_Read
+                0x0000000008004cc2       0x76 ./STM32X/Lib/UART.o
+                0x0000000008004cc2                UART_Read
  .text.UART_ReadFlush
-                0x0000000008004a08       0x50 ./STM32X/Lib/UART.o
-                0x0000000008004a08                UART_ReadFlush
+                0x0000000008004d38       0x50 ./STM32X/Lib/UART.o
+                0x0000000008004d38                UART_ReadFlush
  .text.UARTx_Init
-                0x0000000008004a58       0x48 ./STM32X/Lib/UART.o
+                0x0000000008004d88       0x48 ./STM32X/Lib/UART.o
  .text.UARTx_Deinit
-                0x0000000008004aa0       0x4c ./STM32X/Lib/UART.o
+                0x0000000008004dd0       0x4c ./STM32X/Lib/UART.o
  .text.UART_IRQHandler
-                0x0000000008004aec      0x110 ./STM32X/Lib/UART.o
-                0x0000000008004aec                UART_IRQHandler
+                0x0000000008004e1c      0x110 ./STM32X/Lib/UART.o
+                0x0000000008004e1c                UART_IRQHandler
  .text.LPUART1_IRQHandler
-                0x0000000008004bfc       0x18 ./STM32X/Lib/UART.o
-                0x0000000008004bfc                LPUART1_IRQHandler
+                0x0000000008004f2c       0x18 ./STM32X/Lib/UART.o
+                0x0000000008004f2c                LPUART1_IRQHandler
  .text.CLK_GetHCLKFreq
-                0x0000000008004c14       0x10 ./STM32X/Lib/US.o
+                0x0000000008004f44       0x10 ./STM32X/Lib/US.o
  .text.US_Delay
-                0x0000000008004c24       0x24 ./STM32X/Lib/US.o
-                0x0000000008004c24                US_Delay
+                0x0000000008004f54       0x24 ./STM32X/Lib/US.o
+                0x0000000008004f54                US_Delay
  .text.__libc_init_array
-                0x0000000008004c48       0x48 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-init.o)
-                0x0000000008004c48                __libc_init_array
- .text.memcpy   0x0000000008004c90       0x12 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcpy-stub.o)
-                0x0000000008004c90                memcpy
- .text.memset   0x0000000008004ca2       0x10 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memset.o)
-                0x0000000008004ca2                memset
+                0x0000000008004f78       0x48 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-init.o)
+                0x0000000008004f78                __libc_init_array
+ .text.memcpy   0x0000000008004fc0       0x12 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcpy-stub.o)
+                0x0000000008004fc0                memcpy
+ .text.memset   0x0000000008004fd2       0x10 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memset.o)
+                0x0000000008004fd2                memset
  *(.glue_7)
- .glue_7        0x0000000008004cb2        0x0 linker stubs
+ .glue_7        0x0000000008004fe2        0x0 linker stubs
  *(.glue_7t)
- .glue_7t       0x0000000008004cb2        0x0 linker stubs
+ .glue_7t       0x0000000008004fe2        0x0 linker stubs
  *(.eh_frame)
- *fill*         0x0000000008004cb2        0x2 
- .eh_frame      0x0000000008004cb4        0x0 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/crtbegin.o
+ *fill*         0x0000000008004fe2        0x2 
+ .eh_frame      0x0000000008004fe4        0x0 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/crtbegin.o
  *(.init)
- .init          0x0000000008004cb4        0x4 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/crti.o
-                0x0000000008004cb4                _init
- .init          0x0000000008004cb8        0x8 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/crtn.o
+ .init          0x0000000008004fe4        0x4 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/crti.o
+                0x0000000008004fe4                _init
+ .init          0x0000000008004fe8        0x8 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/crtn.o
  *(.fini)
- .fini          0x0000000008004cc0        0x4 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/crti.o
-                0x0000000008004cc0                _fini
- .fini          0x0000000008004cc4        0x8 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/crtn.o
-                0x0000000008004ccc                . = ALIGN (0x4)
-                0x0000000008004ccc                _etext = .
+ .fini          0x0000000008004ff0        0x4 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/crti.o
+                0x0000000008004ff0                _fini
+ .fini          0x0000000008004ff4        0x8 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/crtn.o
+                0x0000000008004ffc                . = ALIGN (0x4)
+                0x0000000008004ffc                _etext = .
 
-.vfp11_veneer   0x0000000008004ccc        0x0
- .vfp11_veneer  0x0000000008004ccc        0x0 linker stubs
+.vfp11_veneer   0x0000000008004ffc        0x0
+ .vfp11_veneer  0x0000000008004ffc        0x0 linker stubs
 
-.v4_bx          0x0000000008004ccc        0x0
- .v4_bx         0x0000000008004ccc        0x0 linker stubs
+.v4_bx          0x0000000008004ffc        0x0
+ .v4_bx         0x0000000008004ffc        0x0 linker stubs
 
-.iplt           0x0000000008004ccc        0x0
- .iplt          0x0000000008004ccc        0x0 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/crtbegin.o
+.iplt           0x0000000008004ffc        0x0
+ .iplt          0x0000000008004ffc        0x0 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/crtbegin.o
 
-.rodata         0x0000000008004ccc        0x0
-                0x0000000008004ccc                . = ALIGN (0x4)
+.rodata         0x0000000008004ffc        0x8
+                0x0000000008004ffc                . = ALIGN (0x4)
  *(.rodata)
+ .rodata        0x0000000008004ffc        0x8 ./L001-RadioProtocols/Lib/Radio.o
  *(.rodata*)
-                0x0000000008004ccc                . = ALIGN (0x4)
+                0x0000000008005004                . = ALIGN (0x4)
 
-.ARM.extab      0x0000000008004ccc        0x0
-                0x0000000008004ccc                . = ALIGN (0x4)
+.ARM.extab      0x0000000008005004        0x0
+                0x0000000008005004                . = ALIGN (0x4)
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x0000000008004ccc                . = ALIGN (0x4)
+                0x0000000008005004                . = ALIGN (0x4)
 
-.ARM            0x0000000008004ccc        0x8
-                0x0000000008004ccc                . = ALIGN (0x4)
-                0x0000000008004ccc                __exidx_start = .
+.ARM            0x0000000008005004        0x8
+                0x0000000008005004                . = ALIGN (0x4)
+                0x0000000008005004                __exidx_start = .
  *(.ARM.exidx*)
- .ARM.exidx     0x0000000008004ccc        0x8 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/libgcc.a(_udivmoddi4.o)
-                0x0000000008004cd4                __exidx_end = .
-                0x0000000008004cd4                . = ALIGN (0x4)
+ .ARM.exidx     0x0000000008005004        0x8 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/libgcc.a(_udivmoddi4.o)
+                0x000000000800500c                __exidx_end = .
+                0x000000000800500c                . = ALIGN (0x4)
 
-.rel.dyn        0x0000000008004cd4        0x0
- .rel.iplt      0x0000000008004cd4        0x0 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/crtbegin.o
+.rel.dyn        0x000000000800500c        0x0
+ .rel.iplt      0x000000000800500c        0x0 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/crtbegin.o
 
-.preinit_array  0x0000000008004cd4        0x0
-                0x0000000008004cd4                . = ALIGN (0x4)
-                0x0000000008004cd4                PROVIDE (__preinit_array_start = .)
+.preinit_array  0x000000000800500c        0x0
+                0x000000000800500c                . = ALIGN (0x4)
+                0x000000000800500c                PROVIDE (__preinit_array_start = .)
  *(.preinit_array*)
-                0x0000000008004cd4                PROVIDE (__preinit_array_end = .)
-                0x0000000008004cd4                . = ALIGN (0x4)
+                0x000000000800500c                PROVIDE (__preinit_array_end = .)
+                0x000000000800500c                . = ALIGN (0x4)
 
-.init_array     0x0000000008004cd4        0x4
-                0x0000000008004cd4                . = ALIGN (0x4)
-                0x0000000008004cd4                PROVIDE (__init_array_start = .)
+.init_array     0x000000000800500c        0x4
+                0x000000000800500c                . = ALIGN (0x4)
+                0x000000000800500c                PROVIDE (__init_array_start = .)
  *(SORT_BY_NAME(.init_array.*))
  *(.init_array*)
- .init_array    0x0000000008004cd4        0x4 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/crtbegin.o
-                0x0000000008004cd8                PROVIDE (__init_array_end = .)
-                0x0000000008004cd8                . = ALIGN (0x4)
+ .init_array    0x000000000800500c        0x4 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/crtbegin.o
+                0x0000000008005010                PROVIDE (__init_array_end = .)
+                0x0000000008005010                . = ALIGN (0x4)
 
-.fini_array     0x0000000008004cd8        0x4
-                0x0000000008004cd8                . = ALIGN (0x4)
+.fini_array     0x0000000008005010        0x4
+                0x0000000008005010                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (__fini_array_start = .)
  *(SORT_BY_NAME(.fini_array.*))
  *(.fini_array*)
- .fini_array    0x0000000008004cd8        0x4 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/crtbegin.o
+ .fini_array    0x0000000008005010        0x4 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/crtbegin.o
                 [!provide]                        PROVIDE (__fini_array_end = .)
-                0x0000000008004cdc                . = ALIGN (0x4)
-                0x0000000008004cdc                _sidata = LOADADDR (.data)
+                0x0000000008005014                . = ALIGN (0x4)
+                0x0000000008005014                _sidata = LOADADDR (.data)
 
-.data           0x0000000020000000      0x290 load address 0x0000000008004cdc
+.data           0x0000000020000000      0x290 load address 0x0000000008005014
                 0x0000000020000000                . = ALIGN (0x4)
                 0x0000000020000000                _sdata = .
  *(.data)
@@ -13146,11 +13153,11 @@ LOAD /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.
                 0x0000000020000290                . = ALIGN (0x4)
                 0x0000000020000290                _edata = .
 
-.igot.plt       0x0000000020000290        0x0 load address 0x0000000008004f6c
+.igot.plt       0x0000000020000290        0x0 load address 0x00000000080052a4
  .igot.plt      0x0000000020000290        0x0 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/crtbegin.o
                 0x0000000020000290                . = ALIGN (0x4)
 
-.bss            0x0000000020000290      0x2d8 load address 0x0000000008004f6c
+.bss            0x0000000020000290      0x314 load address 0x00000000080052a4
                 0x0000000020000290                _sbss = .
                 0x0000000020000290                __bss_start__ = _sbss
  *(.bss)
@@ -13160,99 +13167,117 @@ LOAD /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.
                 0x00000000200002ac                fault
  .bss.config    0x00000000200002b4       0x1c ./Core/Src/System.o
                 0x00000000200002b4                config
+ .bss.ptrRadioData
+                0x00000000200002d0        0x4 ./Core/Src/System.o
+                0x00000000200002d0                ptrRadioData
  .bss.calibrateWindow
-                0x00000000200002d0        0x1 ./Core/Src/System.o
-                0x00000000200002d0                calibrateWindow
+                0x00000000200002d4        0x1 ./Core/Src/System.o
+                0x00000000200002d4                calibrateWindow
  .bss.faultVoltage.5
-                0x00000000200002d1        0x1 ./Core/Src/System.o
- *fill*         0x00000000200002d2        0x2 
+                0x00000000200002d5        0x1 ./Core/Src/System.o
+ *fill*         0x00000000200002d6        0x2 
  .bss.tickVolt.4
-                0x00000000200002d4        0x4 ./Core/Src/System.o
- .bss.tick.3    0x00000000200002d8        0x4 ./Core/Src/System.o
+                0x00000000200002d8        0x4 ./Core/Src/System.o
+ .bss.tick.3    0x00000000200002dc        0x4 ./Core/Src/System.o
  .bss.chActive_p.1
-                0x00000000200002dc       0x10 ./Core/Src/System.o
+                0x00000000200002e0       0x10 ./Core/Src/System.o
  .bss.chCounter.0
-                0x00000000200002ec       0x10 ./Core/Src/System.o
- .bss.rxIBUS    0x00000000200002fc       0x20 ./L001-RadioProtocols/Lib/IBUS.o
-                0x00000000200002fc                rxIBUS
+                0x00000000200002f0       0x10 ./Core/Src/System.o
+ .bss.rxIBUS    0x0000000020000300       0x20 ./L001-RadioProtocols/Lib/IBUS.o
+                0x0000000020000300                rxIBUS
  .bss.rxHeartbeatIBUS
-                0x000000002000031c        0x1 ./L001-RadioProtocols/Lib/IBUS.o
-                0x000000002000031c                rxHeartbeatIBUS
- *fill*         0x000000002000031d        0x3 
- .bss.dataIBUS  0x0000000020000320       0x3c ./L001-RadioProtocols/Lib/IBUS.o
-                0x0000000020000320                dataIBUS
- .bss.tick.3    0x000000002000035c        0x4 ./L001-RadioProtocols/Lib/IBUS.o
- .bss.detH1.2   0x0000000020000360        0x1 ./L001-RadioProtocols/Lib/IBUS.o
- *fill*         0x0000000020000361        0x3 
+                0x0000000020000320        0x1 ./L001-RadioProtocols/Lib/IBUS.o
+                0x0000000020000320                rxHeartbeatIBUS
+ *fill*         0x0000000020000321        0x3 
+ .bss.dataIBUS  0x0000000020000324       0x3c ./L001-RadioProtocols/Lib/IBUS.o
+                0x0000000020000324                dataIBUS
+ .bss.tick.3    0x0000000020000360        0x4 ./L001-RadioProtocols/Lib/IBUS.o
+ .bss.detH1.2   0x0000000020000364        0x1 ./L001-RadioProtocols/Lib/IBUS.o
+ *fill*         0x0000000020000365        0x3 
  .bss.timeout.1
-                0x0000000020000364        0x4 ./L001-RadioProtocols/Lib/IBUS.o
- .bss.detH2.0   0x0000000020000368        0x1 ./L001-RadioProtocols/Lib/IBUS.o
- *fill*         0x0000000020000369        0x3 
- .bss.rxPPM     0x000000002000036c       0x10 ./L001-RadioProtocols/Lib/PPM.o
-                0x000000002000036c                rxPPM
+                0x0000000020000368        0x4 ./L001-RadioProtocols/Lib/IBUS.o
+ .bss.detH2.0   0x000000002000036c        0x1 ./L001-RadioProtocols/Lib/IBUS.o
+ *fill*         0x000000002000036d        0x3 
+ .bss.rxPPM     0x0000000020000370       0x10 ./L001-RadioProtocols/Lib/PPM.o
+                0x0000000020000370                rxPPM
  .bss.rxHeartbeatPPM
-                0x000000002000037c        0x1 ./L001-RadioProtocols/Lib/PPM.o
-                0x000000002000037c                rxHeartbeatPPM
- *fill*         0x000000002000037d        0x3 
- .bss.dataPPM   0x0000000020000380       0x24 ./L001-RadioProtocols/Lib/PPM.o
-                0x0000000020000380                dataPPM
- .bss.prev.3    0x00000000200003a4        0x4 ./L001-RadioProtocols/Lib/PPM.o
- .bss.tick.2    0x00000000200003a8        0x4 ./L001-RadioProtocols/Lib/PPM.o
- .bss.ch.1      0x00000000200003ac        0x1 ./L001-RadioProtocols/Lib/PPM.o
- .bss.sync.0    0x00000000200003ad        0x1 ./L001-RadioProtocols/Lib/PPM.o
- *fill*         0x00000000200003ae        0x2 
- .bss.rxPWM     0x00000000200003b0       0x10 ./L001-RadioProtocols/Lib/PWM.o
-                0x00000000200003b0                rxPWM
+                0x0000000020000380        0x1 ./L001-RadioProtocols/Lib/PPM.o
+                0x0000000020000380                rxHeartbeatPPM
+ *fill*         0x0000000020000381        0x3 
+ .bss.dataPPM   0x0000000020000384       0x24 ./L001-RadioProtocols/Lib/PPM.o
+                0x0000000020000384                dataPPM
+ .bss.ch_p.4    0x00000000200003a8       0x20 ./L001-RadioProtocols/Lib/PPM.o
+ .bss.prev.3    0x00000000200003c8        0x4 ./L001-RadioProtocols/Lib/PPM.o
+ .bss.tick.2    0x00000000200003cc        0x4 ./L001-RadioProtocols/Lib/PPM.o
+ .bss.ch.1      0x00000000200003d0        0x1 ./L001-RadioProtocols/Lib/PPM.o
+ .bss.sync.0    0x00000000200003d1        0x1 ./L001-RadioProtocols/Lib/PPM.o
+ *fill*         0x00000000200003d2        0x2 
+ .bss.rxPWM     0x00000000200003d4       0x10 ./L001-RadioProtocols/Lib/PWM.o
+                0x00000000200003d4                rxPWM
  .bss.rxHeartbeatPWM
-                0x00000000200003c0        0x4 ./L001-RadioProtocols/Lib/PWM.o
-                0x00000000200003c0                rxHeartbeatPWM
- .bss.dataPWM   0x00000000200003c4       0x18 ./L001-RadioProtocols/Lib/PWM.o
-                0x00000000200003c4                dataPWM
- .bss.tick.4    0x00000000200003dc       0x10 ./L001-RadioProtocols/Lib/PWM.o
- .bss.tick.3    0x00000000200003ec        0x4 ./L001-RadioProtocols/Lib/PWM.o
- .bss.tick.2    0x00000000200003f0        0x4 ./L001-RadioProtocols/Lib/PWM.o
- .bss.tick.1    0x00000000200003f4        0x4 ./L001-RadioProtocols/Lib/PWM.o
- .bss.tick.0    0x00000000200003f8        0x4 ./L001-RadioProtocols/Lib/PWM.o
- .bss.radio     0x00000000200003fc        0x8 ./L001-RadioProtocols/Lib/Radio.o
-                0x00000000200003fc                radio
- .bss.data      0x0000000020000404       0x94 ./L001-RadioProtocols/Lib/Radio.o
-                0x0000000020000404                data
+                0x00000000200003e4        0x4 ./L001-RadioProtocols/Lib/PWM.o
+                0x00000000200003e4                rxHeartbeatPWM
+ .bss.dataPWM   0x00000000200003e8       0x18 ./L001-RadioProtocols/Lib/PWM.o
+                0x00000000200003e8                dataPWM
+ .bss.tick.8    0x0000000020000400       0x10 ./L001-RadioProtocols/Lib/PWM.o
+ .bss.tickHigh.7
+                0x0000000020000410        0x4 ./L001-RadioProtocols/Lib/PWM.o
+ .bss.tickLow.6
+                0x0000000020000414        0x4 ./L001-RadioProtocols/Lib/PWM.o
+ .bss.tickHigh.5
+                0x0000000020000418        0x4 ./L001-RadioProtocols/Lib/PWM.o
+ .bss.tickLow.4
+                0x000000002000041c        0x4 ./L001-RadioProtocols/Lib/PWM.o
+ .bss.tickHigh.3
+                0x0000000020000420        0x4 ./L001-RadioProtocols/Lib/PWM.o
+ .bss.tickLow.2
+                0x0000000020000424        0x4 ./L001-RadioProtocols/Lib/PWM.o
+ .bss.tickHigh.1
+                0x0000000020000428        0x4 ./L001-RadioProtocols/Lib/PWM.o
+ .bss.tickLow.0
+                0x000000002000042c        0x4 ./L001-RadioProtocols/Lib/PWM.o
+ .bss.radio     0x0000000020000430        0x8 ./L001-RadioProtocols/Lib/Radio.o
+                0x0000000020000430                radio
+ .bss.data      0x0000000020000438       0x98 ./L001-RadioProtocols/Lib/Radio.o
+                0x0000000020000438                data
  .bss.ptrModuleData
-                0x0000000020000498        0x4 ./L001-RadioProtocols/Lib/Radio.o
-                0x0000000020000498                ptrModuleData
- .bss.rxSBUS    0x000000002000049c       0x32 ./L001-RadioProtocols/Lib/SBUS.o
-                0x000000002000049c                rxSBUS
+                0x00000000200004d0        0x4 ./L001-RadioProtocols/Lib/Radio.o
+                0x00000000200004d0                ptrModuleData
+ .bss.tick.0    0x00000000200004d4        0x4 ./L001-RadioProtocols/Lib/Radio.o
+ .bss.rxSBUS    0x00000000200004d8       0x32 ./L001-RadioProtocols/Lib/SBUS.o
+                0x00000000200004d8                rxSBUS
  .bss.rxHeartbeatSBUS
-                0x00000000200004ce        0x1 ./L001-RadioProtocols/Lib/SBUS.o
-                0x00000000200004ce                rxHeartbeatSBUS
- *fill*         0x00000000200004cf        0x1 
- .bss.dataSBUS  0x00000000200004d0       0x48 ./L001-RadioProtocols/Lib/SBUS.o
-                0x00000000200004d0                dataSBUS
- .bss.prev.2    0x0000000020000518        0x4 ./L001-RadioProtocols/Lib/SBUS.o
- .bss.detH.1    0x000000002000051c        0x1 ./L001-RadioProtocols/Lib/SBUS.o
- *fill*         0x000000002000051d        0x3 
+                0x000000002000050a        0x1 ./L001-RadioProtocols/Lib/SBUS.o
+                0x000000002000050a                rxHeartbeatSBUS
+ *fill*         0x000000002000050b        0x1 
+ .bss.dataSBUS  0x000000002000050c       0x48 ./L001-RadioProtocols/Lib/SBUS.o
+                0x000000002000050c                dataSBUS
+ .bss.prev.2    0x0000000020000554        0x4 ./L001-RadioProtocols/Lib/SBUS.o
+ .bss.detH.1    0x0000000020000558        0x1 ./L001-RadioProtocols/Lib/SBUS.o
+ *fill*         0x0000000020000559        0x3 
  .bss.timeout.0
-                0x0000000020000520        0x4 ./L001-RadioProtocols/Lib/SBUS.o
- .bss.gTicks    0x0000000020000524        0x4 ./STM32X/Lib/Core.o
-                0x0000000020000524                gTicks
+                0x000000002000055c        0x4 ./L001-RadioProtocols/Lib/SBUS.o
+ .bss.gTicks    0x0000000020000560        0x4 ./STM32X/Lib/Core.o
+                0x0000000020000560                gTicks
  .bss.gCallback
-                0x0000000020000528       0x40 ./STM32X/Lib/GPIO.o
-                0x0000000020000528                gCallback
+                0x0000000020000564       0x40 ./STM32X/Lib/GPIO.o
+                0x0000000020000564                gCallback
  *(COMMON)
-                0x0000000020000568                . = ALIGN (0x4)
-                0x0000000020000568                _ebss = .
-                0x0000000020000568                __bss_end__ = _ebss
+                0x00000000200005a4                . = ALIGN (0x4)
+                0x00000000200005a4                _ebss = .
+                0x00000000200005a4                __bss_end__ = _ebss
 
 ._user_heap_stack
-                0x0000000020000568      0x600 load address 0x0000000008004f6c
-                0x0000000020000568                . = ALIGN (0x8)
+                0x00000000200005a4      0x604 load address 0x00000000080052a4
+                0x00000000200005a8                . = ALIGN (0x8)
+ *fill*         0x00000000200005a4        0x4 
                 [!provide]                        PROVIDE (end = .)
                 [!provide]                        PROVIDE (_end = .)
-                0x0000000020000768                . = (. + _Min_Heap_Size)
- *fill*         0x0000000020000568      0x200 
-                0x0000000020000b68                . = (. + _Min_Stack_Size)
- *fill*         0x0000000020000768      0x400 
-                0x0000000020000b68                . = ALIGN (0x8)
+                0x00000000200007a8                . = (. + _Min_Heap_Size)
+ *fill*         0x00000000200005a8      0x200 
+                0x0000000020000ba8                . = (. + _Min_Stack_Size)
+ *fill*         0x00000000200007a8      0x400 
+                0x0000000020000ba8                . = ALIGN (0x8)
 
 /DISCARD/
  libc.a(*)
@@ -13336,53 +13361,53 @@ LOAD /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.
 LOAD /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libm.a
 LOAD /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/libgcc.a
 
-.debug_info     0x0000000000000000     0x7eb6
+.debug_info     0x0000000000000000     0x7fcb
  .debug_info    0x0000000000000000      0x3ed ./Core/Src/LED.o
  .debug_info    0x00000000000003ed      0x5df ./Core/Src/Motor.o
  .debug_info    0x00000000000009cc      0x662 ./Core/Src/Servo.o
- .debug_info    0x000000000000102e      0xe19 ./Core/Src/System.o
- .debug_info    0x0000000000001e47       0xe5 ./Core/Src/main.o
- .debug_info    0x0000000000001f2c      0x309 ./Core/Src/system_stm32l0xx.o
- .debug_info    0x0000000000002235       0x22 ./Core/Startup/startup_stm32l051k8ux.o
- .debug_info    0x0000000000002257      0x8b7 ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
- .debug_info    0x0000000000002b0e      0x579 ./L001-RadioProtocols/Lib/IBUS.o
- .debug_info    0x0000000000003087      0x772 ./L001-RadioProtocols/Lib/PPM.o
- .debug_info    0x00000000000037f9      0x8e4 ./L001-RadioProtocols/Lib/PWM.o
- .debug_info    0x00000000000040dd      0x5b1 ./L001-RadioProtocols/Lib/Radio.o
- .debug_info    0x000000000000468e      0x52a ./L001-RadioProtocols/Lib/SBUS.o
- .debug_info    0x0000000000004bb8      0x6aa ./STM32X/Lib/ADC.o
- .debug_info    0x0000000000005262      0x319 ./STM32X/Lib/CLK.o
- .debug_info    0x000000000000557b      0x7fc ./STM32X/Lib/Core.o
- .debug_info    0x0000000000005d77      0x319 ./STM32X/Lib/EEPROM.o
- .debug_info    0x0000000000006090      0x911 ./STM32X/Lib/GPIO.o
- .debug_info    0x00000000000069a1      0xa23 ./STM32X/Lib/TIM.o
- .debug_info    0x00000000000073c4      0xa10 ./STM32X/Lib/UART.o
- .debug_info    0x0000000000007dd4       0xe2 ./STM32X/Lib/US.o
+ .debug_info    0x000000000000102e      0xd73 ./Core/Src/System.o
+ .debug_info    0x0000000000001da1       0xc3 ./Core/Src/main.o
+ .debug_info    0x0000000000001e64      0x309 ./Core/Src/system_stm32l0xx.o
+ .debug_info    0x000000000000216d       0x22 ./Core/Startup/startup_stm32l051k8ux.o
+ .debug_info    0x000000000000218f      0x8b7 ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
+ .debug_info    0x0000000000002a46      0x579 ./L001-RadioProtocols/Lib/IBUS.o
+ .debug_info    0x0000000000002fbf      0x7ce ./L001-RadioProtocols/Lib/PPM.o
+ .debug_info    0x000000000000378d      0x970 ./L001-RadioProtocols/Lib/PWM.o
+ .debug_info    0x00000000000040fd      0x680 ./L001-RadioProtocols/Lib/Radio.o
+ .debug_info    0x000000000000477d      0x542 ./L001-RadioProtocols/Lib/SBUS.o
+ .debug_info    0x0000000000004cbf      0x6b8 ./STM32X/Lib/ADC.o
+ .debug_info    0x0000000000005377      0x319 ./STM32X/Lib/CLK.o
+ .debug_info    0x0000000000005690      0x7fc ./STM32X/Lib/Core.o
+ .debug_info    0x0000000000005e8c      0x319 ./STM32X/Lib/EEPROM.o
+ .debug_info    0x00000000000061a5      0x911 ./STM32X/Lib/GPIO.o
+ .debug_info    0x0000000000006ab6      0xa23 ./STM32X/Lib/TIM.o
+ .debug_info    0x00000000000074d9      0xa10 ./STM32X/Lib/UART.o
+ .debug_info    0x0000000000007ee9       0xe2 ./STM32X/Lib/US.o
 
-.debug_abbrev   0x0000000000000000     0x2974
+.debug_abbrev   0x0000000000000000     0x29aa
  .debug_abbrev  0x0000000000000000      0x1f2 ./Core/Src/LED.o
  .debug_abbrev  0x00000000000001f2      0x19a ./Core/Src/Motor.o
  .debug_abbrev  0x000000000000038c      0x1bb ./Core/Src/Servo.o
  .debug_abbrev  0x0000000000000547      0x341 ./Core/Src/System.o
- .debug_abbrev  0x0000000000000888       0x87 ./Core/Src/main.o
- .debug_abbrev  0x000000000000090f      0x116 ./Core/Src/system_stm32l0xx.o
- .debug_abbrev  0x0000000000000a25       0x12 ./Core/Startup/startup_stm32l051k8ux.o
- .debug_abbrev  0x0000000000000a37      0x28e ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
- .debug_abbrev  0x0000000000000cc5      0x273 ./L001-RadioProtocols/Lib/IBUS.o
- .debug_abbrev  0x0000000000000f38      0x297 ./L001-RadioProtocols/Lib/PPM.o
- .debug_abbrev  0x00000000000011cf      0x2e0 ./L001-RadioProtocols/Lib/PWM.o
- .debug_abbrev  0x00000000000014af      0x22b ./L001-RadioProtocols/Lib/Radio.o
- .debug_abbrev  0x00000000000016da      0x25d ./L001-RadioProtocols/Lib/SBUS.o
- .debug_abbrev  0x0000000000001937      0x255 ./STM32X/Lib/ADC.o
- .debug_abbrev  0x0000000000001b8c      0x100 ./STM32X/Lib/CLK.o
- .debug_abbrev  0x0000000000001c8c      0x2ec ./STM32X/Lib/Core.o
- .debug_abbrev  0x0000000000001f78      0x1cf ./STM32X/Lib/EEPROM.o
- .debug_abbrev  0x0000000000002147      0x227 ./STM32X/Lib/GPIO.o
- .debug_abbrev  0x000000000000236e      0x25e ./STM32X/Lib/TIM.o
- .debug_abbrev  0x00000000000025cc      0x30d ./STM32X/Lib/UART.o
- .debug_abbrev  0x00000000000028d9       0x9b ./STM32X/Lib/US.o
+ .debug_abbrev  0x0000000000000888       0x5c ./Core/Src/main.o
+ .debug_abbrev  0x00000000000008e4      0x116 ./Core/Src/system_stm32l0xx.o
+ .debug_abbrev  0x00000000000009fa       0x12 ./Core/Startup/startup_stm32l051k8ux.o
+ .debug_abbrev  0x0000000000000a0c      0x28e ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
+ .debug_abbrev  0x0000000000000c9a      0x273 ./L001-RadioProtocols/Lib/IBUS.o
+ .debug_abbrev  0x0000000000000f0d      0x2a2 ./L001-RadioProtocols/Lib/PPM.o
+ .debug_abbrev  0x00000000000011af      0x2e0 ./L001-RadioProtocols/Lib/PWM.o
+ .debug_abbrev  0x000000000000148f      0x281 ./L001-RadioProtocols/Lib/Radio.o
+ .debug_abbrev  0x0000000000001710      0x25d ./L001-RadioProtocols/Lib/SBUS.o
+ .debug_abbrev  0x000000000000196d      0x255 ./STM32X/Lib/ADC.o
+ .debug_abbrev  0x0000000000001bc2      0x100 ./STM32X/Lib/CLK.o
+ .debug_abbrev  0x0000000000001cc2      0x2ec ./STM32X/Lib/Core.o
+ .debug_abbrev  0x0000000000001fae      0x1cf ./STM32X/Lib/EEPROM.o
+ .debug_abbrev  0x000000000000217d      0x227 ./STM32X/Lib/GPIO.o
+ .debug_abbrev  0x00000000000023a4      0x25e ./STM32X/Lib/TIM.o
+ .debug_abbrev  0x0000000000002602      0x30d ./STM32X/Lib/UART.o
+ .debug_abbrev  0x000000000000290f       0x9b ./STM32X/Lib/US.o
 
-.debug_aranges  0x0000000000000000      0x940
+.debug_aranges  0x0000000000000000      0x960
  .debug_aranges
                 0x0000000000000000       0x90 ./Core/Src/LED.o
  .debug_aranges
@@ -13406,27 +13431,27 @@ LOAD /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.
  .debug_aranges
                 0x0000000000000478       0x98 ./L001-RadioProtocols/Lib/PWM.o
  .debug_aranges
-                0x0000000000000510       0x50 ./L001-RadioProtocols/Lib/Radio.o
+                0x0000000000000510       0x70 ./L001-RadioProtocols/Lib/Radio.o
  .debug_aranges
-                0x0000000000000560       0x58 ./L001-RadioProtocols/Lib/SBUS.o
+                0x0000000000000580       0x58 ./L001-RadioProtocols/Lib/SBUS.o
  .debug_aranges
-                0x00000000000005b8       0x80 ./STM32X/Lib/ADC.o
+                0x00000000000005d8       0x80 ./STM32X/Lib/ADC.o
  .debug_aranges
-                0x0000000000000638       0x48 ./STM32X/Lib/CLK.o
+                0x0000000000000658       0x48 ./STM32X/Lib/CLK.o
  .debug_aranges
-                0x0000000000000680       0x88 ./STM32X/Lib/Core.o
+                0x00000000000006a0       0x88 ./STM32X/Lib/Core.o
  .debug_aranges
-                0x0000000000000708       0x40 ./STM32X/Lib/EEPROM.o
+                0x0000000000000728       0x40 ./STM32X/Lib/EEPROM.o
  .debug_aranges
-                0x0000000000000748       0x80 ./STM32X/Lib/GPIO.o
+                0x0000000000000768       0x80 ./STM32X/Lib/GPIO.o
  .debug_aranges
-                0x00000000000007c8       0xb8 ./STM32X/Lib/TIM.o
+                0x00000000000007e8       0xb8 ./STM32X/Lib/TIM.o
  .debug_aranges
-                0x0000000000000880       0x98 ./STM32X/Lib/UART.o
+                0x00000000000008a0       0x98 ./STM32X/Lib/UART.o
  .debug_aranges
-                0x0000000000000918       0x28 ./STM32X/Lib/US.o
+                0x0000000000000938       0x28 ./STM32X/Lib/US.o
 
-.debug_ranges   0x0000000000000000      0x810
+.debug_ranges   0x0000000000000000      0x830
  .debug_ranges  0x0000000000000000       0x80 ./Core/Src/LED.o
  .debug_ranges  0x0000000000000080       0x50 ./Core/Src/Motor.o
  .debug_ranges  0x00000000000000d0       0x68 ./Core/Src/Servo.o
@@ -13438,18 +13463,18 @@ LOAD /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.
  .debug_ranges  0x0000000000000340       0x50 ./L001-RadioProtocols/Lib/IBUS.o
  .debug_ranges  0x0000000000000390       0x68 ./L001-RadioProtocols/Lib/PPM.o
  .debug_ranges  0x00000000000003f8       0x88 ./L001-RadioProtocols/Lib/PWM.o
- .debug_ranges  0x0000000000000480       0x40 ./L001-RadioProtocols/Lib/Radio.o
- .debug_ranges  0x00000000000004c0       0x48 ./L001-RadioProtocols/Lib/SBUS.o
- .debug_ranges  0x0000000000000508       0x70 ./STM32X/Lib/ADC.o
- .debug_ranges  0x0000000000000578       0x38 ./STM32X/Lib/CLK.o
- .debug_ranges  0x00000000000005b0       0x78 ./STM32X/Lib/Core.o
- .debug_ranges  0x0000000000000628       0x30 ./STM32X/Lib/EEPROM.o
- .debug_ranges  0x0000000000000658       0x70 ./STM32X/Lib/GPIO.o
- .debug_ranges  0x00000000000006c8       0xa8 ./STM32X/Lib/TIM.o
- .debug_ranges  0x0000000000000770       0x88 ./STM32X/Lib/UART.o
- .debug_ranges  0x00000000000007f8       0x18 ./STM32X/Lib/US.o
+ .debug_ranges  0x0000000000000480       0x60 ./L001-RadioProtocols/Lib/Radio.o
+ .debug_ranges  0x00000000000004e0       0x48 ./L001-RadioProtocols/Lib/SBUS.o
+ .debug_ranges  0x0000000000000528       0x70 ./STM32X/Lib/ADC.o
+ .debug_ranges  0x0000000000000598       0x38 ./STM32X/Lib/CLK.o
+ .debug_ranges  0x00000000000005d0       0x78 ./STM32X/Lib/Core.o
+ .debug_ranges  0x0000000000000648       0x30 ./STM32X/Lib/EEPROM.o
+ .debug_ranges  0x0000000000000678       0x70 ./STM32X/Lib/GPIO.o
+ .debug_ranges  0x00000000000006e8       0xa8 ./STM32X/Lib/TIM.o
+ .debug_ranges  0x0000000000000790       0x88 ./STM32X/Lib/UART.o
+ .debug_ranges  0x0000000000000818       0x18 ./STM32X/Lib/US.o
 
-.debug_macro    0x0000000000000000    0x165c6
+.debug_macro    0x0000000000000000    0x16614
  .debug_macro   0x0000000000000000      0x363 ./Core/Src/LED.o
  .debug_macro   0x0000000000000363      0xa4e ./Core/Src/LED.o
  .debug_macro   0x0000000000000db1       0x22 ./Core/Src/LED.o
@@ -13524,106 +13549,106 @@ LOAD /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.
  .debug_macro   0x0000000000012483       0x2e ./Core/Src/Motor.o
  .debug_macro   0x00000000000124b1      0x360 ./Core/Src/Servo.o
  .debug_macro   0x0000000000012811       0x28 ./Core/Src/Servo.o
- .debug_macro   0x0000000000012839      0x40a ./Core/Src/System.o
- .debug_macro   0x0000000000012c43       0x22 ./Core/Src/System.o
- .debug_macro   0x0000000000012c65       0x10 ./Core/Src/System.o
- .debug_macro   0x0000000000012c75       0x3a ./Core/Src/System.o
- .debug_macro   0x0000000000012caf       0x28 ./Core/Src/System.o
- .debug_macro   0x0000000000012cd7       0x58 ./Core/Src/System.o
- .debug_macro   0x0000000000012d2f       0x2e ./Core/Src/System.o
- .debug_macro   0x0000000000012d5d       0x46 ./Core/Src/System.o
- .debug_macro   0x0000000000012da3       0x2e ./Core/Src/System.o
- .debug_macro   0x0000000000012dd1       0x34 ./Core/Src/System.o
- .debug_macro   0x0000000000012e05       0x58 ./Core/Src/System.o
- .debug_macro   0x0000000000012e5d      0x3f2 ./Core/Src/main.o
- .debug_macro   0x000000000001324f       0x52 ./Core/Src/main.o
- .debug_macro   0x00000000000132a1      0x238 ./Core/Src/system_stm32l0xx.o
- .debug_macro   0x00000000000134d9       0x2e ./Core/Src/system_stm32l0xx.o
- .debug_macro   0x0000000000013507       0x5b ./Core/Src/system_stm32l0xx.o
- .debug_macro   0x0000000000013562      0x238 ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
- .debug_macro   0x000000000001379a      0x3c6 ./L001-RadioProtocols/Lib/IBUS.o
- .debug_macro   0x0000000000013b60       0x28 ./L001-RadioProtocols/Lib/IBUS.o
- .debug_macro   0x0000000000013b88      0x386 ./L001-RadioProtocols/Lib/PPM.o
- .debug_macro   0x0000000000013f0e       0x22 ./L001-RadioProtocols/Lib/PPM.o
- .debug_macro   0x0000000000013f30      0x386 ./L001-RadioProtocols/Lib/PWM.o
- .debug_macro   0x00000000000142b6      0x3c0 ./L001-RadioProtocols/Lib/Radio.o
- .debug_macro   0x0000000000014676      0x3d8 ./L001-RadioProtocols/Lib/SBUS.o
- .debug_macro   0x0000000000014a4e      0x3c1 ./STM32X/Lib/ADC.o
- .debug_macro   0x0000000000014e0f       0x10 ./STM32X/Lib/ADC.o
- .debug_macro   0x0000000000014e1f      0x37b ./STM32X/Lib/CLK.o
- .debug_macro   0x000000000001519a       0x1c ./STM32X/Lib/CLK.o
- .debug_macro   0x00000000000151b6      0x378 ./STM32X/Lib/Core.o
- .debug_macro   0x000000000001552e      0x332 ./STM32X/Lib/EEPROM.o
- .debug_macro   0x0000000000015860      0x33b ./STM32X/Lib/GPIO.o
- .debug_macro   0x0000000000015b9b      0x368 ./STM32X/Lib/TIM.o
- .debug_macro   0x0000000000015f03      0x384 ./STM32X/Lib/UART.o
- .debug_macro   0x0000000000016287      0x33f ./STM32X/Lib/US.o
+ .debug_macro   0x0000000000012839      0x40e ./Core/Src/System.o
+ .debug_macro   0x0000000000012c47       0x22 ./Core/Src/System.o
+ .debug_macro   0x0000000000012c69       0x10 ./Core/Src/System.o
+ .debug_macro   0x0000000000012c79       0x40 ./Core/Src/System.o
+ .debug_macro   0x0000000000012cb9       0x28 ./Core/Src/System.o
+ .debug_macro   0x0000000000012ce1       0x58 ./Core/Src/System.o
+ .debug_macro   0x0000000000012d39       0x2e ./Core/Src/System.o
+ .debug_macro   0x0000000000012d67       0x46 ./Core/Src/System.o
+ .debug_macro   0x0000000000012dad       0x2e ./Core/Src/System.o
+ .debug_macro   0x0000000000012ddb       0x34 ./Core/Src/System.o
+ .debug_macro   0x0000000000012e0f       0x58 ./Core/Src/System.o
+ .debug_macro   0x0000000000012e67      0x3f2 ./Core/Src/main.o
+ .debug_macro   0x0000000000013259       0x52 ./Core/Src/main.o
+ .debug_macro   0x00000000000132ab      0x238 ./Core/Src/system_stm32l0xx.o
+ .debug_macro   0x00000000000134e3       0x2e ./Core/Src/system_stm32l0xx.o
+ .debug_macro   0x0000000000013511       0x5b ./Core/Src/system_stm32l0xx.o
+ .debug_macro   0x000000000001356c      0x238 ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
+ .debug_macro   0x00000000000137a4      0x3d0 ./L001-RadioProtocols/Lib/IBUS.o
+ .debug_macro   0x0000000000013b74       0x28 ./L001-RadioProtocols/Lib/IBUS.o
+ .debug_macro   0x0000000000013b9c      0x390 ./L001-RadioProtocols/Lib/PPM.o
+ .debug_macro   0x0000000000013f2c       0x22 ./L001-RadioProtocols/Lib/PPM.o
+ .debug_macro   0x0000000000013f4e      0x396 ./L001-RadioProtocols/Lib/PWM.o
+ .debug_macro   0x00000000000142e4      0x3d6 ./L001-RadioProtocols/Lib/Radio.o
+ .debug_macro   0x00000000000146ba      0x3e2 ./L001-RadioProtocols/Lib/SBUS.o
+ .debug_macro   0x0000000000014a9c      0x3c1 ./STM32X/Lib/ADC.o
+ .debug_macro   0x0000000000014e5d       0x10 ./STM32X/Lib/ADC.o
+ .debug_macro   0x0000000000014e6d      0x37b ./STM32X/Lib/CLK.o
+ .debug_macro   0x00000000000151e8       0x1c ./STM32X/Lib/CLK.o
+ .debug_macro   0x0000000000015204      0x378 ./STM32X/Lib/Core.o
+ .debug_macro   0x000000000001557c      0x332 ./STM32X/Lib/EEPROM.o
+ .debug_macro   0x00000000000158ae      0x33b ./STM32X/Lib/GPIO.o
+ .debug_macro   0x0000000000015be9      0x368 ./STM32X/Lib/TIM.o
+ .debug_macro   0x0000000000015f51      0x384 ./STM32X/Lib/UART.o
+ .debug_macro   0x00000000000162d5      0x33f ./STM32X/Lib/US.o
 
-.debug_line     0x0000000000000000     0xea7d
+.debug_line     0x0000000000000000     0xed84
  .debug_line    0x0000000000000000      0xb6c ./Core/Src/LED.o
  .debug_line    0x0000000000000b6c      0xab1 ./Core/Src/Motor.o
  .debug_line    0x000000000000161d      0xa91 ./Core/Src/Servo.o
- .debug_line    0x00000000000020ae     0x133e ./Core/Src/System.o
- .debug_line    0x00000000000033ec      0xa25 ./Core/Src/main.o
- .debug_line    0x0000000000003e11      0x873 ./Core/Src/system_stm32l0xx.o
- .debug_line    0x0000000000004684       0x89 ./Core/Startup/startup_stm32l051k8ux.o
- .debug_line    0x000000000000470d      0xbe4 ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
- .debug_line    0x00000000000052f1      0xbf2 ./L001-RadioProtocols/Lib/IBUS.o
- .debug_line    0x0000000000005ee3      0xbad ./L001-RadioProtocols/Lib/PPM.o
- .debug_line    0x0000000000006a90      0xcff ./L001-RadioProtocols/Lib/PWM.o
- .debug_line    0x000000000000778f      0xc58 ./L001-RadioProtocols/Lib/Radio.o
- .debug_line    0x00000000000083e7      0xc99 ./L001-RadioProtocols/Lib/SBUS.o
- .debug_line    0x0000000000009080      0xbb7 ./STM32X/Lib/ADC.o
- .debug_line    0x0000000000009c37      0xa45 ./STM32X/Lib/CLK.o
- .debug_line    0x000000000000a67c      0xb48 ./STM32X/Lib/Core.o
- .debug_line    0x000000000000b1c4      0xa1d ./STM32X/Lib/EEPROM.o
- .debug_line    0x000000000000bbe1      0xbe3 ./STM32X/Lib/GPIO.o
- .debug_line    0x000000000000c7c4      0xc90 ./STM32X/Lib/TIM.o
- .debug_line    0x000000000000d454      0xcb5 ./STM32X/Lib/UART.o
- .debug_line    0x000000000000e109      0x974 ./STM32X/Lib/US.o
+ .debug_line    0x00000000000020ae     0x138d ./Core/Src/System.o
+ .debug_line    0x000000000000343b      0xa27 ./Core/Src/main.o
+ .debug_line    0x0000000000003e62      0x873 ./Core/Src/system_stm32l0xx.o
+ .debug_line    0x00000000000046d5       0x89 ./Core/Startup/startup_stm32l051k8ux.o
+ .debug_line    0x000000000000475e      0xbe4 ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
+ .debug_line    0x0000000000005342      0xc09 ./L001-RadioProtocols/Lib/IBUS.o
+ .debug_line    0x0000000000005f4b      0xc2f ./L001-RadioProtocols/Lib/PPM.o
+ .debug_line    0x0000000000006b7a      0xd58 ./L001-RadioProtocols/Lib/PWM.o
+ .debug_line    0x00000000000078d2      0xdd1 ./L001-RadioProtocols/Lib/Radio.o
+ .debug_line    0x00000000000086a3      0xcda ./L001-RadioProtocols/Lib/SBUS.o
+ .debug_line    0x000000000000937d      0xbc1 ./STM32X/Lib/ADC.o
+ .debug_line    0x0000000000009f3e      0xa45 ./STM32X/Lib/CLK.o
+ .debug_line    0x000000000000a983      0xb48 ./STM32X/Lib/Core.o
+ .debug_line    0x000000000000b4cb      0xa1d ./STM32X/Lib/EEPROM.o
+ .debug_line    0x000000000000bee8      0xbe3 ./STM32X/Lib/GPIO.o
+ .debug_line    0x000000000000cacb      0xc90 ./STM32X/Lib/TIM.o
+ .debug_line    0x000000000000d75b      0xcb5 ./STM32X/Lib/UART.o
+ .debug_line    0x000000000000e410      0x974 ./STM32X/Lib/US.o
 
-.debug_str      0x0000000000000000    0x7fa12
+.debug_str      0x0000000000000000    0x7fae5
  .debug_str     0x0000000000000000    0x7c908 ./Core/Src/LED.o
                                       0x7cc08 (size before relaxing)
  .debug_str     0x000000000007c908      0x260 ./Core/Src/Motor.o
                                       0x7cdc6 (size before relaxing)
  .debug_str     0x000000000007cb68      0x195 ./Core/Src/Servo.o
                                       0x7cdaa (size before relaxing)
- .debug_str     0x000000000007ccfd      0xd45 ./Core/Src/System.o
-                                      0x7da8d (size before relaxing)
- .debug_str     0x000000000007da42       0x26 ./Core/Src/main.o
-                                      0x7d171 (size before relaxing)
- .debug_str     0x000000000007da68      0x131 ./Core/Src/system_stm32l0xx.o
+ .debug_str     0x000000000007ccfd      0xd27 ./Core/Src/System.o
+                                      0x7da75 (size before relaxing)
+ .debug_str     0x000000000007da24       0x1d ./Core/Src/main.o
+                                      0x7d186 (size before relaxing)
+ .debug_str     0x000000000007da41      0x131 ./Core/Src/system_stm32l0xx.o
                                       0x7955d (size before relaxing)
- .debug_str     0x000000000007db99       0x36 ./Core/Startup/startup_stm32l051k8ux.o
+ .debug_str     0x000000000007db72       0x36 ./Core/Startup/startup_stm32l051k8ux.o
                                          0x64 (size before relaxing)
- .debug_str     0x000000000007dbcf      0x43a ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
+ .debug_str     0x000000000007dba8      0x43a ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
                                       0x7998f (size before relaxing)
- .debug_str     0x000000000007e009      0x3d4 ./L001-RadioProtocols/Lib/IBUS.o
-                                      0x7cec7 (size before relaxing)
- .debug_str     0x000000000007e3dd      0x18e ./L001-RadioProtocols/Lib/PPM.o
-                                      0x7ce2c (size before relaxing)
- .debug_str     0x000000000007e56b      0x142 ./L001-RadioProtocols/Lib/PWM.o
-                                      0x7ce75 (size before relaxing)
- .debug_str     0x000000000007e6ad      0x173 ./L001-RadioProtocols/Lib/Radio.o
-                                      0x7d204 (size before relaxing)
- .debug_str     0x000000000007e820      0x2b1 ./L001-RadioProtocols/Lib/SBUS.o
-                                      0x7cf84 (size before relaxing)
- .debug_str     0x000000000007ead1      0x445 ./STM32X/Lib/ADC.o
+ .debug_str     0x000000000007dfe2      0x3d5 ./L001-RadioProtocols/Lib/IBUS.o
+                                      0x7cece (size before relaxing)
+ .debug_str     0x000000000007e3b7      0x194 ./L001-RadioProtocols/Lib/PPM.o
+                                      0x7ce4a (size before relaxing)
+ .debug_str     0x000000000007e54b      0x17e ./L001-RadioProtocols/Lib/PWM.o
+                                      0x7cedf (size before relaxing)
+ .debug_str     0x000000000007e6c9      0x20a ./L001-RadioProtocols/Lib/Radio.o
+                                      0x7d2b5 (size before relaxing)
+ .debug_str     0x000000000007e8d3      0x2c8 ./L001-RadioProtocols/Lib/SBUS.o
+                                      0x7cf9f (size before relaxing)
+ .debug_str     0x000000000007eb9b      0x44e ./STM32X/Lib/ADC.o
                                       0x7d05e (size before relaxing)
- .debug_str     0x000000000007ef16      0x22f ./STM32X/Lib/CLK.o
+ .debug_str     0x000000000007efe9      0x22f ./STM32X/Lib/CLK.o
                                       0x7ccc0 (size before relaxing)
- .debug_str     0x000000000007f145      0x220 ./STM32X/Lib/Core.o
+ .debug_str     0x000000000007f218      0x220 ./STM32X/Lib/Core.o
                                       0x7d031 (size before relaxing)
- .debug_str     0x000000000007f365       0x86 ./STM32X/Lib/EEPROM.o
+ .debug_str     0x000000000007f438       0x86 ./STM32X/Lib/EEPROM.o
                                       0x7cace (size before relaxing)
- .debug_str     0x000000000007f3eb      0x189 ./STM32X/Lib/GPIO.o
+ .debug_str     0x000000000007f4be      0x189 ./STM32X/Lib/GPIO.o
                                       0x7cf76 (size before relaxing)
- .debug_str     0x000000000007f574      0x214 ./STM32X/Lib/TIM.o
+ .debug_str     0x000000000007f647      0x214 ./STM32X/Lib/TIM.o
                                       0x7d04e (size before relaxing)
- .debug_str     0x000000000007f788      0x277 ./STM32X/Lib/UART.o
+ .debug_str     0x000000000007f85b      0x277 ./STM32X/Lib/UART.o
                                       0x7d0fe (size before relaxing)
- .debug_str     0x000000000007f9ff       0x13 ./STM32X/Lib/US.o
+ .debug_str     0x000000000007fad2       0x13 ./STM32X/Lib/US.o
                                       0x7c9f6 (size before relaxing)
 
 .comment        0x0000000000000000       0x50
@@ -13649,7 +13674,7 @@ LOAD /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.
  .comment       0x0000000000000050       0x51 ./STM32X/Lib/UART.o
  .comment       0x0000000000000050       0x51 ./STM32X/Lib/US.o
 
-.debug_frame    0x0000000000000000     0x1dcc
+.debug_frame    0x0000000000000000     0x1e50
  .debug_frame   0x0000000000000000      0x1c4 ./Core/Src/LED.o
  .debug_frame   0x00000000000001c4      0x120 ./Core/Src/Motor.o
  .debug_frame   0x00000000000002e4      0x178 ./Core/Src/Servo.o
@@ -13658,21 +13683,21 @@ LOAD /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.
  .debug_frame   0x00000000000007e0       0x4c ./Core/Src/system_stm32l0xx.o
  .debug_frame   0x000000000000082c      0x2fc ./Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_cortex.o
  .debug_frame   0x0000000000000b28      0x124 ./L001-RadioProtocols/Lib/IBUS.o
- .debug_frame   0x0000000000000c4c      0x180 ./L001-RadioProtocols/Lib/PPM.o
- .debug_frame   0x0000000000000dcc      0x204 ./L001-RadioProtocols/Lib/PWM.o
- .debug_frame   0x0000000000000fd0       0xe8 ./L001-RadioProtocols/Lib/Radio.o
- .debug_frame   0x00000000000010b8      0x104 ./L001-RadioProtocols/Lib/SBUS.o
- .debug_frame   0x00000000000011bc      0x1a0 ./STM32X/Lib/ADC.o
- .debug_frame   0x000000000000135c       0xb8 ./STM32X/Lib/CLK.o
- .debug_frame   0x0000000000001414      0x1a8 ./STM32X/Lib/Core.o
- .debug_frame   0x00000000000015bc       0xa8 ./STM32X/Lib/EEPROM.o
- .debug_frame   0x0000000000001664      0x1a8 ./STM32X/Lib/GPIO.o
- .debug_frame   0x000000000000180c      0x27c ./STM32X/Lib/TIM.o
- .debug_frame   0x0000000000001a88      0x20c ./STM32X/Lib/UART.o
- .debug_frame   0x0000000000001c94       0x48 ./STM32X/Lib/US.o
- .debug_frame   0x0000000000001cdc       0x2c /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-init.o)
- .debug_frame   0x0000000000001d08       0x28 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcpy-stub.o)
- .debug_frame   0x0000000000001d30       0x20 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memset.o)
- .debug_frame   0x0000000000001d50       0x20 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
- .debug_frame   0x0000000000001d70       0x20 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/libgcc.a(_divsi3.o)
- .debug_frame   0x0000000000001d90       0x3c /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/libgcc.a(_udivmoddi4.o)
+ .debug_frame   0x0000000000000c4c      0x184 ./L001-RadioProtocols/Lib/PPM.o
+ .debug_frame   0x0000000000000dd0      0x204 ./L001-RadioProtocols/Lib/PWM.o
+ .debug_frame   0x0000000000000fd4      0x168 ./L001-RadioProtocols/Lib/Radio.o
+ .debug_frame   0x000000000000113c      0x104 ./L001-RadioProtocols/Lib/SBUS.o
+ .debug_frame   0x0000000000001240      0x1a0 ./STM32X/Lib/ADC.o
+ .debug_frame   0x00000000000013e0       0xb8 ./STM32X/Lib/CLK.o
+ .debug_frame   0x0000000000001498      0x1a8 ./STM32X/Lib/Core.o
+ .debug_frame   0x0000000000001640       0xa8 ./STM32X/Lib/EEPROM.o
+ .debug_frame   0x00000000000016e8      0x1a8 ./STM32X/Lib/GPIO.o
+ .debug_frame   0x0000000000001890      0x27c ./STM32X/Lib/TIM.o
+ .debug_frame   0x0000000000001b0c      0x20c ./STM32X/Lib/UART.o
+ .debug_frame   0x0000000000001d18       0x48 ./STM32X/Lib/US.o
+ .debug_frame   0x0000000000001d60       0x2c /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-init.o)
+ .debug_frame   0x0000000000001d8c       0x28 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcpy-stub.o)
+ .debug_frame   0x0000000000001db4       0x20 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memset.o)
+ .debug_frame   0x0000000000001dd4       0x20 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
+ .debug_frame   0x0000000000001df4       0x20 /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/libgcc.a(_divsi3.o)
+ .debug_frame   0x0000000000001e14       0x3c /opt/st/stm32cubeide_1.10.1/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/libgcc.a(_udivmoddi4.o)

@@ -14,12 +14,11 @@
 #define CALIBRATE_DRIVEINPUT_PERIOD	200
 #define CALIBRATE_MOTORJERK_PERIOD	500
 
-#define CALIBRATE_TIMEOUT			5000
+#define CALIBRATE_TIMEOUT			10000
 
 #define FAULT_VOLTAGE_TRIP			100
 
-#define STARTUP_RADIO_TIMEOUT		200
-#define STARTUP_NEWINPUT_TIMEOUT	50
+#define STARTUP_RADIO_TIMEOUT		400
 
 #define CALIBRATION_INPUT_WIGGLE	20
 
@@ -68,6 +67,8 @@ uint32_t 	SYSTEM_CountActiveInputsServo 			( SYSTEM_Config* );
 SYSTEM_FaultStatus fault;
 SYSTEM_Config config;
 
+RADIO_Data * ptrRadioData;
+
 bool calibrateWindow = false;
 
 /*
@@ -107,6 +108,7 @@ void SYSTEM_Init(void)
 	SYSTEM_VerifyConfig();
 
 	// INIT RADIO BASED ON EXISTING CONFIG
+	ptrRadioData = RADIO_GetDataPtr();
 	SYSTEM_InitRadio();
 }
 
@@ -150,55 +152,48 @@ void SYSTEM_Update (void)
 void SYSTEM_InitRadio (void)
 {
 	// INIT FUNCTION VARIABLES
-	RADIO_Data* ptrRadioData = RADIO_GetDataPtr();
 	uint32_t now = CORE_GetTick();
-	uint32_t tickStartup = now;
-	uint32_t tickInput = now;
+	uint32_t tick = now;
 
 	// INIT RADIO MODULE
 	RADIO_Init(&config.radio);
 
-	// ALLOWANCE FOR RADIO TO CONNECT PRIOR TO CONTINUING
-	while ( ptrRadioData->inputLost && STARTUP_RADIO_TIMEOUT >= (now - tickStartup) )
+	// ALLOW TIME FOR DETECTION OF EXISTING RADIO CONFIG
+	while ( STARTUP_RADIO_TIMEOUT >= (now - tick) )
 	{
-		// ALLOW TIME FOR DETECTION OF EXISTING RADIO CONFIG
-		while ( STARTUP_NEWINPUT_TIMEOUT >= (now - tickInput) )
-		{
-			// UPDATE LOOP VARIABLES
-			now = CORE_GetTick();
-			// UPDATE RADIO DATA
-			RADIO_Update();
-			// LOOP PACING
-			CORE_Idle();
-			// CHECK IF VALID RADIO IS DETECTED
-			if ( !ptrRadioData->inputLost )
-			{
-				// ENABLE POSSIBILITY OF CALIBRATION AT LATER DATE
-				calibrateWindow = true;
-				// ENSURE CHANNEL NEUTRAL/ZERO POSITIONS ARE CORRECT
-				RADIO_SetChannelZeroPosition();
-				// NO NEED TO KEEP LOOPING AS RADIO ALREADY DETECTED
-				break;
-			}
-		}
-
-		// UPDATE LOOP VARAIBLES
-		tickInput = now;
-
-		// ONLY EVALUATE IF NO RADIO DETECTED
+		// UPDATE LOOP VARIABLES
+		now = CORE_GetTick();
+		// UPDATE RADIO DATA
+		RADIO_Update();
+		// NO NEED TO PROGRESS IF RADIO SUCCESSFULLY CONNECTED
 		if ( !ptrRadioData->inputLost )
 		{
-			// CHECK FOR A DIFFERENT RADIO TYPE
-			if ( RADIO_DetectNew(&config.radio) )
-			{
-				// WRITE NEW CONFIG TO EEPROM
-				EEPROM_Write(EEPROM_OFFSET, &config, sizeof(config));
-			}
-			// REINIT RADIO WITH CONFIG
-			RADIO_Init(&config.radio);
+			break;
+		}
+		// LOOP PACING
+		CORE_Idle();
+	}
+
+	// IF NO RADIO WAS DETECTED ON EXISTING CONFIG
+	if ( ptrRadioData->inputLost )
+	{
+		// IF A NEW RADIO IS DETECTED
+		if ( RADIO_DetInit(&config.radio) )
+		{
+			// WRITE NEW CONFIG TO EEPROM
+			EEPROM_Write(EEPROM_OFFSET, &config, sizeof(config));
 		}
 	}
+
+	// CHECK IF VALID RADIO IS WAS DETECTED, EXISTING OR NEW
+	if ( !ptrRadioData->inputLost )
+	{
+		// ENABLE POSSIBILITY OF CALIBRATION AT LATER DATE
+		calibrateWindow = true;
+	}
 }
+
+
 
 
 /*
@@ -211,7 +206,6 @@ void SYSTEM_HandleFaultStatus (void)
 {
 	static bool faultVoltage = false;
 	static uint32_t tickVolt = 0;
-	RADIO_Data* ptrRadioData = RADIO_GetDataPtr();
 	uint32_t SystemVolt = SYSTEM_GetBatteryVoltage();
 	int32_t SystemTemp = ADC_ReadDieTemp();
 
@@ -231,18 +225,18 @@ void SYSTEM_HandleFaultStatus (void)
 	}
 
 	//
-//	if (!fault.overTemperature)
-//	{
-//		if (SystemTemp >= TEMP_HIGH) {
-//			fault.overTemperature = true;
-//		}
-//	}
-//	else
-//	{
-//		if (SystemTemp <= (TEMP_HIGH - TEMP_HYST)) {
-//			fault.overTemperature = false;
-//		}
-//	}
+	if (!fault.overTemperature)
+	{
+		if (SystemTemp >= TEMP_HIGH) {
+			fault.overTemperature = true;
+		}
+	}
+	else
+	{
+		if (SystemTemp <= (TEMP_HIGH - TEMP_HYST)) {
+			fault.overTemperature = false;
+		}
+	}
 
 	//
 	if (ptrRadioData->inputLost) {
@@ -268,14 +262,14 @@ void SYSTEM_HandleCalibration (void)
 	if (calibrateWindow)
 	{
 		// HAS THE USER INDICATED THEY WANT TO CALIBRATE DEVICE
-		if (SYSTEM_InitiateCalibration())
+		if ( SYSTEM_InitiateCalibration() )
 		{
 			// RUN CALIBRATION SEQUENCE
 			SYSTEM_UpdateCalibration();
 			calibrateWindow = false;
 		}
 		// HAS THE WINDOW ELAPSED
-		if (now >= CALIBRATE_TIMEOUT)
+		if ( now >= CALIBRATE_TIMEOUT )
 		{
 			calibrateWindow = false;
 		}
@@ -377,7 +371,6 @@ void SYSTEM_HandleOutputs (void)
 void SYSTEM_UpdateServo (void)
 {
 	// Extract appropriate data for servo
-	RADIO_Data* ptrRadioData = RADIO_GetDataPtr();
 	uint16_t servoA = ptrRadioData->ch[config.chServoA];
 	uint16_t servoB = ptrRadioData->ch[config.chServoB];
 
@@ -399,7 +392,6 @@ void SYSTEM_UpdateServo (void)
 void SYSTEM_UpdateMotors (void)
 {
 	// Extract appropriate data for motors
-	RADIO_Data* ptrRadioData = RADIO_GetDataPtr();
 	uint16_t driveA = ptrRadioData->ch[config.chDriveA];
 	uint16_t driveB = ptrRadioData->ch[config.chDriveB];
 
@@ -453,7 +445,7 @@ void SYSTEM_VerifyConfig (void)
 		config.chServoB = 			IP4;
 		config.chServoBrev = 		false;
 		config.radio.Baud_SBUS = 	SBUS_BAUD;
-		config.radio.Protocol =		PWM;
+		config.radio.Protocol =		SBUS;
 		config.hashB = 				CONFIG_HASH_B;
 		EEPROM_Write(EEPROM_OFFSET, &config, sizeof(config));
 	}
@@ -515,13 +507,12 @@ uint16_t SYSTEM_ReverseRadio (uint16_t radio)
 bool SYSTEM_InitiateCalibration (void)
 {
 	// INIT LOOP VARIABLES
-	RADIO_Data* 					ptrRadioData 					= RADIO_GetDataPtr();
 	static RADIO_ChannelActiveFlags	chActive_p[RADIO_NUM_CHANNELS]	= {chActive_False};
 	static uint8_t 					chCounter[RADIO_NUM_CHANNELS] 	= {0};
 	bool 							retVal 							= false;
 
-	// ONLY PROCEED IF THERE IS A RADIO DETECTED
-	if ( !ptrRadioData->inputLost )
+	// ONLY PROCEED IF THERE IS A RADIO DETECTED AND CHANNEL NEUTRAL/ZERO POSITION ARRAY SET
+	if ( ptrRadioData->chZeroSet && !ptrRadioData->inputLost )
 	{
 		// DETECT METHOD 1: STICK WIGGLE
 		// ITTERATE THROUGH EACH AVALIBLE RADIO CHANNEL
@@ -582,7 +573,7 @@ void SYSTEM_UpdateCalibration (void)
 	// WAIT FOR USER TO PRESS A STICK TO INITATE CALIBRATION SEQUENCE
 	SYSTEM_WaitForActiveInput();
 	SYSTEM_WaitForResetInputs();
-	CORE_Delay(CALIBRATION_TEST_DELAY);
+//	CORE_Delay(CALIBRATION_TEST_DELAY);
 
 	// START OF TEST
 
@@ -597,7 +588,6 @@ void SYSTEM_UpdateCalibration (void)
 	SYSTEM_CalibrateMotorSameDirection(&c);
 	LED_GreenON();
 	SYSTEM_WaitForResetInputs();
-	CORE_Delay(CALIBRATION_TEST_DELAY);
 	LED_nPulse(3);
 
 	LED_RedOFF();
@@ -611,7 +601,6 @@ void SYSTEM_UpdateCalibration (void)
 	SYSTEM_CalibrateMotorOppositeDirection(&c);
 	LED_GreenON();
 	SYSTEM_WaitForResetInputs();
-	CORE_Delay(CALIBRATION_TEST_DELAY);
 	LED_nPulse(3);
 
 	LED_RedOFF();
@@ -621,7 +610,6 @@ void SYSTEM_UpdateCalibration (void)
 	SYSTEM_CalibrateServoA(&c);
 	LED_GreenON();
 	SYSTEM_WaitForResetInputsServo(&c);
-	CORE_Delay(CALIBRATION_TEST_DELAY);
 	LED_nPulse(3);
 	CORE_Delay(CALIBRATION_TEST_DELAY);
 
@@ -668,9 +656,6 @@ void SYSTEM_UpdateCalibration (void)
  */
 void SYSTEM_CalibrateMotorSameDirection (SYSTEM_Config* c)
 {
-	// INIT FUNCTION VARIABLES
-	RADIO_Data * ptrRadioData = RADIO_GetDataPtr();
-
 	// LOOP UNTIL BREAK CONDITION REACHED
 	while (1)
 	{
@@ -754,9 +739,6 @@ void SYSTEM_CalibrateMotorSameDirection (SYSTEM_Config* c)
  */
 void SYSTEM_CalibrateMotorOppositeDirection (SYSTEM_Config* c)
 {
-	// INIT FUNCTION VARIABLES
-	RADIO_Data * ptrRadioData = RADIO_GetDataPtr();
-
 	// LOOP UNTIL BREAK CONDITION REACHED
 	while (1)
 	{
@@ -847,9 +829,6 @@ void SYSTEM_CalibrateMotorOppositeDirection (SYSTEM_Config* c)
  */
 void SYSTEM_CalibrateServoA (SYSTEM_Config* c)
 {
-	// INIT FUNCTION VARIABLES
-	RADIO_Data * ptrRadioData = RADIO_GetDataPtr();
-
 	// LOOP UNTIL BREAK CONDITION REACHED
 	while (1)
 	{
@@ -895,9 +874,6 @@ void SYSTEM_CalibrateServoA (SYSTEM_Config* c)
  */
 void SYSTEM_CalibrateServoB (SYSTEM_Config* c)
 {
-	// INIT FUNCTION VARIABLES
-	RADIO_Data * ptrRadioData = RADIO_GetDataPtr();
-
 	// LOOP UNTIL BREAK CONDITION REACHED
 	while (1)
 	{
@@ -1017,7 +993,6 @@ void SYSTEM_WaitForResetInputsServo (SYSTEM_Config* c)
 uint32_t SYSTEM_CountActiveInputs (void)
 {
 	// INIT FUNCTION VARIABLES
-	RADIO_Data * ptrRadioData = RADIO_GetDataPtr();
 	uint32_t retVal = 0;
 
 	// ITTERATE THROUGH EACH RADIO INPUT
@@ -1043,7 +1018,6 @@ uint32_t SYSTEM_CountActiveInputs (void)
 uint32_t SYSTEM_CountActiveInputsServo (SYSTEM_Config* c)
 {
 	// INIT FUNCTION VARIABLES
-	RADIO_Data * ptrRadioData = RADIO_GetDataPtr();
 	uint32_t retVal = 0;
 
 	// ITTERATE THROUGH EACH RADIO INPUT

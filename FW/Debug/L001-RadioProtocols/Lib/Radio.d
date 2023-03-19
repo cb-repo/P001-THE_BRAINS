@@ -43,9 +43,9 @@ L001-RadioProtocols/Lib/Radio.o: ../L001-RadioProtocols/Lib/Radio.c \
  ../L001-RadioProtocols/Lib/PWM.h ../STM32X/Lib/Core.h \
  ../STM32X/Lib/STM32X.h ../STM32X/Lib/Core.inl.h ../STM32X/Lib/GPIO.h \
  ../STM32X/Lib/GPIO.inl.h ../STM32X/Lib/TIM.h ../STM32X/Lib/GPIO.h \
- ../STM32X/Lib/TIM.inl.h ../L001-RadioProtocols/Lib/PPM.h \
- ../L001-RadioProtocols/Lib/SBUS.h ../STM32X/Lib/UART.h \
- ../L001-RadioProtocols/Lib/IBUS.h
+ ../STM32X/Lib/TIM.inl.h ../STM32X/Lib/US.h \
+ ../L001-RadioProtocols/Lib/PPM.h ../L001-RadioProtocols/Lib/SBUS.h \
+ ../STM32X/Lib/UART.h ../L001-RadioProtocols/Lib/IBUS.h
 ../L001-RadioProtocols/Lib/Radio.h:
 ../STM32X/Lib/STM32X.h:
 ../Core/Inc/Board.h:
@@ -98,6 +98,7 @@ L001-RadioProtocols/Lib/Radio.o: ../L001-RadioProtocols/Lib/Radio.c \
 ../STM32X/Lib/TIM.h:
 ../STM32X/Lib/GPIO.h:
 ../STM32X/Lib/TIM.inl.h:
+../STM32X/Lib/US.h:
 ../L001-RadioProtocols/Lib/PPM.h:
 ../L001-RadioProtocols/Lib/SBUS.h:
 ../STM32X/Lib/UART.h:

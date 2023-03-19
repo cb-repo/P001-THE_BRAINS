@@ -29,19 +29,17 @@
 
 int main (void)
 {
-	CORE_Init();
+ 	CORE_Init();
 	SYSTEM_Init();
 	MOTOR_Init();
 
-	US_Delay(1000);
-//	CORE_Idle();
+	CORE_Idle();
 
 	while (1)
 	{
 		SYSTEM_Update();
 
-		US_Delay(1000);
-//		CORE_Idle();
+		CORE_Idle();
 	}
 }
 
