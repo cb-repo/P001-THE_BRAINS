@@ -10,10 +10,16 @@
 
 #define MOTOR_BRAKE		1
 
-#if defined(USE_DRV8212)
+#if USE_DRV8212
 #define MODE_PWM		GPIO_PIN_RESET
 #define MODE_COAST		GPIO_PIN_RESET
 #define MODE_BRAKE		GPIO_PIN_RESET
+#define PWM_COAST		MOTOR_OFF
+#define PWM_BRAKE 		MOTOR_MAX
+#elif USE_DRV8837
+#define MODE_PWM		GPIO_PIN_SET
+#define MODE_COAST		GPIO_PIN_SET
+#define MODE_BRAKE		GPIO_PIN_SET
 #define PWM_COAST		MOTOR_OFF
 #define PWM_BRAKE 		MOTOR_MAX
 #endif
@@ -31,6 +37,7 @@ void MOTOR_M1_Brake (void);
 void MOTOR_M2_Brake (void);
 void MOTOR_M1_Coast (void);
 void MOTOR_M2_Coast (void);
+
 void MOTOR_M1_Update (int32_t);
 void MOTOR_M2_Update (int32_t);
 
@@ -126,9 +133,10 @@ void MOTOR_M1_Update (int32_t throttle)
 	{
 		if ( throttle >= (MOTOR_MAX - MOTOR_MAX_THRESH ) ) {
 			throttle = MOTOR_MAX;
-		} else {
-			throttle += throttle * (MOTOR_MAX - throttle) / MOTOR_MAX;
 		}
+//		else {
+//			throttle += throttle * (MOTOR_MAX - throttle) / MOTOR_MAX;
+//		}
 
 		if (reverse) {
 			TIM_SetPulse(TIM_MOTOR, MOTOR_LPWM1_CH, 0);
@@ -161,12 +169,23 @@ void MOTOR_M2_Update (int32_t throttle)
 		} else {
 			MOTOR_M2_Coast();
 		}
-	} else if (reverse) {
-		TIM_SetPulse(TIM_MOTOR, MOTOR_RPWM1_CH, 0);
-		TIM_SetPulse(TIM_MOTOR, MOTOR_RPWM2_CH, throttle);
-	} else {
-		TIM_SetPulse(TIM_MOTOR, MOTOR_RPWM1_CH, throttle);
-		TIM_SetPulse(TIM_MOTOR, MOTOR_RPWM2_CH, 0);
+	}
+	else
+	{
+		if ( throttle >= (MOTOR_MAX - MOTOR_MAX_THRESH ) ) {
+			throttle = MOTOR_MAX;
+		}
+//		else {
+//			throttle += throttle * (MOTOR_MAX - throttle) / MOTOR_MAX;
+//		}
+
+		if (reverse) {
+			TIM_SetPulse(TIM_MOTOR, MOTOR_RPWM1_CH, 0);
+			TIM_SetPulse(TIM_MOTOR, MOTOR_RPWM2_CH, throttle);
+		} else {
+			TIM_SetPulse(TIM_MOTOR, MOTOR_RPWM1_CH, throttle);
+			TIM_SetPulse(TIM_MOTOR, MOTOR_RPWM2_CH, 0);
+		}
 	}
 }
 
