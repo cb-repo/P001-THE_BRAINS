@@ -134,9 +134,6 @@ void MOTOR_M1_Update (int32_t throttle)
 		if ( throttle >= (MOTOR_MAX - MOTOR_MAX_THRESH ) ) {
 			throttle = MOTOR_MAX;
 		}
-//		else {
-//			throttle += throttle * (MOTOR_MAX - throttle) / MOTOR_MAX;
-//		}
 
 		if (reverse) {
 			TIM_SetPulse(TIM_MOTOR, MOTOR_LPWM1_CH, 0);
@@ -175,9 +172,6 @@ void MOTOR_M2_Update (int32_t throttle)
 		if ( throttle >= (MOTOR_MAX - MOTOR_MAX_THRESH ) ) {
 			throttle = MOTOR_MAX;
 		}
-//		else {
-//			throttle += throttle * (MOTOR_MAX - throttle) / MOTOR_MAX;
-//		}
 
 		if (reverse) {
 			TIM_SetPulse(TIM_MOTOR, MOTOR_RPWM1_CH, 0);
