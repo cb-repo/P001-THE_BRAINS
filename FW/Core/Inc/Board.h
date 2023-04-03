@@ -121,7 +121,7 @@
 #define BATTERY_GPIO		GPIOA
 #define	BATTERY_PIN			GPIO_PIN_7
 #define BATTERY_CHANNEL		ADC_Channel_7
-#define BATTERY_DET_RLOW	18
+#define BATTERY_DET_RLOW	10
 #define BATTERY_DET_RHIGH	100
 // 		Status/Green LED - Pin19 (PB1)
 #define LED_STATUS_GPIO		GPIOB

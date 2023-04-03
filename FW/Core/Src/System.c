@@ -11,7 +11,8 @@
 
 #define CALIBRATION_TEST_DELAY		1000
 
-#define CALIBRATE_DRIVEINPUT_PERIOD	200
+
+#define CALIBRATE_DRIVEINPUT_PERIOD	250
 #define CALIBRATE_MOTORJERK_PERIOD	200
 
 #define CALIBRATE_TIMEOUT			10000
@@ -712,19 +713,23 @@ void SYSTEM_CalibrateMotorSameDirection (SYSTEM_Config* c)
 		// CONTINUE ITTERATING THROUGH EACH CHANNEL TO FIND THE SECOND PUSHED STICK
 		for (uint8_t ch = c->chDriveA; ch < ptrRadioData->ch_num; ch++)
 		{
-			// IF STICK IS ACTIVE IN POSITIVE DIRECTION
-			if (ptrRadioData->chActive[ch] == chActive_True)
+			// CHECK STICK DOESNT MATCH DRIVEA
+			if ( ch != c->chDriveA )
 			{
-				c->chDriveB = ch;
-				c->chDriveBrev = false;
-				break;
-			}
-			// IF STICK IS ACTIVE IN NEGATIVE DIRECTION
-			else if (ptrRadioData->chActive[ch] == chActive_TrueRev)
-			{
-				c->chDriveB = ch;
-				c->chDriveBrev = true;
-				break;
+				// IF STICK IS ACTIVE IN POSITIVE DIRECTION
+				if (ptrRadioData->chActive[ch] == chActive_True)
+				{
+					c->chDriveB = ch;
+					c->chDriveBrev = false;
+					break;
+				}
+				// IF STICK IS ACTIVE IN NEGATIVE DIRECTION
+				else if (ptrRadioData->chActive[ch] == chActive_TrueRev)
+				{
+					c->chDriveB = ch;
+					c->chDriveBrev = true;
+					break;
+				}
 			}
 		}
 	}
@@ -756,9 +761,9 @@ void SYSTEM_CalibrateMotorOppositeDirection (SYSTEM_Config* c)
 			chRevDriveA = true;
 		}
 		bool chRevDriveB = false;
-		if (ptrRadioData->chActive[c->chDriveA] == chActive_TrueRev)
+		if (ptrRadioData->chActive[c->chDriveB] == chActive_TrueRev)
 		{
-			chRevDriveA = true;
+			chRevDriveB = true;
 		}
 
 		// START BREAK SEQUENCE FOR ARCADE INPUT DRIVE STYLE
@@ -766,6 +771,24 @@ void SYSTEM_CalibrateMotorOppositeDirection (SYSTEM_Config* c)
 			chActive == 1 && 												// Only one channel is active
 			ptrRadioData->chActive[c->chDriveA] == chActive_False )			// DriveA channel is not active channel
 		{
+			// ITTERATE THROUGH EVERY INPUT
+			for (uint8_t ch = 0; ch < ptrRadioData->ch_num; ch++)
+			{
+				// IF STICK IS ACTIVE IN POSITIVE DIRECTION
+				if (ptrRadioData->chActive[ch] == chActive_True)
+				{
+					c->chDriveB = ch;
+					c->chDriveBrev = true;
+					break;
+				}
+				// IF STICK IS ACTIVE IN NEGATIVE DIRECTION
+				else if (ptrRadioData->chActive[ch] == chActive_TrueRev)
+				{
+					c->chDriveB = ch;
+					c->chDriveBrev = false;
+					break;
+				}
+			}
 			break;
 		}
 		// START BREAK SEQUENCE FOR TANK INPUT DRIVE STYLE
@@ -793,29 +816,6 @@ void SYSTEM_CalibrateMotorOppositeDirection (SYSTEM_Config* c)
 		{
 			RADIO_Update();
 			CORE_Idle();
-		}
-	}
-
-	// EXTRACT REMAINING ARCADE DRIVE DATA
-	if (c->mode == ARCADE)
-	{
-		// ITTERATE THROUGH EVERY INPUT
-		for (uint8_t ch = 0; ch < ptrRadioData->ch_num; ch++)
-		{
-			// IF STICK IS ACTIVE IN POSITIVE DIRECTION
-			if (ptrRadioData->chActive[ch] == chActive_True)
-			{
-				c->chDriveB = ch;
-				c->chDriveBrev = true;
-				break;
-			}
-			// IF STICK IS ACTIVE IN NEGATIVE DIRECTION
-			else if (ptrRadioData->chActive[ch] == chActive_TrueRev)
-			{
-				c->chDriveB = ch;
-				c->chDriveBrev = false;
-				break;
-			}
 		}
 	}
 }
