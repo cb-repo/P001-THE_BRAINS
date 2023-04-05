@@ -2983,7 +2983,7 @@ void SYSTEM_VerifyConfig (void)
  8001360:	46bd      	mov	sp, r7
  8001362:	bd80      	pop	{r7, pc}
  8001364:	200002b4 	.word	0x200002b4
- 8001368:	8ce74359 	.word	0x8ce74359
+ 8001368:	8ce74360 	.word	0x8ce74360
  800136c:	8761d60e 	.word	0x8761d60e
  8001370:	000186a0 	.word	0x000186a0
 
@@ -3005,7 +3005,7 @@ uint32_t SYSTEM_GetBatteryVoltage (void)
 	return AIN_AinToDivider(ain, BATTERY_DET_RLOW, BATTERY_DET_RHIGH);
  8001384:	687b      	ldr	r3, [r7, #4]
  8001386:	2264      	movs	r2, #100	; 0x64
- 8001388:	210a      	movs	r1, #10
+ 8001388:	2112      	movs	r1, #18
  800138a:	0018      	movs	r0, r3
  800138c:	f002 fb34 	bl	80039f8 <AIN_AinToDivider>
  8001390:	0003      	movs	r3, r0
@@ -3541,7 +3541,7 @@ void SYSTEM_UpdateCalibration (void)
  80016ce:	bd80      	pop	{r7, pc}
  80016d0:	200002b4 	.word	0x200002b4
  80016d4:	ffffff00 	.word	0xffffff00
- 80016d8:	8ce74359 	.word	0x8ce74359
+ 80016d8:	8ce74360 	.word	0x8ce74360
  80016dc:	8761d60e 	.word	0x8761d60e
 
 080016e0 <SYSTEM_CalibrateMotorSameDirection>:
@@ -8225,7 +8225,7 @@ bool SYSTEM_DetectRadio (void)
  8003138:	0002      	movs	r2, r0
  800313a:	683b      	ldr	r3, [r7, #0]
  800313c:	1ad3      	subs	r3, r2, r3
- 800313e:	2b63      	cmp	r3, #99	; 0x63
+ 800313e:	2bc7      	cmp	r3, #199	; 0xc7
  8003140:	d9e9      	bls.n	8003116 <SYSTEM_DetectRadio+0x16>
 	}
 
