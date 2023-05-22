@@ -1,8 +1,8 @@
-# THE BRAINS v3.0
+# THE BRAINS v4.0
 
 <img src="assets/THE_BRAINS_FRONT.png" width="400"> <img src="assets/THE_BRAINS_REAR.png" width="400">
 
-THE BRAINS is a dual DC-motor ESC: originally designed for antweight combat robots, but is suitable for any appliction requiring a lightweight motor driver.
+THE BRAINS is an compact and lightweight dual DC-motor ESC: originally designed for antweight combat robots, but is suitable for any appliction requiring a lightweight motor driver.
 
 Designed and built in [Christchurch, New Zealand ](https://www.google.co.nz/maps/place/Christchurch+New+Zealand) by Connor Benton, visit [cb-technology](https://www.cb-technology.co.nz/) for details.
 
@@ -10,130 +10,110 @@ Designed and built in [Christchurch, New Zealand ](https://www.google.co.nz/maps
 
 - 2x Bi-Directional DC motor outputs.
 - 2x Signal output channels for additional electroncis (BLDC ESC, servo, etc).
-- Ultra-compact and lightweight.
+- Status LED's to indicate run mode, faults and calibration.
 - Under-voltage, over-current, over-temperature, and reverse polarity protections.
-- Internal BEC to provide power to the radio reciever and/or additional ESC's.
-- Status LED's to indicate run mode, warnings and calibration .
-- Calibrate function allows ESC behaviour to be tailored to any given application.
+- Internal BEC to provide power to the radio reciever.
+- Failsafe checks for loss of connection with radio.
+- Auto-Detection of different radio protocols on the same input.
+- Instant brown-out recovery.
+- Calibrate function to customise drive mode, channel mapping, and channel inversion.
 - Includes a 100nF capacitor across each motor to filter noise and voltage spikes.
 
 ## SPECIFICATIONS
 
-- **Dimensions:** 10x30x4 mm
+- **Dimensions:** 25x19x3 mm
 - **Weight:** 2g *excluding wires*
 - **Input Voltage - Rated:** 2S lipo (6-10.4V)
 - **Input Voltage - Max:** 12.0V
 - **Motor Output:** 2.1A cont (3A peak) per channel 
-- **Motor Braking:** Yes, enabled by default
-- **BEC:** 3.3V, 200mA. Designed to power the radio reciever and other downstream ESC's but no motors or servos.
-- **Signal Input:** Servo PWM
-- **Signal Mixing:** Onboard signal mixing for TANK/ARCADE and drive inverting.
+- **BEC:** 5V, 80mA. Designed to power the radio reciever but no motors or servos
+- **Signal Input:** Servo PWM, PPM, IBUS, SBUS
+- **Signal Mixing:** Onboard signal mixing for TANK/ARCADE drive styles and channel mapping + inverting
 - **Signal Output:** Servo PWM 
-
-## Operation
- - Every time THE_BRAINS is powered ON it will wait for 2 seconds before arming (and subsequently driving) any motors or signal outputs. 
-   This boot-time lock-out window gives the other electroncis time to turn ON and the operator time to move out of the way before things start moving.
- - To enter CALIBRATION mode, the two calibrate pads must be short-circuited during this 2 second boot lock-out window. See the calibration section below for more details.
- - Following the boot lockout, and any calibration steps, THE_BRAINS will start operating in RUN mode: driving the motors and signal output as expected.
- - There is only one way THE_BRAINS will exit RUN mode, that is if a FAULT event occurs. Possible fault events and their corresponding status LED behavour is captured below.
    
-###### Fault Conditions
- - **Under-Voltage:** An under-voltage event has two states depending on severity:
-    - At 3.5V the warning LED will illuminate to indicate a low battery warning. (Outputs continue to operate)
-    - At 3.3V the device will enter an under-voltage fault state until battery voltage is restored. (All functionality stopped)
- - **Over-Temperature:** An over-temperature event also has two states:
-    - At 80oC the warning LED will illuminate to indicate a high temperature warning. (Outputs continue to operate)
-    - At 100oC the device will enter a fault state until the temperature decreases. (All functionality stopped)
- - **Signal-Input:** A signal-input fault can occur if a signal cannot be detect or signal is lost with the radio reciever.
-    - During signal-input faults, a 'No Signal' fail safe method is implemented: THE_BRAINS will stop driving the motors and stop sending signals to the outputs.
-    - When a stable radio connection has been re-established (>1 second), THE_BRAINS will exit the fault.
-
 ###### Status LEDs
-There are two LEDs on THE_BRAINS (1x red, 1x green) and the behaviour of each indicate what state the device is in.
- - **Boot:** Green: OFF, Red: OFF
- - **Normal Operation** Green: OFF, Red: ON
- - **Warning Codes**
-    - **Low Battery** Green: Slow Flash, Red: ON 
-    - **High Temp** Green: Fast Flash, Red: ON
- - **Fault Codes:**
-    - **Signal Input** Green: ON, Red: ON
-    - **Under-Voltage** Green: Slow Flash, Red: Slow Flash
-    - **Over-Temp** Green: Fast Flash, Red: Fast Flash
+There are two LEDs on THE BRAINS (1x red, 1x green) and the behaviour of each indicate what state the device is in.
+ - **Normal Operation** Green: ON, Red: OFF
+ - **Fault Conditions**
+    - **Signal-Input** Green: FLASH, Red: OFF
+    - **Under-Voltage** Green: OFF, Red: FLASH (1Hz)
+    - **Over-Temperature** Green: OFF, Red: FAST FLASH (5Hz)
+ - **Calibration** Green: PATTERN, Red: PATTERN. (See Calibration section for specific LED patterns) 
+
+###### Fault Conditions
+In all of the following fault conditions, all drive/output signals are stopped no matter the input signals. Once the fault condition is resolved, functionality will resume immediately. 
+ - **Under-Voltage:** An under-voltage event occurs if the battery voltage falls below 3.2V (per cell). 
+ - **Over-Temperature:** An over-temperature event occurs when the temperature sense circuit on THE BRAINS reaches 100°C.
+ - **Signal-Input:** A signal-input fault occurs if the signal between the THE BRAINS and the radio reciever is lost. Note: You still need to set the failsafe on the radio reciever to detect loss of connection with the transmitter.
 
 ## Calibration
-THE_BRAINS has a number of calibration parateters that can be chosen from, these are:
+THE BRAINS has a number of calibration parateters that are can be chosen from, these are:
 - **Input Signal:**
-    - Servo PWM (standard 1-2ms pulse from most radio recievers)
+At no point should the operator have to manually set the protocol, this will be auto-detected without the operator knowing.
+    - Servo PWM (standard 1-2ms pulse)
     - PPM
     - IBUS
     - SBUS
 - **Driving Mode:**
-    - Tank (Each motor is controlled by a different input)
-    - Arcade (One input controls the both motor speeds and one is mixed for the steering) 
+    - Tank (Each motor speed is controlled by a different input)
+    - Arcade (One input controls both motor speeds and another is mixed in to control the steering) 
 - **Signal Mapping:**
     - Any input channel can be mapped to any of the 4 outputs (2x motors + 2x signal output). 
-    - The reversing of any channel is auto-detected during the calibration stage.
-    - The signal limits and center (1000-2000µs by default) are auto-detected during calibration stage.
-- **Motor Braking:**
-    - Motor braking can be enabled or disabled during calibration. 
-- **Invert Trigger:**
-    - The invert trigger is the input channel that that can be used to  
+    - Any channel can be reversed (usually auto-detected during the calibration procedure). 
 
-By default the calibration parameters are:
-- **Input Signal:** Servo PWM
-- **Driving Mode:** Tank
+The default calibration parameters are:
+- **Input Signal:** SBUS
+- **Driving Mode:** TANK
 - **Signal Mapping:** 
-     - Ch2=M1, Ch3=M2, All other inputs ignored (No input mapped to output 1 or 2)
-     - Signal range (1000,1500,2000)=(min,center,max)
-- **Motor Braking:** Enabled
-- **Invert Trigger:** Disabled.
+     - Ch1 = Motor1, 
+     - Ch2 = Motor2,
+     - Ch3 = Servo1,
+     - Ch4 = Servo2,
 
 ###### Calibration Procedure
- 1. Ensure the remote is turned ON, it has been previously bound to the radio reciever, and all sticks are in their zero position.
-     - The is important because THE_BRAINS will update the zero position for each channel when an input is detected.
- 2. Plug the radio reciever and motors into THE_BRAINS.
-     - It is important that the motors are connected as they will in the final robot because of the Simon-says calibration technique.
- 3. Turn ON THE_BRAINS and within the 2 second boot window short-circuit the two calibrate pads. 
-     - This can be done with anything conductive and only needs to be held for a very short time. 
- 4. Both status LEDs will pulse three times to indicate it has entered CALIBRATION mode.
- 5. THE_BRAINS will immediatly begin checking for the radio and auto-detect the associated input signal type.
-     - When a radio input is detected:
-         - Both status LEDs will pulse three times to indicate success.
-         - The input type and the zero positions for all channels are recorded.
-     - If no signal can be detected, THE_BRAINS will enter a signal-input fault state. 
-         - THE_BRAINS will continually check for a radio and will only exit this state if one is detected or is power cycled.
- 6. The Simon-says calibration technique is then run to detect the driving mode and signal mapping. 
-     - Two test are run, each will twitch the two motors and cause the robot to move forward, reverse, left, or right.
-     - The user must then input that motion back into the remote, eg:
-         - Robot twitches forward: Tank drive, push both sticks forward. Arcarde drive, push one stick forward.
-         - Robot twitched left: Tank drive, push left stick back and right forward. Arade drive, push one stick left
-     - It is important to push the sticks all the way to the endstop as this step also sets the signal limits.
-     - Following each test the status LEDs will pulse three times to success.
-     - If no user input is detected after 10 seconds THE_BRAINS will revert to the default driving mode and signal mapping configuration.
- 7. THE_BRAINS will not move anything for the following steps, only flashing the LEDs to indicate success. 
- 8. Output signal 1 detection:
-     - Move the input (on the radio transmitter) that you want to be mapped to the signal 1 output. 
-     - First move the input to the fully positive position and then to the fully negative position. 
-     - The status LEDs will pulse three times to indicate success.
-     - If no input is detected after 10 second THE_BRAINS will revert to the default.
- 9. Output signal 2 detection:
-     - Move the input (on the radio transmitter) that you want to be mapped to the signal 2 output. 
-     - First move the input to the fully positive position and then to the fully negative position. 
-     - The status LEDs will pulse three times to indicate success.
-     - If no input is detected after 10 second THE_BRAINS will revert to the default.
- 10. Invert trigger detection: 
-     - Move the input (on the radio transmitter) that you want to be mapped to the invert trigger. 
-     - The input must move more than 100us to trigger the input.
-     - The status LEDs will pulse three times to indicate success.
-     - The non-inverted driving mode will be take from the channel 'zero position' and the inverted driving mode will trigger when the input deviates >100us from zero.
-     - If no input is detected after 10 second THE_BRAINS will revert to the default.
- 11. Motor Braking detection:
-     - Move any of the inputs on the radio transmitter to disable motor braking. 
-     - If no inputs are moved within 5 seconds, motor braking will be enabled. 
-     - The input must move more than 100us to trigger the change. 
-     - The status LEDs will pulse three times to indicate success.
+ 1. Ensure the transmitter is turned ON, it has been bound to the radio reciever, and all sticks are in their zero (neutral) position.
+
+ 2. Plug the radio reciever and motors into THE BRAINS. 
+ It is important that the motors are connected in the orientation used for the final robot, this will allow auto-detection of the channel mapping and inversion during the following Simon-says process.
+
+ 3. Turn THE BRAINS ON and, within 10 seconds, trigger the calibration procedure using one of the following:
+    - Short-circuit the two calibration pads on the underside. 
+    These pads are the two circular pads close together and circled with silkscreen.
+    - Wiggle any input on the transmitter back and forward 10 times. 
+    Make sure to push the stick from CENTER all the way to MAX/MIN when wiggling. 
+
+ 4. Both status LEDs will pulse 10 times and then stay fully illumintaed to indicated THE BRAINS has entered CALIBRATION mode and is ready to begin the Simon-Says process. 
+
+ 5. When ready, push any stick on the transmitter to MAX and back to CENTER.
+ The rest of the calibration happens pretty quickly so please read, and understand, steps 6 + 7 before proceeding. 
+
+ 6. Both status LED's will turn OFF and the Simon-says motor calibration procedure is started. 
+    - Two tests are run, each will twitch the two motors and cause the robot to move forward, reverse, left, or right. 
+    The user must then input that motion back into the remote. eg:
+        - Robot twitches forward: Tank drive, simualtaneously push both sticks forward. Arcarde drive, push one stick forward.
+        - Robot twitches left: Tank drive, simualtaneously push left stick back and right forward. Arade drive, push one stick left
+    - The process for each test is:
+        1. Both LED's turn OFF
+        2. The motor twitches
+        3. Red LED turns ON
+        4. User presses input(s) to MAX/MIN
+        5. Green LED turns ON 
+        6. User returns input(s) back to CENTER
+        7. Both LED's pulse 3 times to indicate success
+        8. Repeat for second test
+
+ 7. Both status LED's will again turn OFF and the Simon-says output signal calibration procedure is started. 
+    - Two more tests are run to map the inputs to the Signal 1 and 2 outputs. The primary difference with this test is that no motor are driven, THE BRAINS is just monitoring the inputs.
+    - The process for each test is:
+        1. Both LED's will momentrarily turn OFF to indicate the test has started
+        2. Red LED turns ON
+        3. User presses the input (to MAX/MIN) they want mapped to output signal 1
+        4. Green LED turns ON
+        5. User returns input back to CENTER 
+        6. Both LED's pulse 3 times to indicate success
+        7. Repeat for output signal 2.
+
  12. Calibration Complete
-     - Both status LEDs will pulse three times to indicate successfull calibration and THE_BRAINS will wait another 2 seconds before entering RUN mode. 
-     - If THE_BRAINS is turned OFF before completing the calibration process, NONE of the new parameters are stored and it will revert to a previous configuraion. 
- 13. To reset THE_BRAINS back to default settings, short-circuit the calibrate pads for 10 seconds.
-     - Both status LEDs will pulse 3 times to indicate a successful reset and the THE_BRAINS will wait another 5 seconds before entering RUN mode. 
+     - Both status LEDs will pulse 10 times to indicate a successfull calibration.
+     - Once the LED pulses are complete, THE BRAINS immediately enter Run mode with the new calibration.
+     - If THE BRAINS is turned OFF before completing the calibration process, NONE of the new parameters are stored and it will revert to the previous configuraion. 
