@@ -31,7 +31,7 @@ Designed and built in [Christchurch, New Zealand ](https://www.google.co.nz/maps
 - **Signal Mixing:** Onboard signal mixing for TANK/ARCADE drive styles and channel mapping + inverting
 - **Signal Output:** Servo PWM 
    
-###### Status LEDs
+## Status LEDs
 There are two LEDs on THE BRAINS (1x red, 1x green) and the behaviour of each indicate what state the device is in.
  - **Normal Operation** Green: ON, Red: OFF
  - **Fault Conditions**
@@ -40,13 +40,14 @@ There are two LEDs on THE BRAINS (1x red, 1x green) and the behaviour of each in
     - **Over-Temperature** Green: OFF, Red: FAST FLASH (5Hz)
  - **Calibration** Green: PATTERN, Red: PATTERN. (See Calibration section for specific LED patterns) 
 
-###### Fault Conditions
+## Fault Conditions
 In all of the following fault conditions, all drive/output signals are stopped no matter the input signals. Once the fault condition is resolved, functionality will resume immediately. 
  - **Under-Voltage:** An under-voltage event occurs if the battery voltage falls below 3.2V (per cell). 
  - **Over-Temperature:** An over-temperature event occurs when the temperature sense circuit on THE BRAINS reaches 100°C.
  - **Signal-Input:** A signal-input fault occurs if the signal between the THE BRAINS and the radio reciever is lost. Note: You still need to set the failsafe on the radio reciever to detect loss of connection with the transmitter.
 
 ## Calibration
+###### Calibration Parameters
 THE BRAINS has a number of calibration parateters that are can be chosen from, these are:
 - **Input Signal:**
 At no point should the operator have to manually set the protocol, this will be auto-detected without the operator knowing.
