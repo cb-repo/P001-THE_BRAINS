@@ -1,6 +1,6 @@
 # THE BRAINS v4.0
 
-<img src="assets/THE_BRAINS_FRONT.png" width="400"> <img src="assets/THE_BRAINS_REAR.png" width="400">
+<img src="assets/THE_BRAINS.png" width="500">
 
 THE BRAINS is an compact and lightweight dual DC-motor ESC: originally designed for antweight combat robots, but is suitable for any appliction requiring a lightweight motor driver.
 
