@@ -9,6 +9,7 @@ S_SRCS :=
 C_SRCS := 
 S_UPPER_SRCS := 
 O_SRCS := 
+CYCLO_FILES := 
 SIZE_OUTPUT := 
 OBJDUMP_LIST := 
 SU_FILES := 
@@ -24,10 +25,4 @@ SUBDIRS := \
 Core/Src \
 Core/Startup \
 Drivers/STM32L0xx_HAL_Driver/Src \
-L001-RadioProtocols/Lib \
-STM32X/Lib \
-STM32X/Lib/usb \
-STM32X/Lib/usb/cdc \
-STM32X/Lib/usb/hid \
-STM32X/Lib/usb/msc \
 

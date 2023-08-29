@@ -1,9 +1,0 @@
-../STM32X/Lib/CLK.inl.h:20:24:CLK_GetLSOFreq	8	static
-../STM32X/Lib/RTC.c:48:6:RTC_Init	16	static
-../STM32X/Lib/RTC.c:79:6:RTC_Deinit	8	static
-../STM32X/Lib/RTC.c:114:6:RTC_Write	32	static
-../STM32X/Lib/RTC.c:141:6:RTC_Read	24	static
-../STM32X/Lib/RTC.c:262:17:RTC_ToBCD	24	static
-../STM32X/Lib/RTC.c:273:17:RTC_FromBCD	16	static
-../STM32X/Lib/RTC.c:278:13:RTC_EnterInit	8	static
-../STM32X/Lib/RTC.c:287:13:RTC_WaitForSync	8	static

@@ -1,6 +1,0 @@
-../STM32X/Lib/CLK.c:85:6:CLK_InitSYSCLK	8	static
-../STM32X/Lib/CLK.c:181:6:CLK_EnableLSO	8	static
-../STM32X/Lib/CLK.c:202:6:CLK_DisableLSO	8	static
-../STM32X/Lib/CLK.c:211:6:CLK_EnableADCCLK	8	static
-../STM32X/Lib/CLK.c:220:6:CLK_DisableADCCLK	8	static
-../STM32X/Lib/CLK.c:242:13:CLK_AccessBackupDomain	8	static

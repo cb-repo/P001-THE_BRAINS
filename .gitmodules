@@ -1,6 +1,3 @@
 [submodule "FW/STM32X"]
 	path = FW/STM32X
 	url = https://github.com/Lambosaurus/STM32X.git
-[submodule "FW/L001-RadioProtocols"]
-	path = FW/L001-RadioProtocols
-	url = https://github.com/cb-repo/L001-RadioProtocols.git
