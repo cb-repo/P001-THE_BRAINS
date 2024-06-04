@@ -1,4 +1,6 @@
 
 FW/STM32X
-
 HW/BRAINS/History/
+FIXTURE/TEST_FIXTURE-backups
+
+.DS_Store
