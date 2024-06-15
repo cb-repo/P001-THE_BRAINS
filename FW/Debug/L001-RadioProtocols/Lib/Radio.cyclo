@@ -1,0 +1,11 @@
+../STM32X/Lib/Core.inl.h:12:24:CORE_GetTick	1
+../L001-RadioProtocols/Lib/Radio.c:70:6:RADIO_DetInit	6
+../L001-RadioProtocols/Lib/Radio.c:225:6:RADIO_Init	4
+../L001-RadioProtocols/Lib/Radio.c:278:6:RADIO_Update	13
+../L001-RadioProtocols/Lib/Radio.c:347:13:RADIO_GetDataPtr	1
+../L001-RadioProtocols/Lib/Radio.c:362:6:RADIO_SetChannelZeroPosition	3
+../L001-RadioProtocols/Lib/Radio.c:393:6:SYSTEM_DetectRadio	3
+../L001-RadioProtocols/Lib/Radio.c:423:6:RADIO_ResetChannelData	2
+../L001-RadioProtocols/Lib/Radio.c:440:6:RADIO_ResetChannelZeroData	2
+../L001-RadioProtocols/Lib/Radio.c:458:6:RADIO_ResetActiveChannelFlags	2
+../L001-RadioProtocols/Lib/Radio.c:475:6:RADIO_UpdateActiveChannelFlags	9

@@ -1,0 +1,8 @@
+../STM32X/Lib/Core.inl.h:12:24:CORE_GetTick	1
+../L001-RadioProtocols/Lib/SBUS.c:57:6:SBUS_DetInit	3
+../L001-RadioProtocols/Lib/SBUS.c:76:6:SBUS_Init	1
+../L001-RadioProtocols/Lib/SBUS.c:86:6:SBUS_Deinit	1
+../L001-RadioProtocols/Lib/SBUS.c:91:6:SBUS_Update	5
+../L001-RadioProtocols/Lib/SBUS.c:145:12:SBUS_GetDataPtr	1
+../L001-RadioProtocols/Lib/SBUS.c:154:10:SBUS_Transform	6
+../L001-RadioProtocols/Lib/SBUS.c:184:6:SBUS_HandleUART	8

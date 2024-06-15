@@ -84,8 +84,8 @@
 
 
 // DC-MOTOR CONFIG
-#define USE_DRV8212			false
-#define USE_DRV8837			true
+#define USE_DRV8212			true
+#define USE_DRV8837			false
 #define MOTOR_LPWM1_CH		0
 #define MOTOR_LPWM2_CH		1
 #define MOTOR_RPWM1_CH		2

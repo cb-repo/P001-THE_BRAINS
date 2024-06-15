@@ -1,6 +1,6 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (10.3-2021.10)
+# Toolchain: GNU Tools for STM32 (12.3.rel1)
 ################################################################################
 
 -include ../makefile.init
@@ -9,6 +9,12 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include STM32X/Lib/usb/msc/subdir.mk
+-include STM32X/Lib/usb/hid/subdir.mk
+-include STM32X/Lib/usb/cdc/subdir.mk
+-include STM32X/Lib/usb/subdir.mk
+-include STM32X/Lib/subdir.mk
+-include L001-RadioProtocols/Lib/subdir.mk
 -include Drivers/STM32L0xx_HAL_Driver/Src/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
@@ -60,8 +66,8 @@ all: main-build
 main-build: THE_BRAINS.elf secondary-outputs
 
 # Tool invocations
-THE_BRAINS.elf THE_BRAINS.map: $(OBJS) $(USER_OBJS) C:\dev\P001-THE_BRAINS\FW\STM32L051K8UX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "THE_BRAINS.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"C:\dev\P001-THE_BRAINS\FW\STM32L051K8UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="THE_BRAINS.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+THE_BRAINS.elf THE_BRAINS.map: $(OBJS) $(USER_OBJS) /Users/connorbenton/dev/P001-THE_BRAINS/FW/STM32L051K8UX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "THE_BRAINS.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"/Users/connorbenton/dev/P001-THE_BRAINS/FW/STM32L051K8UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="THE_BRAINS.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
